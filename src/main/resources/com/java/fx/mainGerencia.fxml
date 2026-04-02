@@ -259,7 +259,7 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #FFF;">
                            <children>
-                              <Label layoutX="7.0" layoutY="25.0" text="Operaciones por cajero" textAlignment="CENTER" textFill="#39577c" underline="true">
+                              <Label layoutX="7.0" layoutY="25.0" onMouseClicked="#operacionesCajero" text="Operaciones por cajero" textAlignment="CENTER" textFill="#39577c" underline="true">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>

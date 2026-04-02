@@ -313,6 +313,18 @@ public class GerenteController implements Initializable {
         contentArea.getChildren().setAll(fxml);
     }
 
+    @FXML
+    public void operacionesCajero() throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/com/java/fx/operacionesCajero.fxml")
+        );
+
+        loader.setControllerFactory(context::getBean);
+
+        Parent fxml = loader.load();
+        contentArea.getChildren().setAll(fxml);
+    }
+
 
 
 

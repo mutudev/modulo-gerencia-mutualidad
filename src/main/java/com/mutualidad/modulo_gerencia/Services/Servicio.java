@@ -171,13 +171,13 @@ public class Servicio {
     }
 
     @Transactional
-    public String congelarSaldo( int idUsuario,
-                                 int numSocio,
-                                 String empresa,
-                                 double saldoCongelado,
-                                 double ahorroAlMomento,
-                                 int opcion_con,
-                                 String Resultado) {
+    public String congelarSaldo(int idUsuario,
+                                int numSocio,
+                                String empresa,
+                                double saldoCongelado,
+                                double ahorroAlMomento,
+                                int opcion_con,
+                                String Resultado) {
         return repoAhorro.paInsertarCongelamiento(idUsuario, numSocio, empresa, saldoCongelado, ahorroAlMomento, opcion_con, Resultado);
     }
 
@@ -193,7 +193,7 @@ public class Servicio {
         return repoUsuario.traerDetalleUsuarios(nombreUsuario);
     }
 
-    public List<Object[]> traerEstados(){
+    public List<Object[]> traerEstados() {
         return repoUsuario.traerEstados();
     }
 
@@ -255,15 +255,17 @@ public class Servicio {
     public List<Object[]> traerEmpleos() {
         return repoUsuario.traerEmpleos();
     }
+
     public List<Object[]> traerEstadosC() {
         return repoUsuario.traerEstadosC();
     }
+
     public List<Object[]> traerParentescos() {
         return repoSocio.traerParentescos();
     }
 
-    public List<Object[]> traerIdsCredito( int numSocio) {
-        return repoSocio.traerIdsCredito( numSocio);
+    public List<Object[]> traerIdsCredito(int numSocio) {
+        return repoSocio.traerIdsCredito(numSocio);
     }
 
 
@@ -280,15 +282,15 @@ public class Servicio {
         return repoCapSoc.findByNumSocio(numSocio);
     }
 
-    public ModelSocio traerSocioPorNumeroYEstado(int numSocio, boolean status){
+    public ModelSocio traerSocioPorNumeroYEstado(int numSocio, boolean status) {
         return repoSocio.findByNumSocioAndStatus(numSocio, status);
     }
 
-    public  int contarCreditos(int numSocio){
+    public int contarCreditos(int numSocio) {
         return repoSocio.contarCreditos(numSocio);
     }
 
-    public double traerSaldosCredito(int numCredito){
+    public double traerSaldosCredito(int numCredito) {
         return repoSocio.traerSaldosCredito(numCredito);
     }
 
@@ -407,6 +409,10 @@ public class Servicio {
 
     public void guardarConfiguraciones(Optional<ModelConfiguracion> configuracion) {
         repoConfiguracion.save(configuracion.get());
+    }
+
+    public List<ModelUsuario> traerCajeros(int cajero, boolean status) {
+        return repoUsuario.findByCajeroAndStatus(cajero, status);
     }
 
 

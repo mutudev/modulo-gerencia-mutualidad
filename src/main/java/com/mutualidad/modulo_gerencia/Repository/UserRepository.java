@@ -114,7 +114,7 @@ public interface UserRepository extends JpaRepository<ModelUsuario, Integer> {
 
   ModelUsuario findById (int id);
 
-
+  List<ModelUsuario> findByCajeroAndStatus(int cajero, boolean status);
 
   @Procedure(name = "Usuario.pa_GuardarCambiosUsuario")
   String pa_GuardarCambiosUsuario(

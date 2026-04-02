@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.OperacionesCajeroController">
+<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.OperacionesCajeroController">
    <children>
       <Label layoutX="20.0" layoutY="18.0" text="Operaciones por Cajero" textFill="#39577c">
          <font>
@@ -40,8 +32,8 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtBuscarTabla" alignment="CENTER_RIGHT" layoutX="705.0" layoutY="53.0" onKeyReleased="#buscarPermisos" />
-      <Label fx:id="lblSelecTodos" layoutX="776.0" layoutY="307.0" onMouseClicked="#seleccionarTodos" text="Seleccionar Todos" textFill="#39577c" underline="true">
+      <TextField fx:id="txtBuscarTabla" alignment="CENTER_RIGHT" layoutX="705.0" layoutY="53.0"  />
+      <Label fx:id="lblSelecTodos" layoutX="776.0" layoutY="307.0" onMouseClicked="#seleccionarTodos" text="Seleccionar Todos" textFill="#39577c" underline="true" visible="false">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -49,7 +41,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Label>
-      <Label fx:id="lblDesSelecTodos" layoutX="753.0" layoutY="307.0" onMouseClicked="#seleccionarTodos" text="Deseleccionar Todos" textFill="#39577c" underline="true">
+      <Label fx:id="lblDesSelecTodos" layoutX="753.0" layoutY="307.0" onMouseClicked="#seleccionarTodos" text="Deseleccionar Todos" textFill="#39577c" underline="true" visible="false">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -81,7 +73,7 @@
          </font>
       </Label>
       <ComboBox fx:id="cmbEmpresa" layoutX="160.0" layoutY="440.0" prefHeight="39.0" prefWidth="659.0" />
-      <Button fx:id="btnGuardar" layoutX="385.0" layoutY="524.0" mnemonicParsing="false" onAction="#guardarPermisos" prefHeight="39.0" prefWidth="179.0" style="-fx-background-color: #185754;" text="Imprimir Reporte" textFill="WHITE">
+      <Button fx:id="btnGuardar" layoutX="385.0" layoutY="524.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="179.0" style="-fx-background-color: #185754;" text="Imprimir Reporte" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
