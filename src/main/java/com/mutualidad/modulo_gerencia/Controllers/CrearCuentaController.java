@@ -111,12 +111,19 @@ public class CrearCuentaController {
                 alert.setContentText(res.toUpperCase());
                 alert.showAndWait();
             }
+
+            limpiar();
+
+
         }else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("ERROR");
             alert.setHeaderText("ERROR AL INSERTAR CUENTA DE AHORRO");
             alert.setContentText("EL SOCIO YA CUENTA CON UNA CUENTA DE AHORRO");
             alert.showAndWait();
+
+            limpiar();
+
             return;
         }
 

@@ -102,6 +102,15 @@ public interface UserRepository extends JpaRepository<ModelUsuario, Integer> {
           nativeQuery = true)
   List<Object[]> traerUsuarios();
 
+  @Query(value = "SELECT * FROM TRANSACCION " +
+          "WHERE USUARIO_ID IN (:listaIds) " +
+          "AND FR BETWEEN :rangoFecha1 AND :rangoFecha2",
+          nativeQuery = true)
+  List<Object[]> traerTransacciones(
+          @Param("listaIds") List<Integer> listaIds,
+          @Param("rangoFecha1") String rangoFecha1,
+          @Param("rangoFecha2") String rangoFecha2
+  );
 
   @Query(value = "SELECT U.ID AS idUsuario, " +
           "U.USUARIO AS usuario_nom, " +

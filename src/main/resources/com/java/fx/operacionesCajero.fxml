@@ -32,7 +32,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtBuscarTabla" alignment="CENTER_RIGHT" layoutX="705.0" layoutY="53.0"  />
+      <TextField fx:id="txtBuscarTabla" alignment="CENTER_RIGHT" layoutX="705.0" layoutY="53.0" onKeyReleased="#buscarCajeros" />
       <Label fx:id="lblSelecTodos" layoutX="776.0" layoutY="307.0" onMouseClicked="#seleccionarTodos" text="Seleccionar Todos" textFill="#39577c" underline="true" visible="false">
          <font>
             <Font name="System Bold" size="18.0" />
@@ -73,7 +73,7 @@
          </font>
       </Label>
       <ComboBox fx:id="cmbEmpresa" layoutX="160.0" layoutY="440.0" prefHeight="39.0" prefWidth="659.0" />
-      <Button fx:id="btnGuardar" layoutX="385.0" layoutY="524.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="179.0" style="-fx-background-color: #185754;" text="Imprimir Reporte" textFill="WHITE">
+      <Button fx:id="btnGuardar" layoutX="385.0" layoutY="524.0" mnemonicParsing="false" onAction="#generarReporte" prefHeight="39.0" prefWidth="179.0" style="-fx-background-color: #185754;" text="Imprimir Reporte" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

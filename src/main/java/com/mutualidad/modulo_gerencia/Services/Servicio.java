@@ -415,6 +415,10 @@ public class Servicio {
         return repoUsuario.findByCajeroAndStatus(cajero, status);
     }
 
+    public List<Object[]> traerTransaccionesComprobar(List<Integer> listaIds, String rangoFecha1, String rangoFecha2) {
+        return repoUsuario.traerTransacciones(listaIds, rangoFecha1, rangoFecha2);
+    }
+
 
 
 
