@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.VerUsuarioController">
+   <children>
+      <Label layoutX="30.0" layoutY="28.0" text="Datos del Usuario" textFill="#39577c">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="32.0" layoutY="85.0" text="Usuario:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtUsuario" layoutX="109.0" layoutY="79.0" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="271.0" promptText="Ingrese el usuario..." />
+      <Button fx:id="btnBuscar" layoutX="392.0" layoutY="79.0" mnemonicParsing="false" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="btnLimpiar" layoutX="495.0" layoutY="79.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <TableView fx:id="tblUsuarios" layoutX="54.0" layoutY="165.0" onMouseClicked="#mostrarDatosUsuario" prefHeight="337.0" prefWidth="856.0">
+        <columns>
+          <TableColumn fx:id="colID" editable="false" prefWidth="70.0" sortable="false" text="ID" visible="false" />
+          <TableColumn fx:id="colUsuario" editable="false" prefWidth="215.0" sortable="false" text="USUARIO" />
+            <TableColumn fx:id="colNombre" editable="false" prefWidth="640.0" sortable="false" text="NOMBRE" />
+        </columns>
+      </TableView>
+   </children>
+</Pane>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.RetiroController">
+   <children>
+      <Label layoutX="20.0" layoutY="18.0" text="Retiro de Ahorro" textFill="#39577c">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="42.0" layoutY="87.0" text="Número:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtNumero" layoutX="127.0" layoutY="82.0" onAction="#buscarSocio" prefHeight="39.0" prefWidth="184.0" promptText="Ingrese el número..." />
+      <Button fx:id="btnBuscar" layoutX="319.0" layoutY="81.0" mnemonicParsing="false" onAction="#buscarSocio" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="btnLimpiar" layoutX="422.0" layoutY="80.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <ImageView fx:id="imgBusqueda" fitHeight="35.0" fitWidth="52.0" layoutX="530.0" layoutY="83.0" onMouseClicked="#buscarSocioPorNombre" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/assets/images/icono-busqueda.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <Label fx:id="lblNombre" layoutX="42.0" layoutY="152.0" text="Nombre:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtNombre" layoutX="127.0" layoutY="146.0" prefHeight="39.0" prefWidth="781.0" visible="false" />
+      <Label fx:id="lblEmpresa" layoutX="40.0" layoutY="201.0" text="Empresa:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtEmpresa" layoutX="127.0" layoutY="195.0" prefHeight="39.0" prefWidth="781.0" visible="false" />
+      <Label fx:id="lblAhorros" layoutX="43.0" layoutY="257.0" text="Ahorros:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtAhorros" layoutX="127.0" layoutY="251.0" prefHeight="39.0" prefWidth="210.0" visible="false" />
+      <Label fx:id="lblPSNgu" layoutX="349.0" layoutY="257.0" text="Parte Social (NGU):" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtPSNgu" layoutX="517.0" layoutY="251.0" prefHeight="39.0" prefWidth="109.0" visible="false" />
+      <Label fx:id="lblPSMut" layoutX="632.0" layoutY="257.0" text="Parte Social (MUT):" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtPSMut" layoutX="800.0" layoutY="251.0" prefHeight="39.0" prefWidth="109.0" visible="false" />
+      <Label fx:id="lblMonto" layoutX="44.0" layoutY="378.0" text="Monto a Retirar:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtMonto" layoutX="194.0" layoutY="372.0" onAction="#calcularMontos" prefHeight="39.0" prefWidth="210.0" visible="false" />
+      <Separator fx:id="separador" layoutX="43.0" layoutY="308.0" prefHeight="3.0" prefWidth="866.0" visible="false" />
+      <Label fx:id="lblDatos" layoutX="42.0" layoutY="320.0" text="Datos del Retiro" textFill="#39577c" visible="false">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblRestante" layoutX="419.0" layoutY="378.0" text="Monto a Restante:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtRestante" editable="false" layoutX="584.0" layoutY="372.0" prefHeight="39.0" prefWidth="210.0" visible="false" />
+      <Button fx:id="btnLimpiarMonto" layoutX="804.0" layoutY="372.0" mnemonicParsing="false" onAction="#limpiarMontos" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="btnProcesar" layoutX="383.0" layoutY="483.0" mnemonicParsing="false" onAction="#procesarRetiro" prefHeight="39.0" prefWidth="175.0" style="-fx-background-color: #185754;" text="Procesar Retiro" textFill="WHITE" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+   </children>
+</Pane>

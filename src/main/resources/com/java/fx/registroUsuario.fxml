@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.InsertarUsuarioController">
+    <children>
+        <Label layoutX="21.0" layoutY="18.0" text="Registro de usuario" textFill="#39577c">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblNombre" layoutX="52.0" layoutY="81.0" text="Nombre(s):">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <TextField fx:id="txtNombre" layoutX="159.0" layoutY="75.0" prefHeight="39.0" prefWidth="750.0" promptText="Ingresa los nombres..." />
+        <TextField fx:id="txtApellidoP" layoutX="159.0" layoutY="138.0" prefHeight="39.0" prefWidth="306.0" promptText="Ingrese el apellido..." />
+        <TextField fx:id="txtApellidoM" layoutX="572.0" layoutY="138.0" prefHeight="39.0" prefWidth="335.0" promptText="Ingrese el apellido..." />
+        <DatePicker fx:id="dteNacimiento" layoutX="159.0" layoutY="208.0" prefHeight="39.0" prefWidth="306.0" />
+        <ComboBox fx:id="cmbPuesto" layoutX="572.0" layoutY="208.0" prefHeight="39.0" prefWidth="335.0" promptText="Seleccione un empleo..." visibleRowCount="5" />
+        <TextField fx:id="txtTelefono" layoutX="574.0" layoutY="277.0" prefHeight="39.0" prefWidth="335.0" promptText="XXX-XXX-XXXX" />
+
+        <Label fx:id="lblFecNac" layoutX="46.0" layoutY="197.0" prefHeight="57.0" prefWidth="107.0" text="Fecha de nacimiento:" wrapText="true">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblApellidoP" layoutX="73.0" layoutY="125.0" prefHeight="57.0" prefWidth="80.0" text="Apellido Paterno:" wrapText="true">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblEmpleo" layoutX="494.0" layoutY="214.0" text="Puesto:">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblTelefono" layoutX="480.0" layoutY="281.0" text="Teléfono:">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <Button fx:id="btnCrear" layoutX="403.0" layoutY="522.0" mnemonicParsing="false" onAction="#crearUsuario" prefHeight="39.0" prefWidth="172.0" style="-fx-background-color: #185754;" text="Crear Usuario" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+      <Label fx:id="lblNombre1" layoutX="267.0" layoutY="356.0" text="Usuario:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtUsuario" layoutX="345.0" layoutY="350.0" prefHeight="39.0" prefWidth="297.0" promptText="Ingrese el Usuario..." />
+      <Label fx:id="lblNombre11" layoutX="240.0" layoutY="406.0" text="Contraseña:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblNombre111" layoutX="153.0" layoutY="459.0" text="Confirmar contraseña:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="txtContra" layoutX="345.0" layoutY="400.0" prefHeight="39.0" prefWidth="297.0" promptText="Ingrese la Contraseña..." />
+      <PasswordField fx:id="txtConfContra" layoutX="345.0" layoutY="453.0" prefHeight="39.0" prefWidth="297.0" promptText="Confirme la Contraseña..." />
+      <Label fx:id="lblApellidoM" layoutX="480.0" layoutY="125.0" prefHeight="57.0" prefWidth="80.0" text="Apellido Materno:" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cmbRol" layoutX="162.0" layoutY="277.0" prefHeight="39.0" prefWidth="306.0" promptText="Seleccione un empleo..." visibleRowCount="5" />
+      <Label fx:id="lblEmpleo1" layoutX="111.0" layoutY="283.0" text="Rol:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+    </children>
+</Pane>

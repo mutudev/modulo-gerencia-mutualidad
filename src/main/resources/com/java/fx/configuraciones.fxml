@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.ConfiguracionController">
+   <children>
+      <Label layoutX="30.0" layoutY="28.0" text="Configuraciones generales del sistema" textFill="#39577c">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtAhorroMen" layoutX="201.0" layoutY="131.0" onAction="#settearMontoMensual" />
+      <Label layoutX="33.0" layoutY="114.0" prefHeight="62.0" prefWidth="163.0" text="Monto de Ahorro Máximo Mensual:" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Separator layoutX="32.0" layoutY="282.0" prefHeight="1.0" prefWidth="909.0" />
+      <TextField fx:id="txtNCuotas" layoutX="634.0" layoutY="131.0" />
+      <Label layoutX="444.0" layoutY="102.0" prefHeight="82.0" prefWidth="178.0" text="Número de Cuotas a Mostrar por Cajero:" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="31.0" layoutY="70.0" text="Configuraciones de Operación:" textFill="#39577c">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="34.0" layoutY="186.0" prefHeight="82.0" prefWidth="191.0" text="Tasa del Impuesto a Depósitos en Efectivo:" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtIDE" layoutX="230.0" layoutY="216.0" onAction="#settearPorcentajeIDe" prefHeight="39.0" prefWidth="191.0" />
+      <Label layoutX="427.0" layoutY="222.0" text="\%">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="31.0" layoutY="301.0" text="Configuraciones de Reportes:" textFill="#39577c">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="34.0" layoutY="343.0" prefHeight="30.0" prefWidth="126.0" text="Tesorer(a):" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtTesorero" layoutX="160.0" layoutY="339.0" prefHeight="39.0" prefWidth="544.0" />
+      <Label layoutX="34.0" layoutY="384.0" prefHeight="62.0" prefWidth="126.0" text="Apoderado Legal:" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtApoderado" layoutX="160.0" layoutY="396.0" prefHeight="39.0" prefWidth="544.0" />
+      <Label alignment="CENTER" layoutX="763.0" layoutY="309.0" prefHeight="30.0" prefWidth="126.0" text="Empresa" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cmbEmpresa" layoutX="718.0" layoutY="339.0" onAction="#cambiarTesorero" prefHeight="39.0" prefWidth="224.0" />
+      <Separator layoutX="32.0" layoutY="460.0" prefHeight="1.0" prefWidth="909.0" />
+      <Button fx:id="btnGuardar" layoutX="338.0" layoutY="508.0" mnemonicParsing="false" onAction="#guardarConfiguraciones" prefHeight="39.0" prefWidth="245.0" style="-fx-background-color: #185754;" text="Guardar Configuraciones" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+   </children>
+</Pane>

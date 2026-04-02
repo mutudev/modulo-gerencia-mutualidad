@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.BajaUsuarioController">
+   <children>
+      <Label layoutX="20.0" layoutY="18.0" text="Cambiar estado del usuario" textFill="#39577c">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="56.0" layoutY="84.0" text="Usuario:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtUsuario" layoutX="137.0" layoutY="78.0" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="184.0" promptText="Ingrese el usuario..." />
+      <Button fx:id="btnBuscar" layoutX="329.0" layoutY="78.0" mnemonicParsing="false" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="btnLimpiar" layoutX="430.0" layoutY="78.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Label fx:id="lblNombre" layoutX="56.0" layoutY="153.0" text="Nombre:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtNombre" editable="false" layoutX="139.0" layoutY="149.0" prefHeight="39.0" prefWidth="714.0" visible="false" />
+      <Label fx:id="lblRol" layoutX="87.0" layoutY="233.0" text="Rol:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtRol" editable="false" layoutX="138.0" layoutY="227.0" prefHeight="39.0" prefWidth="307.0" visible="false" />
+      <Label fx:id="lblPuesto" layoutX="455.0" layoutY="233.0" text="Puesto:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtPuesto" editable="false" layoutX="525.0" layoutY="227.0" prefHeight="39.0" prefWidth="329.0" visible="false" />
+      <Button fx:id="btnEstado" layoutX="387.0" layoutY="326.0" mnemonicParsing="false" onAction="#cambiarEstado" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #bc1414;" text="Dar de Baja" textFill="WHITE" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+   </children>
+</Pane>

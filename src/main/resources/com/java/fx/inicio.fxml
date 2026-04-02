@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.InicioController">
+   <children>
+      <Label alignment="CENTER" layoutY="46.0" prefHeight="35.0" prefWidth="969.0" text="SELECCIONE LA OPCIÓN DESEADA EN PANEL LATERAL" textFill="#39577c">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="380.0" fitWidth="503.0" layoutX="286.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/assets/images/logo-mut.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>

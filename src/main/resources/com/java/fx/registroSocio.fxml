@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.InscripcionController">
+   <children>
+      <Label layoutX="20.0" layoutY="18.0" text="Registro de socio" textFill="#39577c">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblNombre" layoutX="24.0" layoutY="81.0" text="Nombre(s):">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtNombre" layoutX="127.0" layoutY="75.0" prefHeight="39.0" prefWidth="361.0" promptText="Ingresa los nombres..." />
+      <TextField fx:id="txtApellidoP" layoutX="652.0" layoutY="75.0" prefHeight="39.0" prefWidth="281.0" promptText="Ingrese el apellido..." />
+      <TextField fx:id="txtApellidoM" layoutX="185.0" layoutY="135.0" prefHeight="39.0" prefWidth="281.0" promptText="Ingrese el apellido..." />
+      <DatePicker fx:id="dteNacimiento" layoutX="689.0" layoutY="135.0" prefHeight="39.0" prefWidth="244.0" />
+
+      <TextField fx:id="txtCURP" layoutX="85.0" layoutY="200.0" prefHeight="39.0" prefWidth="287.0" promptText="XXXXXXXXXXXXXXXXXX" />
+      <TextField fx:id="txtRFC" layoutX="429.0" layoutY="200.0" prefHeight="39.0" prefWidth="206.0" promptText="XXXXXXXXXXXXX" />
+      <ComboBox fx:id="cmbEstado" layoutX="726.0" layoutY="200.0" onAction="#cambiarMunicipios" prefHeight="39.0" prefWidth="206.0" promptText="Seleccione..." visibleRowCount="5" />
+      <ComboBox fx:id="cmbMunicipio" layoutX="123.0" layoutY="272.0" prefHeight="39.0" prefWidth="281.0" visibleRowCount="5" />
+      <TextField fx:id="txtDireccion" layoutX="520.0" layoutY="272.0" prefHeight="39.0" prefWidth="414.0" promptText="Ingrese la dirección..." />
+      <ComboBox fx:id="cmbEmpleo" layoutX="106.0" layoutY="343.0" prefHeight="39.0" prefWidth="299.0" promptText="Seleccione un empleo..." visibleRowCount="5" />
+      <ComboBox fx:id="cmbEstadoCivil" layoutX="522.0" layoutY="342.0" prefHeight="39.0" prefWidth="414.0" promptText="Seleccione un estado civil..." visibleRowCount="5" />
+      <TextField fx:id="txtTelefono" layoutX="115.0" layoutY="416.0" prefHeight="39.0" prefWidth="374.0" promptText="XXX-XXX-XXXX" />
+
+      <Label fx:id="lblFecNac" layoutX="497.0" layoutY="141.0" prefHeight="27.0" prefWidth="184.0" text="Fecha de nacimiento:" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblApellidoP" layoutX="497.0" layoutY="81.0" text="Apellido Paterno:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblApellidoM" layoutX="24.0" layoutY="141.0" text="Apellido Materno:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCurp" layoutX="24.0" layoutY="206.0" text="CURP:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblRfc" layoutX="382.0" layoutY="206.0" text="RFC:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblEstado" layoutX="652.0" layoutY="206.0" text="Estado:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblMunicipio" layoutX="26.0" layoutY="278.0" text="Municipio:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+
+      <Label fx:id="lblDireccion" layoutX="424.0" layoutY="278.0" text="Dirección:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblEmpleo" layoutX="26.0" layoutY="348.0" text="Empleo:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblEstadoC" layoutX="426.0" layoutY="334.0" prefHeight="56.0" prefWidth="90.0" text="Estado Civil:" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTelefono" layoutX="27.0" layoutY="423.0" text="Teléfono:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnRegistrar" layoutX="761.0" layoutY="510.0" mnemonicParsing="false" onAction="#registrarSocio" prefHeight="39.0" prefWidth="172.0" style="-fx-background-color: #185754;" text="Registrar Socio" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Label fx:id="lblGenero" layoutX="38.0" layoutY="481.0" text="Género:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cmbGenero" layoutX="117.0" layoutY="475.0" prefHeight="39.0" prefWidth="206.0" promptText="Seleccione..." visibleRowCount="5" />
+   </children>
+</Pane>

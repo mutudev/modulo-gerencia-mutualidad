@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.DatosController">
+   <children>
+      <Label layoutX="20.0" layoutY="18.0" text="Datos del Socio" textFill="#39577c">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblNombres" layoutX="24.0" layoutY="123.0" text="Nombre(s):" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtNombre" layoutX="127.0" layoutY="117.0" prefHeight="39.0" prefWidth="361.0" visible="false" />
+      <TextField fx:id="txtApellidoP" layoutX="652.0" layoutY="117.0" prefHeight="39.0" prefWidth="281.0" visible="false" />
+      <TextField fx:id="txtApellidoM" layoutX="185.0" layoutY="177.0" prefHeight="39.0" prefWidth="281.0" visible="false" />
+      <DatePicker fx:id="dteNacimiento" layoutX="689.0" layoutY="177.0" prefHeight="39.0" prefWidth="244.0" visible="false" />
+
+      <TextField fx:id="txtCURP" layoutX="85.0" layoutY="242.0" prefHeight="39.0" prefWidth="281.0" promptText="XXXXXXXXXXXXXXXXXX" visible="false" />
+      <TextField fx:id="txtRFC" layoutX="419.0" layoutY="242.0" prefHeight="39.0" prefWidth="216.0" promptText="XXXXXXXXXXXXX" visible="false" />
+      <ComboBox fx:id="cmbEstado" layoutX="726.0" layoutY="242.0" prefHeight="39.0" prefWidth="206.0" promptText="Seleccione..." visible="false" visibleRowCount="5" />
+      <ComboBox fx:id="cmbMunicipio" layoutX="123.0" layoutY="314.0" prefHeight="39.0" prefWidth="281.0" visible="false" visibleRowCount="5" />
+      <TextField fx:id="txtDireccion" layoutX="520.0" layoutY="314.0" prefHeight="39.0" prefWidth="414.0" visible="false" />
+      <ComboBox fx:id="cmbEmpleo" layoutX="106.0" layoutY="385.0" prefHeight="39.0" prefWidth="299.0" promptText="Seleccione un empleo..." visible="false" visibleRowCount="5" />
+      <ComboBox fx:id="cmbEstadoCivil" layoutX="522.0" layoutY="384.0" prefHeight="39.0" prefWidth="414.0" promptText="Seleccione un estado civil..." visible="false" visibleRowCount="5" />
+      <TextField fx:id="txtTelefono" layoutX="115.0" layoutY="458.0" prefHeight="39.0" prefWidth="299.0" promptText="XXX-XXX-XXXX" visible="false" />
+
+      <Label fx:id="lblFecha" layoutX="497.0" layoutY="183.0" prefHeight="27.0" prefWidth="184.0" text="Fecha de nacimiento:" visible="false" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblApellidoP" layoutX="497.0" layoutY="123.0" text="Apellido Paterno:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblApellidoM" layoutX="24.0" layoutY="183.0" text="Apellido Materno:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCurp" layoutX="24.0" layoutY="248.0" text="CURP:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblRfc" layoutX="375.0" layoutY="248.0" text="RFC:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblEstado" layoutX="652.0" layoutY="248.0" text="Estado:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblMunicipio" layoutX="26.0" layoutY="320.0" text="Municipio:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+
+      <Label fx:id="lblDireccion" layoutX="424.0" layoutY="320.0" text="Dirección:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblEmpleo" layoutX="26.0" layoutY="390.0" text="Empleo:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblEstadoC" layoutX="426.0" layoutY="376.0" prefHeight="56.0" prefWidth="90.0" text="Estado Civil:" visible="false" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTelefono" layoutX="27.0" layoutY="465.0" text="Teléfono:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnRegistrar" layoutX="760.0" layoutY="458.0" mnemonicParsing="false" onAction="#editarSocio" prefHeight="39.0" prefWidth="172.0" style="-fx-background-color: #ddd70f;" text="Guardar Cambios" textFill="WHITE" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Label fx:id="lblGenero" layoutX="433.0" layoutY="464.0" text="Género:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cmbGenero" layoutX="522.0" layoutY="458.0" prefHeight="39.0" prefWidth="206.0" promptText="Seleccione..." visible="false" visibleRowCount="5" />
+      <Label layoutX="42.0" layoutY="68.0" text="Número:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtNumero" layoutX="127.0" layoutY="62.0" onAction="#buscarSocio" prefHeight="39.0" prefWidth="184.0" promptText="Ingrese el número..." />
+      <Button fx:id="btnBuscar" layoutX="319.0" layoutY="63.0" mnemonicParsing="false" onAction="#buscarSocio" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="btnLimpiar" layoutX="422.0" layoutY="63.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <ImageView fx:id="imgBusqueda" fitHeight="35.0" fitWidth="52.0" layoutX="533.0" layoutY="65.0" onMouseClicked="#buscarSocioPorNombre" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/assets/images/icono-busqueda.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>

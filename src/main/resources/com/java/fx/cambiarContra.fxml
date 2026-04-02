@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.CambiarContraController">
+   <children>
+      <Label layoutX="307.0" layoutY="14.0" text="Cambiar contraseña del usuario" textFill="#39577c">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="56.0" layoutY="84.0" text="Usuario:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtUsuario" layoutX="136.0" layoutY="78.0" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="218.0" promptText="Ingrese el usuario..." />
+      <Button fx:id="btnBuscar" layoutX="367.0" layoutY="78.0" mnemonicParsing="false" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="btnLimpiar" layoutX="468.0" layoutY="78.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Label fx:id="lblNombre" layoutX="53.0" layoutY="153.0" text="Nombre:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtNombre" editable="false" layoutX="136.0" layoutY="149.0" prefHeight="39.0" prefWidth="550.0" visible="false" />
+      <Label fx:id="lblContra" layoutX="32.0" layoutY="202.0" prefHeight="65.0" prefWidth="108.0" text="Nueva contraseña:" visible="false" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblConfContra" layoutX="31.0" layoutY="286.0" prefHeight="65.0" prefWidth="108.0" text="Confirmar contraseña:" visible="false" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnCambiarContra" layoutX="383.0" layoutY="407.0" mnemonicParsing="false" onAction="#cambiarContraseña" prefHeight="39.0" prefWidth="204.0" style="-fx-background-color: #185754;" text="Cambiar Contraseña" textFill="WHITE" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <PasswordField fx:id="txtContra" layoutX="137.0" layoutY="226.0" prefHeight="39.0" prefWidth="550.0" visible="false" />
+      <PasswordField fx:id="txtConfContra" layoutX="140.0" layoutY="308.0" prefHeight="39.0" prefWidth="550.0" visible="false" />
+   </children>
+</Pane>

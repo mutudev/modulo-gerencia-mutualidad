@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.CongelamientoSaldoController">
+   <children>
+      <Label layoutX="20.0" layoutY="18.0" text="Congelamiento de saldo" textFill="#39577c">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="txtAviso" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" layoutX="37.0" layoutY="485.0" prefHeight="76.0" prefWidth="895.0" scaleShape="false" text="IMPORTANTE: EN CASO DE BLOQUEAR AL SOCIO NO SE LE PODRÁ REALIZAR NINGUNA OTRA OPERACIÓN. DE TENER PRÉSTAMOS O CUENTA DE AHORROS VIGENTES AÚN CON SALDO YA NO SERÁ POSIBLE ACCESAR O MODIFICAR LAS MISMAS HASTA QUE EL SOCIO VUELVA A ACTIVARSE." visible="false" wrapText="true">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="NONE" />
+         </cursor>
+      </TextArea>
+      <Label layoutX="42.0" layoutY="87.0" text="Número:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtNumero" layoutX="127.0" layoutY="81.0" onAction="#buscarSocio" prefHeight="39.0" prefWidth="184.0" promptText="Ingrese el número..." />
+      <Button fx:id="btnBuscar" layoutX="319.0" layoutY="81.0" mnemonicParsing="false" onAction="#buscarSocio" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="btnLimpiar" layoutX="422.0" layoutY="81.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <ImageView fx:id="imgBusqueda" fitHeight="35.0" fitWidth="52.0" layoutX="530.0" layoutY="83.0" onMouseClicked="#buscarSocioPorNombre" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/assets/images/icono-busqueda.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <Label fx:id="lblNombre" layoutX="42.0" layoutY="152.0" text="Nombre:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtNombre" editable="false" layoutX="127.0" layoutY="146.0" prefHeight="39.0" prefWidth="772.0" visible="false" />
+      <Label fx:id="lblEmpresa" layoutX="43.0" layoutY="214.0" text="Empresa:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtEmpresa" editable="false" layoutX="127.0" layoutY="208.0" prefHeight="39.0" prefWidth="772.0" visible="false" />
+      <Label fx:id="lblAhorro" layoutX="46.0" layoutY="268.0" prefHeight="57.0" prefWidth="96.0" text="Ahorros:" visible="false" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtAhorro" editable="false" layoutX="128.0" layoutY="279.0" prefHeight="39.0" prefWidth="421.0" visible="false">
+         <font>
+            <Font size="17.0" />
+         </font></TextField>
+      <Label fx:id="lblPsocMut" layoutX="563.0" layoutY="282.0" text="Parte Social (MUT):" visible="false" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtPsocMut" editable="false" layoutX="736.0" layoutY="279.0" prefHeight="39.0" prefWidth="162.0" visible="false" />
+      <Button fx:id="btnCongelar" layoutX="650.0" layoutY="454.0" mnemonicParsing="false" onAction="#congelarSaldo" prefHeight="39.0" prefWidth="190.0" style="-fx-background-color: #185754;" text="Congelar saldo" textFill="WHITE" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Label fx:id="lblPsocNgu" layoutX="563.0" layoutY="338.0" text="Parte Social (NGU):" visible="false" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtPsocNgu" editable="false" layoutX="735.0" layoutY="332.0" prefHeight="39.0" prefWidth="163.0" visible="false" />
+      <Label fx:id="lblCongelar" layoutX="42.0" layoutY="360.0" prefHeight="57.0" prefWidth="96.0" text="Saldo a congelar:" visible="false" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtCongelar" layoutX="128.0" layoutY="380.0" onAction="#formatearMonto" prefHeight="39.0" prefWidth="277.0" visible="false" />
+      <Label fx:id="lblSaldoRestante" layoutX="43.0" layoutY="434.0" prefHeight="57.0" prefWidth="96.0" text="Monto restante:" visible="false" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtSaldoRestante" editable="false" layoutX="128.0" layoutY="454.0" prefHeight="39.0" prefWidth="277.0" visible="false" />
+      <Button fx:id="btnLimpiar2" layoutX="309.0" layoutY="502.0" mnemonicParsing="false" onAction="#limpiarMontos" prefHeight="12.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Label fx:id="lblDesconge" layoutX="14.0" layoutY="360.0" prefHeight="57.0" prefWidth="114.0" text="Saldo a descongelar:" visible="false" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
