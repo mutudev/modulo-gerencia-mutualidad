@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.CambiarContraController">
+<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.CambiarContraController">
    <children>
-      <Label layoutX="307.0" layoutY="14.0" text="Cambiar contraseña del usuario" textFill="#39577c">
+      <Label layoutX="20.0" layoutY="18.0" text="Cambiar contraseña del usuario" textFill="#39577c">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="56.0" layoutY="84.0" text="Usuario:">
+      <Label layoutX="42.0" layoutY="68.0" text="Usuario:">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtUsuario" layoutX="136.0" layoutY="78.0" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="218.0" promptText="Ingrese el usuario..." />
-      <Button fx:id="btnBuscar" layoutX="367.0" layoutY="78.0" mnemonicParsing="false" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
+      <TextField fx:id="txtUsuario" layoutX="116.0" layoutY="62.0" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="271.0" promptText="Ingrese el usuario..." />
+      <Button fx:id="btnBuscar" layoutX="396.0" layoutY="62.0" mnemonicParsing="false" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -26,7 +29,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btnLimpiar" layoutX="468.0" layoutY="78.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
+      <Button fx:id="btnLimpiar" layoutX="497.0" layoutY="62.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -34,23 +37,23 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label fx:id="lblNombre" layoutX="53.0" layoutY="153.0" text="Nombre:" visible="false">
+      <Label fx:id="lblNombre" layoutX="33.0" layoutY="143.0" text="Nombre:" visible="false">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtNombre" editable="false" layoutX="136.0" layoutY="149.0" prefHeight="39.0" prefWidth="550.0" visible="false" />
-      <Label fx:id="lblContra" layoutX="32.0" layoutY="202.0" prefHeight="65.0" prefWidth="108.0" text="Nueva contraseña:" visible="false" wrapText="true">
+      <TextField fx:id="txtNombre" editable="false" layoutX="116.0" layoutY="139.0" prefHeight="39.0" prefWidth="550.0" visible="false" />
+      <Label fx:id="lblContra" layoutX="12.0" layoutY="192.0" prefHeight="65.0" prefWidth="108.0" text="Nueva contraseña:" visible="false" wrapText="true">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblConfContra" layoutX="31.0" layoutY="286.0" prefHeight="65.0" prefWidth="108.0" text="Confirmar contraseña:" visible="false" wrapText="true">
+      <Label fx:id="lblConfContra" layoutX="11.0" layoutY="276.0" prefHeight="65.0" prefWidth="108.0" text="Confirmar contraseña:" visible="false" wrapText="true">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnCambiarContra" layoutX="383.0" layoutY="407.0" mnemonicParsing="false" onAction="#cambiarContraseña" prefHeight="39.0" prefWidth="204.0" style="-fx-background-color: #185754;" text="Cambiar Contraseña" textFill="WHITE" visible="false">
+      <Button fx:id="btnCambiarContra" layoutX="383.0" layoutY="402.0" mnemonicParsing="false" onAction="#cambiarContraseña" prefHeight="39.0" prefWidth="204.0" style="-fx-background-color: #185754;" text="Cambiar Contraseña" textFill="WHITE" visible="false">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -58,7 +61,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <PasswordField fx:id="txtContra" layoutX="137.0" layoutY="226.0" prefHeight="39.0" prefWidth="550.0" visible="false" />
-      <PasswordField fx:id="txtConfContra" layoutX="140.0" layoutY="308.0" prefHeight="39.0" prefWidth="550.0" visible="false" />
+      <PasswordField fx:id="txtContra" layoutX="117.0" layoutY="216.0" prefHeight="39.0" prefWidth="550.0" visible="false" />
+      <PasswordField fx:id="txtConfContra" layoutX="120.0" layoutY="298.0" prefHeight="39.0" prefWidth="550.0" visible="false" />
    </children>
 </Pane>

@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.PermisosController">
+<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.PermisosController">
    <children>
       <TabPane fx:id="tabPadre" prefHeight="592.0" prefWidth="969.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -31,8 +23,8 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtUsuario" layoutX="113.0" layoutY="75.0" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="217.0" promptText="Ingrese el usuario..." />
-                        <Button fx:id="btnBuscar" layoutX="342.0" layoutY="75.0" mnemonicParsing="false" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
+                        <TextField fx:id="txtUsuario" layoutX="113.0" layoutY="75.0" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="271.0" promptText="Ingrese el usuario..." />
+                        <Button fx:id="btnBuscar" layoutX="392.0" layoutY="75.0" mnemonicParsing="false" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -40,7 +32,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button fx:id="btnLimpiar" layoutX="443.0" layoutY="75.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
+                        <Button fx:id="btnLimpiar" layoutX="495.0" layoutY="75.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>

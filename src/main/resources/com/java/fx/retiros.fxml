@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.RetiroController">
+<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.RetiroController">
    <children>
       <Label layoutX="20.0" layoutY="18.0" text="Retiro de Ahorro" textFill="#39577c">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="42.0" layoutY="87.0" text="Número:">
+      <Label layoutX="42.0" layoutY="68.0" text="Número:">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtNumero" layoutX="127.0" layoutY="82.0" onAction="#buscarSocio" prefHeight="39.0" prefWidth="184.0" promptText="Ingrese el número..." />
-      <Button fx:id="btnBuscar" layoutX="319.0" layoutY="81.0" mnemonicParsing="false" onAction="#buscarSocio" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
+      <TextField fx:id="txtNumero" layoutX="127.0" layoutY="62.0" onAction="#buscarSocio" prefHeight="39.0" prefWidth="184.0" promptText="Ingrese el número..." />
+      <Button fx:id="btnBuscar" layoutX="319.0" layoutY="62.0" mnemonicParsing="false" onAction="#buscarSocio" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -27,7 +32,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btnLimpiar" layoutX="422.0" layoutY="80.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
+      <Button fx:id="btnLimpiar" layoutX="422.0" layoutY="62.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -35,7 +40,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <ImageView fx:id="imgBusqueda" fitHeight="35.0" fitWidth="52.0" layoutX="530.0" layoutY="83.0" onMouseClicked="#buscarSocioPorNombre" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgBusqueda" fitHeight="35.0" fitWidth="52.0" layoutX="533.0" layoutY="62.0" onMouseClicked="#buscarSocioPorNombre" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@/assets/images/icono-busqueda.png" />
          </image>
@@ -99,7 +104,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btnProcesar" layoutX="383.0" layoutY="483.0" mnemonicParsing="false" onAction="#procesarRetiro" prefHeight="39.0" prefWidth="175.0" style="-fx-background-color: #185754;" text="Procesar Retiro" textFill="WHITE" visible="false">
+      <Button fx:id="btnProcesar" layoutX="383.0" layoutY="526.0" mnemonicParsing="false" onAction="#procesarRetiro" prefHeight="39.0" prefWidth="175.0" style="-fx-background-color: #185754;" text="Procesar Retiro" textFill="WHITE" visible="false">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -107,5 +112,11 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
+      <Label fx:id="lblForma" layoutX="41.0" layoutY="433.0" text="Forma del retiro:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cmbForma" layoutX="194.0" layoutY="427.0" prefHeight="39.0" prefWidth="210.0" visible="false" />
    </children>
 </Pane>

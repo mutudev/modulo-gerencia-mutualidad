@@ -17,7 +17,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <TextArea fx:id="txtAviso" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" layoutX="37.0" layoutY="485.0" prefHeight="76.0" prefWidth="895.0" scaleShape="false" text="IMPORTANTE: EN CASO DE BLOQUEAR AL SOCIO NO SE LE PODRÁ REALIZAR NINGUNA OTRA OPERACIÓN. DE TENER PRÉSTAMOS O CUENTA DE AHORROS VIGENTES AÚN CON SALDO YA NO SERÁ POSIBLE ACCESAR O MODIFICAR LAS MISMAS HASTA QUE EL SOCIO VUELVA A ACTIVARSE." visible="false" wrapText="true">
+      <TextArea fx:id="txtAviso" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" layoutX="37.0" layoutY="508.0" prefHeight="57.0" prefWidth="895.0" scaleShape="false" text="IMPORTANTE: EN CASO DE CONGELAR MONTO DE AHORROS, SOLO SE CONSIDERARÁ EL AHORRO SIN CONGELAR PARA LAS FUTURAS OPERACIONES SOBRE LA CUENTA DEL SOCIO." visible="false" wrapText="true">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
@@ -25,13 +25,13 @@
             <Cursor fx:constant="NONE" />
          </cursor>
       </TextArea>
-      <Label layoutX="42.0" layoutY="87.0" text="Número:">
+      <Label layoutX="42.0" layoutY="68.0" text="Número:">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtNumero" layoutX="127.0" layoutY="81.0" onAction="#buscarSocio" prefHeight="39.0" prefWidth="184.0" promptText="Ingrese el número..." />
-      <Button fx:id="btnBuscar" layoutX="319.0" layoutY="81.0" mnemonicParsing="false" onAction="#buscarSocio" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
+      <TextField fx:id="txtNumero" layoutX="127.0" layoutY="62.0" onAction="#buscarSocio" prefHeight="39.0" prefWidth="184.0" promptText="Ingrese el número..." />
+      <Button fx:id="btnBuscar" layoutX="319.0" layoutY="62.0" mnemonicParsing="false" onAction="#buscarSocio" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -39,7 +39,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btnLimpiar" layoutX="422.0" layoutY="81.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
+      <Button fx:id="btnLimpiar" layoutX="422.0" layoutY="62.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -47,7 +47,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <ImageView fx:id="imgBusqueda" fitHeight="35.0" fitWidth="52.0" layoutX="530.0" layoutY="83.0" onMouseClicked="#buscarSocioPorNombre" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgBusqueda" fitHeight="35.0" fitWidth="52.0" layoutX="533.0" layoutY="62.0" onMouseClicked="#buscarSocioPorNombre" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@/assets/images/icono-busqueda.png" />
          </image>
@@ -55,34 +55,34 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <Label fx:id="lblNombre" layoutX="42.0" layoutY="152.0" text="Nombre:" visible="false">
+      <Label fx:id="lblNombre" layoutX="42.0" layoutY="125.0" text="Nombre:" visible="false">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtNombre" editable="false" layoutX="127.0" layoutY="146.0" prefHeight="39.0" prefWidth="772.0" visible="false" />
-      <Label fx:id="lblEmpresa" layoutX="43.0" layoutY="214.0" text="Empresa:" visible="false">
+      <TextField fx:id="txtNombre" editable="false" layoutX="127.0" layoutY="119.0" prefHeight="39.0" prefWidth="772.0" visible="false" />
+      <Label fx:id="lblEmpresa" layoutX="43.0" layoutY="187.0" text="Empresa:" visible="false">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtEmpresa" editable="false" layoutX="127.0" layoutY="208.0" prefHeight="39.0" prefWidth="772.0" visible="false" />
-      <Label fx:id="lblAhorro" layoutX="46.0" layoutY="268.0" prefHeight="57.0" prefWidth="96.0" text="Ahorros:" visible="false" wrapText="true">
+      <TextField fx:id="txtEmpresa" editable="false" layoutX="127.0" layoutY="181.0" prefHeight="39.0" prefWidth="772.0" visible="false" />
+      <Label fx:id="lblAhorro" layoutX="46.0" layoutY="241.0" prefHeight="57.0" prefWidth="96.0" text="Ahorros:" visible="false" wrapText="true">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtAhorro" editable="false" layoutX="128.0" layoutY="279.0" prefHeight="39.0" prefWidth="421.0" visible="false">
+      <TextField fx:id="txtAhorro" editable="false" layoutX="128.0" layoutY="252.0" prefHeight="39.0" prefWidth="421.0" visible="false">
          <font>
             <Font size="17.0" />
          </font></TextField>
-      <Label fx:id="lblPsocMut" layoutX="563.0" layoutY="282.0" text="Parte Social (MUT):" visible="false" wrapText="true">
+      <Label fx:id="lblPsocMut" layoutX="563.0" layoutY="255.0" text="Parte Social (MUT):" visible="false" wrapText="true">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtPsocMut" editable="false" layoutX="736.0" layoutY="279.0" prefHeight="39.0" prefWidth="162.0" visible="false" />
-      <Button fx:id="btnCongelar" layoutX="650.0" layoutY="454.0" mnemonicParsing="false" onAction="#congelarSaldo" prefHeight="39.0" prefWidth="190.0" style="-fx-background-color: #185754;" text="Congelar saldo" textFill="WHITE" visible="false">
+      <TextField fx:id="txtPsocMut" editable="false" layoutX="736.0" layoutY="252.0" prefHeight="39.0" prefWidth="162.0" visible="false" />
+      <Button fx:id="btnCongelar" layoutX="708.0" layoutY="394.0" mnemonicParsing="false" onAction="#congelarSaldo" prefHeight="39.0" prefWidth="190.0" style="-fx-background-color: #185754;" text="Congelar saldo" textFill="WHITE" visible="false">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -90,25 +90,25 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label fx:id="lblPsocNgu" layoutX="563.0" layoutY="338.0" text="Parte Social (NGU):" visible="false" wrapText="true">
+      <Label fx:id="lblPsocNgu" layoutX="563.0" layoutY="311.0" text="Parte Social (NGU):" visible="false" wrapText="true">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtPsocNgu" editable="false" layoutX="735.0" layoutY="332.0" prefHeight="39.0" prefWidth="163.0" visible="false" />
-      <Label fx:id="lblCongelar" layoutX="42.0" layoutY="360.0" prefHeight="57.0" prefWidth="96.0" text="Saldo a congelar:" visible="false" wrapText="true">
+      <TextField fx:id="txtPsocNgu" editable="false" layoutX="735.0" layoutY="305.0" prefHeight="39.0" prefWidth="163.0" visible="false" />
+      <Label fx:id="lblCongelar" layoutX="43.0" layoutY="300.0" prefHeight="57.0" prefWidth="96.0" text="Saldo a congelar:" visible="false" wrapText="true">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtCongelar" layoutX="128.0" layoutY="380.0" onAction="#formatearMonto" prefHeight="39.0" prefWidth="277.0" visible="false" />
-      <Label fx:id="lblSaldoRestante" layoutX="43.0" layoutY="434.0" prefHeight="57.0" prefWidth="96.0" text="Monto restante:" visible="false" wrapText="true">
+      <TextField fx:id="txtCongelar" layoutX="128.0" layoutY="320.0" onAction="#formatearMonto" prefHeight="39.0" prefWidth="277.0" visible="false" />
+      <Label fx:id="lblSaldoRestante" layoutX="43.0" layoutY="374.0" prefHeight="57.0" prefWidth="96.0" text="Monto restante:" visible="false" wrapText="true">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtSaldoRestante" editable="false" layoutX="128.0" layoutY="454.0" prefHeight="39.0" prefWidth="277.0" visible="false" />
-      <Button fx:id="btnLimpiar2" layoutX="309.0" layoutY="502.0" mnemonicParsing="false" onAction="#limpiarMontos" prefHeight="12.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE" visible="false">
+      <TextField fx:id="txtSaldoRestante" editable="false" layoutX="128.0" layoutY="394.0" prefHeight="39.0" prefWidth="277.0" visible="false" />
+      <Button fx:id="btnLimpiar2" layoutX="309.0" layoutY="442.0" mnemonicParsing="false" onAction="#limpiarMontos" prefHeight="12.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE" visible="false">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -116,7 +116,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label fx:id="lblDesconge" layoutX="14.0" layoutY="360.0" prefHeight="57.0" prefWidth="114.0" text="Saldo a descongelar:" visible="false" wrapText="true">
+      <Label fx:id="lblDesconge" layoutX="14.0" layoutY="300.0" prefHeight="57.0" prefWidth="114.0" text="Saldo a descongelar:" visible="false" wrapText="true">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

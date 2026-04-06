@@ -49,7 +49,7 @@
                 <Font name="System Bold" size="18.0" />
             </font>
         </Label>
-        <Button fx:id="btnCrear" layoutX="403.0" layoutY="522.0" mnemonicParsing="false" onAction="#crearUsuario" prefHeight="39.0" prefWidth="172.0" style="-fx-background-color: #185754;" text="Crear Usuario" textFill="WHITE">
+        <Button fx:id="btnCrear" layoutX="425.0" layoutY="520.0" mnemonicParsing="false" onAction="#crearUsuario" prefHeight="39.0" prefWidth="172.0" style="-fx-background-color: #185754;" text="Crear Usuario" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>
@@ -57,24 +57,24 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </Button>
-      <Label fx:id="lblNombre1" layoutX="267.0" layoutY="356.0" text="Usuario:">
+      <Label fx:id="lblNombre1" layoutX="284.0" layoutY="356.0" text="Usuario:">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtUsuario" layoutX="345.0" layoutY="350.0" prefHeight="39.0" prefWidth="297.0" promptText="Ingrese el Usuario..." />
-      <Label fx:id="lblNombre11" layoutX="240.0" layoutY="406.0" text="Contraseña:">
+      <TextField fx:id="txtUsuario" layoutX="362.0" layoutY="350.0" prefHeight="39.0" prefWidth="297.0" promptText="Ingrese el Usuario..." />
+      <Label fx:id="lblNombre11" layoutX="257.0" layoutY="406.0" text="Contraseña:">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblNombre111" layoutX="153.0" layoutY="459.0" text="Confirmar contraseña:">
+      <Label fx:id="lblNombre111" layoutX="170.0" layoutY="459.0" text="Confirmar contraseña:">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <PasswordField fx:id="txtContra" layoutX="345.0" layoutY="400.0" prefHeight="39.0" prefWidth="297.0" promptText="Ingrese la Contraseña..." />
-      <PasswordField fx:id="txtConfContra" layoutX="345.0" layoutY="453.0" prefHeight="39.0" prefWidth="297.0" promptText="Confirme la Contraseña..." />
+      <PasswordField fx:id="txtContra" layoutX="362.0" layoutY="400.0" prefHeight="39.0" prefWidth="297.0" promptText="Ingrese la Contraseña..." />
+      <PasswordField fx:id="txtConfContra" layoutX="362.0" layoutY="453.0" prefHeight="39.0" prefWidth="297.0" promptText="Confirme la Contraseña..." />
       <Label fx:id="lblApellidoM" layoutX="480.0" layoutY="125.0" prefHeight="57.0" prefWidth="80.0" text="Apellido Materno:" wrapText="true">
          <font>
             <Font name="System Bold" size="18.0" />

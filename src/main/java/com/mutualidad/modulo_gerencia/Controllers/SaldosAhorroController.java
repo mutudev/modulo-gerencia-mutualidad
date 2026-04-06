@@ -1,10 +1,7 @@
 package com.mutualidad.modulo_gerencia.Controllers;
 
 import com.mutualidad.modulo_gerencia.Main;
-import com.mutualidad.modulo_gerencia.Models.ModelAhorro;
-import com.mutualidad.modulo_gerencia.Models.ModelCapitalSocial;
-import com.mutualidad.modulo_gerencia.Models.ModelCredito;
-import com.mutualidad.modulo_gerencia.Models.ModelSocio;
+import com.mutualidad.modulo_gerencia.Models.*;
 import com.mutualidad.modulo_gerencia.Repository.SocioRepository;
 import com.mutualidad.modulo_gerencia.Services.Servicio;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -177,6 +174,18 @@ public class SaldosAhorroController implements Initializable {
         loadingStage.setScene(loadingScene);
         loadingStage.centerOnScreen();
 
+        //Validar si tiene algún registro, sino, cortar
+        List<Integer> ids = List.of(1, 4, 5, 10, 11, 12, 13);
+        List<ModelTransaccion> transacciones = servicio.traerTransaccionesPorTipoOperacion(Integer.parseInt(txtNumero.getText().trim()), true, ids);
+        if (transacciones.size() == 0) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("ADVERTENCIA DE REPORTE");
+            alert.setContentText("EL SOCIO NO TIENE OPERACIONES ACTIVAS RELACIONADAS AL AHORRO.");
+            alert.showAndWait();
+            return;
+        }
+
         try {
             Task<Void> task = new Task<>() {
                 @Override
@@ -192,8 +201,9 @@ public class SaldosAhorroController implements Initializable {
                         for (ModelCapitalSocial cuenta : servicio.traerCuentasCs(Integer.parseInt(txtNumero.getText().trim()))) {
                             ahorroTot += cuenta.getMonto_cubierto();
                         }
+
                         ahorroTot += ahorro.getSaldo();
-                        pars.put("saldoAhorro", formatoMXN.format(ahorroTot));
+                        pars.put("saldoAhorro", formatoMXN.format(ahorro.getSaldo()));
                         pars.put("saldoCongelado", formatoMXN.format(ahorro.getSaldo_congelado()));
                         pars.put("saldoTotal", formatoMXN.format(ahorroTot + ahorro.getSaldo_congelado()));
                         pars.put("fechaImp", formatoFecha.format(LocalDate.now()));

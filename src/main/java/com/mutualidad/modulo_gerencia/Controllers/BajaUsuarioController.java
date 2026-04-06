@@ -1,5 +1,6 @@
 package com.mutualidad.modulo_gerencia.Controllers;
 
+import com.mutualidad.modulo_gerencia.DTO.DetalleUsuarioDTO;
 import com.mutualidad.modulo_gerencia.Models.ModelEmpleado;
 import com.mutualidad.modulo_gerencia.Models.ModelUsuario;
 import com.mutualidad.modulo_gerencia.Services.Servicio;
@@ -25,37 +26,32 @@ public class BajaUsuarioController implements Initializable {
     public Label lblNombre, lblRol, lblPuesto;
 
     @Autowired
-    Servicio servicio;
+    public Servicio servicio;
 
     @FXML
     public void cargarUsuarios() {
-
-
         if (txtUsuario.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText("ERROR AL INTENTAR BUSCAR AL USUARIO");
-            alert.setContentText(
-                    "POR FAVOR, RELLENE TODOS LOS CAMPOS");
+            alert.setContentText("POR FAVOR, RELLENE TODOS LOS CAMPOS");
             alert.showAndWait();
             return;
         }
 
-        ModelUsuario usuario = servicio.traerUsuarioXUsuario(txtUsuario.getText());
-        if(usuario != null){
+        DetalleUsuarioDTO usuario = servicio.traerDetalleUsuario(txtUsuario.getText());
+
+        if (usuario != null) {
             txtUsuario.setEditable(false);
+            txtNombre.setText(usuario.getEmpleadoNombre());
+            txtPuesto.setText(usuario.getPuesto());
+            txtRol.setText(usuario.getRol());
 
-
-            ModelEmpleado empleado = servicio.traerEmpleadoXId(usuario.getIdEmpleado());
-            txtNombre.setText(empleado.getNombres() + ' '+ empleado.getApellidoP() + ' '+ empleado.getApellidoM());
-            txtPuesto.setText(servicio.traerNombrePuesto(empleado.getPuesto()));
-            txtRol.setText(servicio.traerNombreRol(usuario.getRol()));
-
-
-            if(!usuario.isStatus()){
+            if (Boolean.FALSE.equals(usuario.getActivo())) {
                 btnEstado.setText("Reactivar");
                 btnEstado.setStyle("-fx-background-color: #39577c; -fx-text-fill: white;");
             }
+
             btnEstado.setVisible(true);
             txtNombre.setVisible(true);
             txtUsuario.setVisible(true);
@@ -64,26 +60,21 @@ public class BajaUsuarioController implements Initializable {
             lblNombre.setVisible(true);
             lblRol.setVisible(true);
             lblPuesto.setVisible(true);
-        }else {
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
-            alert.setHeaderText("ERROR AL INTENTAR BUSCAR AL USUARIO");
-            alert.setContentText(
-                    "POR FAVOR, RELLENE TODOS LOS CAMPOS");
+            alert.setHeaderText("USUARIO NO ENCONTRADO");
+            alert.setContentText("NO EXISTE UN USUARIO CON ESE NOMBRE.");
             alert.showAndWait();
-            return;
         }
     }
-
 
     @FXML
     public void limpiar(){
         btnEstado.setVisible(false);
-
         txtNombre.setVisible(false);
         txtRol.setVisible(false);
         txtPuesto.setVisible(false);
-
         lblNombre.setVisible(false);
         lblRol.setVisible(false);
         lblPuesto.setVisible(false);

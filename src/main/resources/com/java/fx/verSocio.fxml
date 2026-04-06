@@ -113,7 +113,7 @@
          </font>
       </Label>
       <TextField fx:id="txtNumero" layoutX="127.0" layoutY="62.0" onAction="#buscarSocio" prefHeight="39.0" prefWidth="184.0" promptText="Ingrese el número..." />
-      <Button fx:id="btnBuscar" layoutX="319.0" layoutY="63.0" mnemonicParsing="false" onAction="#buscarSocio" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
+      <Button fx:id="btnBuscar" layoutX="319.0" layoutY="62.0" mnemonicParsing="false" onAction="#buscarSocio" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -121,7 +121,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btnLimpiar" layoutX="422.0" layoutY="63.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
+      <Button fx:id="btnLimpiar" layoutX="422.0" layoutY="62.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -129,7 +129,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <ImageView fx:id="imgBusqueda" fitHeight="35.0" fitWidth="52.0" layoutX="533.0" layoutY="65.0" onMouseClicked="#buscarSocioPorNombre" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgBusqueda" fitHeight="35.0" fitWidth="52.0" layoutX="533.0" layoutY="62.0" onMouseClicked="#buscarSocioPorNombre" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@/assets/images/icono-busqueda.png" />
          </image>

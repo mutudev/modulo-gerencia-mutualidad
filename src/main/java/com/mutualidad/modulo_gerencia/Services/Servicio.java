@@ -1,5 +1,10 @@
 package com.mutualidad.modulo_gerencia.Services;
 
+import com.mutualidad.modulo_gerencia.Controllers.LoginController;
+import com.mutualidad.modulo_gerencia.DTO.DetalleUsuarioDTO;
+import com.mutualidad.modulo_gerencia.DTO.Interfaz.DetalleUsuarioProjection;
+import com.mutualidad.modulo_gerencia.DTO.Interfaz.ResumenCreditosProjection;
+import com.mutualidad.modulo_gerencia.DTO.ResumenCreditosDTO;
 import com.mutualidad.modulo_gerencia.Models.*;
 import com.mutualidad.modulo_gerencia.Repository.*;
 import jakarta.persistence.EntityManager;
@@ -9,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +62,12 @@ public class Servicio {
 
     @Autowired
     private ConfiguracionRepository repoConfiguracion;
+
+    @Autowired
+    private FormaOperacionRepository repoForma;
+
+    @Autowired
+    private TransaccionRepository repoTransaccion;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -264,11 +276,6 @@ public class Servicio {
         return repoSocio.traerParentescos();
     }
 
-    public List<Object[]> traerIdsCredito(int numSocio) {
-        return repoSocio.traerIdsCredito(numSocio);
-    }
-
-
     public List<Object[]> traerRoles() {
         return repoUsuario.traerRoles();
     }
@@ -282,16 +289,16 @@ public class Servicio {
         return repoCapSoc.findByNumSocio(numSocio);
     }
 
+    public Double sumarCapitalSocial(int numSocio) {
+        return repoCapSoc.sumarCapitalSocial(numSocio);
+    }
+
     public ModelSocio traerSocioPorNumeroYEstado(int numSocio, boolean status) {
         return repoSocio.findByNumSocioAndStatus(numSocio, status);
     }
 
     public int contarCreditos(int numSocio) {
         return repoSocio.contarCreditos(numSocio);
-    }
-
-    public double traerSaldosCredito(int numCredito) {
-        return repoSocio.traerSaldosCredito(numCredito);
     }
 
     public List<Object[]> buscarSocioPorNombre(String nombreCompleto) {
@@ -306,6 +313,29 @@ public class Servicio {
         }
 
         return new ArrayList<>();
+    }
+
+    public ResumenCreditosDTO traerResumenCreditos(int numSocio) {
+        ResumenCreditosProjection projection = repoSocio.traerResumenCreditos(numSocio);
+        return new ResumenCreditosDTO(
+                projection.getNum_creditos() != null ? projection.getNum_creditos() : 0,
+                projection.getSaldo_total() != null ? projection.getSaldo_total() : 0.0
+        );
+    }
+
+    public DetalleUsuarioDTO traerDetalleUsuario(String usuario) {
+        DetalleUsuarioProjection p = repoUsuario.traerDetalleUsuario(usuario);
+        if (p == null) return null;
+        return new DetalleUsuarioDTO(
+                p.getId(),
+                p.getUsuario(),
+                p.getEmpleado_id(),
+                p.getEmpleado_nombre(),
+                p.getRol_id(),
+                p.getRol(),
+                p.getPuesto(),
+                p.getActivo()
+        );
     }
 
     public String traerTipoSocio(int numSocio) {
@@ -393,15 +423,40 @@ public class Servicio {
         return repoRetiro.findBySocioAndEstado(socio, estado);
     }
 
-    public void realizarRetiroAhorros(ModelRetiro retiro) {
+    public int realizarRetiroAhorros(ModelRetiro retiro, int opcion) {
         ModelRetiro retiroGuardado = repoRetiro.save(retiro);
         //Creamos el nuevo retiro cajero, aprende como se hace ramitos
-        ModelRetiroCajero retiroCajero = new ModelRetiroCajero();
-        retiroCajero.setRetiro(retiroGuardado);
-        retiroCajero.setEstado(true);
-        retiroCajero.setFr(LocalDate.now());
-        repoRetiroCajero.save(retiroCajero);
+        if (opcion == 1) {
+            ModelRetiroCajero retiroCajero = new ModelRetiroCajero();
+            retiroCajero.setRetiro(retiroGuardado);
+            retiroCajero.setEstado(true);
+            retiroCajero.setFr(LocalDate.now());
+            repoRetiroCajero.save(retiroCajero);
+            return 0;
+        } else {
+            //Se hace en cheque
+            ModelTransaccion nuevaTransaccion = new ModelTransaccion();
+            nuevaTransaccion.setUsuarioId(repoUsuario.findByUsuario(LoginController.usuarioLoggeado).getId());
+            nuevaTransaccion.setOperacionId(13);
+            nuevaTransaccion.setSocioId(retiro.getSocio());
+            nuevaTransaccion.setSaldo(retiro.getMontoRetiro());
+            nuevaTransaccion.setStatus(true);
+            nuevaTransaccion.setFechaRegistro(LocalDate.now());
+            nuevaTransaccion.setHora(LocalTime.now());
+            nuevaTransaccion.setEmpresa(retiro.getEmpresa());
+            nuevaTransaccion.setCajaId(0);
+            nuevaTransaccion.setAhorroAlMomento(retiro.getSaldoNue());
+            ModelTransaccion transaccionInsertada = repoTransaccion.save(nuevaTransaccion);
+
+            ModelAhorro nuevaCuenta = repoAhorro.findBySocioAndStatus(retiro.getSocio(), 1);
+            nuevaCuenta.setSaldo(retiro.getSaldoNue().doubleValue());
+            repoAhorro.save(nuevaCuenta);
+            return transaccionInsertada.getId();
+        }
+
     }
+
+
 
     public Optional<ModelConfiguracion> traerConfiguraciones() {
         return repoConfiguracion.findById(1);
@@ -417,6 +472,20 @@ public class Servicio {
 
     public List<Object[]> traerTransaccionesComprobar(List<Integer> listaIds, String rangoFecha1, String rangoFecha2) {
         return repoUsuario.traerTransacciones(listaIds, rangoFecha1, rangoFecha2);
+    }
+
+
+    public List<ModelFormaOperacion> traerFormas() {
+        return repoForma.findAll();
+    }
+
+    public ModelFormaOperacion buscarFormaPorNombre(String forma) {
+        return repoForma.findByForma(forma);
+    }
+
+
+    public List<ModelTransaccion> traerTransaccionesPorTipoOperacion(int socioId, boolean status, List<Integer> operacionIds) {
+        return repoTransaccion.findBySocioIdAndStatusAndOperacionIdIn(socioId, status, operacionIds);
     }
 
 

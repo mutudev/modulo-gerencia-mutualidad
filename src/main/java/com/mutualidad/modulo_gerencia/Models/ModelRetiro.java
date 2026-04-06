@@ -40,4 +40,7 @@ public class ModelRetiro {
     @Column(name = "FR", nullable = false)
     private LocalDate fr;
 
+    @Column(name = "FORMA", nullable = false)
+    private Integer forma;
+
 }

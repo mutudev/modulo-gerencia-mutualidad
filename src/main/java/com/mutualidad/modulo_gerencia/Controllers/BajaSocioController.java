@@ -1,7 +1,7 @@
 package com.mutualidad.modulo_gerencia.Controllers;
 
+import com.mutualidad.modulo_gerencia.DTO.ResumenCreditosDTO;
 import com.mutualidad.modulo_gerencia.Models.ModelAhorro;
-import com.mutualidad.modulo_gerencia.Models.ModelCapitalSocial;
 import com.mutualidad.modulo_gerencia.Models.ModelSocio;
 import com.mutualidad.modulo_gerencia.Services.Servicio;
 import javafx.fxml.FXML;
@@ -14,13 +14,11 @@ import java.net.URL;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 @Component
-public class BajaSocioController implements  Initializable{
-
+public class BajaSocioController implements Initializable {
 
     @FXML
     private TextField txtNumero, txtNombre, txtTipo, txtCuentaAhorro, txtCreditosVig, txtSaldoCre;
@@ -29,15 +27,16 @@ public class BajaSocioController implements  Initializable{
     private TextArea txtAviso;
 
     @FXML
-    private Label lblNombre, lblTipo, lblSaldoAhorro, lblCredVig , lblSaldoCre, lblSaldoAhorro1;
+    private Label lblNombre, lblTipo, lblSaldoAhorro, lblCredVig, lblSaldoCre, lblSaldoAhorro1;
 
     @FXML
-    private Button btnBuscar, btnLimpiar,btnBloquear;
+    private Button btnBuscar, btnLimpiar, btnBloquear;
 
     @Autowired
     private Servicio servicio;
 
     NumberFormat formatoMXN = NumberFormat.getCurrencyInstance(new Locale("es", "MX"));
+
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @Override
@@ -49,9 +48,7 @@ public class BajaSocioController implements  Initializable{
                             change.setText(change.getText().replaceAll("[^0-9]", ""));
                             return change;
                         }));
-
     }
-
 
     @FXML
     public void limpiar() {
@@ -59,6 +56,7 @@ public class BajaSocioController implements  Initializable{
         txtNombre.clear();
         txtTipo.setVisible(false);
         txtTipo.clear();
+        txtNumero.clear();
         txtCuentaAhorro.setVisible(false);
         txtCuentaAhorro.clear();
         txtCreditosVig.setVisible(false);
@@ -75,10 +73,9 @@ public class BajaSocioController implements  Initializable{
         btnBloquear.setVisible(false);
     }
 
-
+    //Falta terminar este método
     @FXML
     public void bloquearSocio() {
-
         //PRIMERO VALIDAR QUE YA SE HAYA RETIRADO EL DINERO
         double ahorro = parseMoneda(txtCuentaAhorro.getText().trim());
         if (ahorro != 0) {
@@ -89,10 +86,6 @@ public class BajaSocioController implements  Initializable{
             alert.showAndWait();
             return;
         }
-
-
-
-
     }
 
     private double parseMoneda(String moneda) {
@@ -105,22 +98,14 @@ public class BajaSocioController implements  Initializable{
         }
     }
 
-
-
     @FXML
-    public void buscarSocio(){
-
+    public void buscarSocio() {
         int numsocio = 0;
-        if(!txtNumero.getText().isEmpty()){
+        if (!txtNumero.getText().isEmpty()) {
             numsocio = Integer.parseInt(txtNumero.getText());
-
             ModelSocio socio = servicio.traerSocioPorNumeroYEstado(numsocio, true);
 
-
             if (socio != null) {
-
-
-
                 txtNombre.setVisible(true);
                 txtTipo.setVisible(true);
                 txtCuentaAhorro.setVisible(true);
@@ -135,61 +120,32 @@ public class BajaSocioController implements  Initializable{
                 btnBloquear.setVisible(true);
                 txtAviso.setVisible(true);
 
-                if(socio.getCatTipoId() == 1 ){
+                if (socio.getCatTipoId() == 1) {
                     txtTipo.setText("MAYOR DE EDAD");
-                }else{
+                } else {
                     txtTipo.setText("MENOR DE EDAD");
                 }
-                txtCreditosVig.setText(String.valueOf(servicio.contarCreditos(numsocio)));
+
                 txtNombre.setText(socio.getNombres() + " " + socio.getApellidoP() + " " + socio.getApellidoM());
-
                 ModelAhorro cuentaAhorro = servicio.traerCuentaAhorroPorNumSocioYEstado(socio.getNumSocio(), 1);
-
-                List<ModelCapitalSocial> cs = servicio.traerCuentasCs(socio.getNumSocio());
-                double montoCs = 0;
-
-                if (cs != null) {
-                    for (ModelCapitalSocial cuenta : cs) {
-                        montoCs += cuenta.getMonto_cubierto();
-                    }
-                }
-
+                double montoCs = servicio.sumarCapitalSocial(socio.getNumSocio());
                 txtCuentaAhorro.setText(formatoMXN.format(cuentaAhorro.getSaldo() + montoCs));
-
-                List<Object[]> idsCredito = servicio.traerIdsCredito(numsocio);
-                double montosaldo = 0;
-                int numCreditos=0;
-                if(idsCredito !=  null){
-                    for(Object[] credito : idsCredito){
-                        int numCredito = Integer.parseInt(credito[0].toString());
-                        montosaldo += servicio.traerSaldosCredito(numCredito);
-                        numCreditos++;
-                    }
-                    txtCreditosVig.setText(String.valueOf(numCreditos));
-                    txtSaldoCre.setText(formatoMXN.format(montosaldo));
-                }else{
-                    txtCreditosVig.setText("0");
-                    txtSaldoCre.setText(formatoMXN.format(0));
-                }
-            }else{
+                ResumenCreditosDTO resumen = servicio.traerResumenCreditos(numsocio);
+                txtCreditosVig.setText(String.valueOf(resumen.getNumCreditos()));
+                txtSaldoCre.setText(formatoMXN.format(resumen.getSaldoTotal()));
+            } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("SOCIO NO ENCONTRADO");
                 alert.setHeaderText("SOCIO NO ENCONTRADO");
                 alert.setContentText("NO EXISTE SOCIO ACTIVO CON ESE NÚMERO.");
                 alert.showAndWait();
-                return;
             }
-        }else{
+        } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("ERROR");
             alert.setHeaderText("NÚMERO NO PROPORCIONADO");
             alert.setContentText("POR FAVOR, PROPORCIONE UN NÚMERO DE SOCIO.");
             alert.showAndWait();
-            return;
-
         }
     }
-
-
-
 }

@@ -1,5 +1,6 @@
 package com.mutualidad.modulo_gerencia.Repository;
 
+import com.mutualidad.modulo_gerencia.DTO.Interfaz.ResumenCreditosProjection;
 import com.mutualidad.modulo_gerencia.Models.ModelSocio;
 import com.mutualidad.modulo_gerencia.Models.ModelUsuario;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -145,25 +146,28 @@ public interface SocioRepository extends JpaRepository<ModelSocio, Integer> {
     @Query(value = "SELECT COUNT (*) FROM CAT_CREDITOS WHERE STATUS = 2 AND SOCIO = :numSocio", nativeQuery = true)
     int contarCreditos(@Param("numSocio") int numSocio);
 
-
-    @Query(value = "SELECT \n" +
-            "    COALESCE(\n" +
-            "        (SELECT TOP 1 SALDO_CREDITO\n" +
-            "         FROM CUOTAS_EJEMPLO\n" +
-            "         WHERE CREDITO_ID = :numCredito\n" +
-            "         AND FECHA_P_REALIZADA IS NOT NULL\n" +
-            "         ORDER BY NUM_CUOTA DESC),\n" +
-            "        (SELECT MONTO \n" +
-            "         FROM dbo.CAT_CREDITOS \n" +
-            "         WHERE ID = :numCredito)\n" +
-            "    ) AS SALDO;", nativeQuery = true)
-    double traerSaldosCredito(@Param("numCredito") int numCredito);
-
-    @Query(value = "SELECT ID FROM CAT_CREDITOS WHERE STATUS = 2 AND SOCIO = :numSocio", nativeQuery = true)
-    List<Object[]> traerIdsCredito(@Param("numSocio") int numSocio);
-
     @Query(value = "SELECT * FROM CAT_PARENTESCO", nativeQuery = true)
     List<Object[]> traerParentescos();
+
+    @Query(value = """
+    SELECT 
+        COUNT(*) AS num_creditos,
+        COALESCE(SUM(saldo_individual), 0) AS saldo_total
+    FROM (
+        SELECT 
+            COALESCE(
+                (SELECT TOP 1 SALDO_CREDITO
+                 FROM CUOTAS_EJEMPLO
+                 WHERE CREDITO_ID = c.ID
+                 AND FECHA_P_REALIZADA IS NOT NULL
+                 ORDER BY NUM_CUOTA DESC),
+                c.MONTO
+            ) AS saldo_individual
+        FROM CAT_CREDITOS c
+        WHERE c.STATUS = 2 AND c.SOCIO = :numSocio
+    ) AS creditos_calculados
+    """, nativeQuery = true)
+    ResumenCreditosProjection traerResumenCreditos(@Param("numSocio") int numSocio);
 
     @Query(value = "SELECT * FROM TIPO_SOCIO", nativeQuery = true)
     List<Object[]> traerTiposSocios();

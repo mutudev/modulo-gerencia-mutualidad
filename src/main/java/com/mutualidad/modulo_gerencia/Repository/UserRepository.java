@@ -1,5 +1,6 @@
 package com.mutualidad.modulo_gerencia.Repository;
 
+import com.mutualidad.modulo_gerencia.DTO.Interfaz.DetalleUsuarioProjection;
 import com.mutualidad.modulo_gerencia.Models.ModelSocio;
 import com.mutualidad.modulo_gerencia.Models.ModelUsuario;
 import jakarta.persistence.NamedStoredProcedureQuery;
@@ -138,6 +139,21 @@ public interface UserRepository extends JpaRepository<ModelUsuario, Integer> {
           @Param("telefono") String telefono,
           @Param("usuarioModificador") String usuarioModificador
   );
+
+  @Query(value = """
+    SELECT U.ID, U.USUARIO,
+           E.ID AS EMPLEADO_ID,
+           (E.NOMBRES + ' ' + E.APELLIDO_P + ' ' + E.APELLIDO_M) AS EMPLEADO_NOMBRE,
+           R.ID AS ROL_ID, R.ROL,
+           P.DESCRIPCION AS PUESTO,
+           U.STATUS AS ACTIVO
+    FROM USUARIO U
+    INNER JOIN EMPLEADO E ON E.ID = U.EMP_ID
+    INNER JOIN ROL R ON R.ID = U.ROL_ID
+    INNER JOIN PUESTO P ON P.ID = E.PUESTO_ID
+    WHERE U.USUARIO = :usuario
+    """, nativeQuery = true)
+  DetalleUsuarioProjection traerDetalleUsuario(@Param("usuario") String usuario);
 
 
 }

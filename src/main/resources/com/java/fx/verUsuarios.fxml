@@ -7,18 +7,18 @@
 
 <Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.VerUsuarioController">
    <children>
-      <Label layoutX="30.0" layoutY="28.0" text="Datos del Usuario" textFill="#39577c">
+      <Label layoutX="35.0" layoutY="19.0" text="Datos del Usuario" textFill="#39577c">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="32.0" layoutY="85.0" text="Usuario:">
+      <Label layoutX="35.0" layoutY="81.0" text="Usuario:">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtUsuario" layoutX="109.0" layoutY="79.0" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="271.0" promptText="Ingrese el usuario..." />
-      <Button fx:id="btnBuscar" layoutX="392.0" layoutY="79.0" mnemonicParsing="false" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
+      <TextField fx:id="txtUsuario" layoutX="113.0" layoutY="75.0" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="271.0" promptText="Ingrese el usuario..." />
+      <Button fx:id="btnBuscar" layoutX="392.0" layoutY="75.0" mnemonicParsing="false" onAction="#cargarUsuarios" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -26,7 +26,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btnLimpiar" layoutX="495.0" layoutY="79.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
+      <Button fx:id="btnLimpiar" layoutX="495.0" layoutY="75.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

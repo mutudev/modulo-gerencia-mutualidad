@@ -3,34 +3,50 @@ package com.mutualidad.modulo_gerencia.Controllers;
 import com.mutualidad.modulo_gerencia.Main;
 import com.mutualidad.modulo_gerencia.Models.*;
 import com.mutualidad.modulo_gerencia.Services.Servicio;
+import com.tenpisoft.n2w.MoneyConverters;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 
 @Component
 public class RetiroController implements Initializable {
 
     @FXML
-    private Label lblNombre, lblEmpresa, lblAhorros, lblPSNgu, lblPSMut, lblDatos, lblMonto, lblRestante;
+    private Label lblNombre, lblEmpresa, lblAhorros, lblPSNgu, lblPSMut, lblDatos, lblMonto, lblRestante, lblForma;
 
     @FXML
     private TextField txtNombre, txtEmpresa, txtAhorros, txtPSNgu, txtPSMut, txtMonto, txtRestante, txtNumero;
@@ -44,13 +60,28 @@ public class RetiroController implements Initializable {
     @FXML
     private Separator separador;
 
+    @FXML
+    private ComboBox cmbForma;
+
     @Autowired
     private Servicio servicio;
 
     NumberFormat formatoMXN = NumberFormat.getCurrencyInstance(new Locale("es", "MX"));
 
+    DateTimeFormatter formatterHora = DateTimeFormatter.ofPattern("HH:mm:ss");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        List<ModelFormaOperacion> formas = servicio.traerFormas();
+        cmbForma.getItems().clear();
+
+        for (ModelFormaOperacion forma : formas) {
+            cmbForma.getItems().add(forma.getForma());
+        }
+
+        cmbForma.getSelectionModel().selectFirst();
 
         txtNumero.setTextFormatter(
                 new TextFormatter<>(
@@ -154,7 +185,8 @@ public class RetiroController implements Initializable {
         btnProcesar.setVisible(true);
         txtRestante.setVisible(true);
         imgBusqueda.setVisible(false);
-
+        cmbForma.setVisible(true);
+        lblForma.setVisible(true);
         lblNombre.setVisible(true);
         lblPSMut.setVisible(true);
         lblPSNgu.setVisible(true);
@@ -194,6 +226,7 @@ public class RetiroController implements Initializable {
 
         txtRestante.setVisible(false);
         txtRestante.clear();
+        cmbForma.setVisible(false);
 
         imgBusqueda.setVisible(true);
 
@@ -205,7 +238,7 @@ public class RetiroController implements Initializable {
         txtMonto.setEditable(true);
         lblEmpresa.setVisible(false);
         lblRestante.setVisible(false);
-
+        lblForma.setVisible(false);
         btnLimpiarMonto.setVisible(false);
         separador.setVisible(false);
         lblDatos.setVisible(false);
@@ -274,26 +307,200 @@ public class RetiroController implements Initializable {
             return;
         }
 
-        //Construir el retiro y en el servicio se construye el retiro del cajero
-        ModelRetiro retiro = new ModelRetiro();
-        retiro.setSocio(socio.getNumSocio());
-        retiro.setSaldoAnt(BigDecimal.valueOf(parseMoneda(txtAhorros.getText().trim())));
-        retiro.setSaldoNue(BigDecimal.valueOf(parseMoneda(txtRestante.getText().trim())));
-        retiro.setMontoRetiro(BigDecimal.valueOf(parseMoneda(txtMonto.getText().trim())));
-        retiro.setEstado(true);
-        ModelUsuario usuario = servicio.traerUsuarioXUsuario(LoginController.usuarioLoggeado);
-        retiro.setUsuarioId(usuario.getId());
-        retiro.setEmpresa(socio.getEmpresaCod());
-        retiro.setFr(LocalDate.now());
+        //Cuando es para cajas no hace falta generar ningún reporte
+        if (cmbForma.getSelectionModel().getSelectedItem().toString().equalsIgnoreCase("EFECTIVO")) {
+            //Construir el retiro y en el servicio se construye el retiro del cajero
+            ModelRetiro retiro = new ModelRetiro();
+            retiro.setSocio(socio.getNumSocio());
+            retiro.setSaldoAnt(BigDecimal.valueOf(parseMoneda(txtAhorros.getText().trim())));
+            retiro.setSaldoNue(BigDecimal.valueOf(parseMoneda(txtRestante.getText().trim())));
+            retiro.setMontoRetiro(BigDecimal.valueOf(parseMoneda(txtMonto.getText().trim())));
+            retiro.setForma(servicio.buscarFormaPorNombre(cmbForma.getSelectionModel().getSelectedItem().toString()).getId());
+            retiro.setEstado(true);
+            ModelUsuario usuario = servicio.traerUsuarioXUsuario(LoginController.usuarioLoggeado);
+            retiro.setUsuarioId(usuario.getId());
+            retiro.setEmpresa(socio.getEmpresaCod());
+            retiro.setFr(LocalDate.now());
 
-        //guardamos aprende ramitos gaysito mariconsito
-        servicio.realizarRetiroAhorros(retiro);
+            //guardamos aprende ramitos gaysito mariconsito
+            servicio.realizarRetiroAhorros(retiro, 1);
 
-        alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("CORRECTO");
-        alert.setHeaderText("RETIRO EXITOSO");
-        alert.setContentText("RETIRO POR: " + txtMonto.getText() + " REALIZADO CORRECTAMENTE.");
-        alert.showAndWait();
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("CORRECTO");
+            alert.setHeaderText("RETIRO EXITOSO");
+            alert.setContentText("RETIRO POR: " + txtMonto.getText() + " REALIZADO CORRECTAMENTE.");
+            alert.showAndWait();
+        } else {
+            //Cuando sale en cheque directamente sacamos el reporte y ya solo se registra en RETIRO Y NO EN RETIRO_CAJERO
+            Stage loadingStage = new Stage();
+            loadingStage.initModality(Modality.APPLICATION_MODAL);
+            loadingStage.initStyle(StageStyle.UNDECORATED);
+            loadingStage.setAlwaysOnTop(true);
+
+            VBox loadingPane = new VBox(20);
+            loadingPane.setAlignment(Pos.CENTER);
+            loadingPane.setPadding(new Insets(30));
+            loadingPane.setStyle("-fx-background-color: white; -fx-border-color: #185754; -fx-border-width: 2;");
+
+            ProgressIndicator progressIndicator = new ProgressIndicator();
+            progressIndicator.setPrefSize(60, 60);
+
+            Label loadingLabel = new Label("Generando Retiro...");
+            loadingLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
+            loadingLabel.setTextFill(Color.web("#39577c"));
+
+            loadingPane.getChildren().addAll(progressIndicator, loadingLabel);
+
+            Scene loadingScene = new Scene(loadingPane, 300, 150);
+            loadingStage.setScene(loadingScene);
+            loadingStage.centerOnScreen();
+
+            String txtAhorrosVal = txtAhorros.getText().trim();
+            String txtRestanteVal = txtRestante.getText().trim();
+            String txtMontoVal = txtMonto.getText().trim();
+            LocalDateTime fecha = LocalDateTime.now();
+            String fechaTicket = fecha.format(formatter);
+            String montoanterior = txtAhorros.getText().trim();
+            String montoactual = txtRestante.getText().trim();
+            String montoretirado = txtMonto.getText().trim();
+
+
+            try {
+
+                Task<Void> task = new Task<>() {
+                    @Override
+                    protected Void call() {
+                        try {
+
+                            InputStream isLogo;
+
+                            LocalTime hora = fecha.toLocalTime();
+
+                            ModelAhorro ahororoactual = servicio.traerCuentaAhorroPorNumSocio(socio.getNumSocio());
+
+                            ModelEmpresa empresa = servicio.traerEmpresaXCodigo(socio.getEmpresaCod());
+
+                            String horaFormateada = hora.format(formatterHora);
+                            String nombreEmpresa = empresa.getNombre();
+                            String rfcEmpresa = empresa.getRfc();
+                            String direcEmpresa =
+                                    empresa.getCalle()
+                                            + " "
+                                            + empresa.getCruzamiento()
+                                            + " COL. CENTRO";
+
+                            String numcuenta = ahororoactual.getNum_cuenta();
+                            String nomsocio = socio.getNombres() + " " + socio.getApellidoP() + " " + socio.getApellidoM();
+
+                            //Construimos el retiro
+                            ModelRetiro retiro = new ModelRetiro();
+                            retiro.setSocio(socio.getNumSocio());
+                            retiro.setSaldoAnt(BigDecimal.valueOf(parseMoneda(txtAhorrosVal)));
+                            retiro.setSaldoNue(BigDecimal.valueOf(parseMoneda(txtRestanteVal)));
+                            retiro.setMontoRetiro(BigDecimal.valueOf(parseMoneda(txtMontoVal)));
+                            retiro.setForma(servicio.buscarFormaPorNombre(cmbForma.getSelectionModel().getSelectedItem().toString()).getId());
+                            retiro.setEstado(false);
+                            ModelUsuario usuario = servicio.traerUsuarioXUsuario(LoginController.usuarioLoggeado);
+                            retiro.setUsuarioId(usuario.getId());
+                            retiro.setEmpresa(socio.getEmpresaCod());
+                            retiro.setFr(LocalDate.now());
+
+
+
+
+                            int idTran = servicio.realizarRetiroAhorros(retiro, 2);
+
+                            String folio = String.valueOf(idTran);
+
+                            MoneyConverters converter = MoneyConverters.SPANISH_BANKING_MONEY_VALUE;
+                            String moneyAsWords =
+                                    converter.asWords(BigDecimal.valueOf(parseMoneda(txtMontoVal))).toUpperCase() + " MXN";
+
+                            if (empresa.equals("0001")) {
+                                isLogo = getClass().getResourceAsStream("/assets/images/logo-mut.png");
+                            } else {
+                                isLogo = getClass().getResourceAsStream("/assets/images/logo-ngu.jpg");
+                            }
+
+                            Map pars = new HashMap<>();
+                            pars.put("Empresa", nombreEmpresa);
+                            pars.put("Logo", isLogo);
+                            pars.put("Rfc", rfcEmpresa);
+                            pars.put("Direccion", direcEmpresa);
+                            pars.put("Titulo", "REPORTE DE RETIRO DE AHORROS");
+                            pars.put("Montoanterior", montoanterior);
+                            pars.put("Fecha", fechaTicket);
+                            pars.put("Id", folio);
+                            pars.put("Numsocio", String.valueOf(socio.getNumSocio()));
+                            pars.put("Nombresocio", nomsocio);
+                            pars.put("Numcuenta", numcuenta);
+                            pars.put("forma", "Cheque");
+                            pars.put("Montoretirado", montoretirado);
+                            pars.put("Montorestante", montoactual);
+                            pars.put("Montoletras", moneyAsWords);
+                            pars.put("Cajero", LoginController.usuarioLoggeado);
+                            pars.put("Hora", horaFormateada);
+
+                            if (empresa.equals("0001")) {
+                                pars.put(
+                                        "Descripcion",
+                                        "Recibí de la " + nombreEmpresa
+                                                + " la cantidad de " + montoretirado
+                                                + " (" + moneyAsWords + ") por concepto de RETIRO DE CUENTA DE AHORRO."
+                                );
+                            } else {
+                                pars.put(
+                                        "Descripcion",
+                                        "Recibí de " + nombreEmpresa
+                                                + " la cantidad de " + montoretirado
+                                                + " (" + moneyAsWords + ") por concepto de RETIRO DE CUENTA DE AHORRO."
+                                );
+                            }
+
+                            InputStream isRepo =
+                                    getClass().getResourceAsStream("/Reports/retiro.jasper");
+
+                            JasperReport jrRepo = (JasperReport) JRLoader.loadObject(isRepo);
+                            JasperPrint jpRepo =
+                                    JasperFillManager.fillReport(jrRepo, pars, new JREmptyDataSource());
+
+                            Platform.runLater(() -> {
+                                JasperViewer viewer = new JasperViewer(jpRepo, false);
+                                viewer.setAlwaysOnTop(true);
+                                viewer.setSize(800, 600);
+                                viewer.setLocationRelativeTo(null);
+                                viewer.setTitle("REPORTE DE RETIRO");
+                                viewer.setVisible(true);
+                            });
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Platform.runLater(() -> {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("ERROR");
+                                alert.setHeaderText("ERROR AL GENERAR EL REPORTE");
+                                alert.setContentText("OCURRIÓ UN ERROR: " + e.getMessage());
+                                alert.showAndWait();
+                            });
+                        }
+                        return null;
+                    }
+                };
+
+                task.setOnSucceeded(e -> loadingStage.close());
+                task.setOnFailed(e -> loadingStage.close());
+
+                loadingStage.show();
+                new Thread(task).start();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+
 
         limpiar();
 
