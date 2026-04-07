@@ -1,6 +1,7 @@
 package com.mutualidad.modulo_gerencia.Services;
 
 import com.mutualidad.modulo_gerencia.Controllers.LoginController;
+import com.mutualidad.modulo_gerencia.DTO.BeneficiarioDTO;
 import com.mutualidad.modulo_gerencia.DTO.DetalleUsuarioDTO;
 import com.mutualidad.modulo_gerencia.DTO.Interfaz.DetalleUsuarioProjection;
 import com.mutualidad.modulo_gerencia.DTO.Interfaz.ResumenCreditosProjection;
@@ -65,6 +66,10 @@ public class Servicio {
 
     @Autowired
     private FormaOperacionRepository repoForma;
+
+    @Autowired
+    private ParentescoRepository repoParentesco;
+
 
     @Autowired
     private TransaccionRepository repoTransaccion;
@@ -209,9 +214,7 @@ public class Servicio {
         return repoUsuario.traerEstados();
     }
 
-    public List<Object[]> traerBeneficiarios(int numSocio, int estado) {
-        return repoSocio.traerBeneficiarios(numSocio, estado);
-    }
+
 
     public void actualizarAjusteCaja(int cajaId, int ajuste) {
         Optional<ModelCaja> cajaNueva = repoCaja.findById(cajaId);
@@ -272,8 +275,8 @@ public class Servicio {
         return repoUsuario.traerEstadosC();
     }
 
-    public List<Object[]> traerParentescos() {
-        return repoSocio.traerParentescos();
+    public List<ModelParentesco> traerParentescos() {
+        return repoParentesco.findAll();
     }
 
     public List<Object[]> traerRoles() {
@@ -297,9 +300,6 @@ public class Servicio {
         return repoSocio.findByNumSocioAndStatus(numSocio, status);
     }
 
-    public int contarCreditos(int numSocio) {
-        return repoSocio.contarCreditos(numSocio);
-    }
 
     public List<Object[]> buscarSocioPorNombre(String nombreCompleto) {
         String[] palabras = nombreCompleto.trim().split("\\s+");
@@ -315,28 +315,7 @@ public class Servicio {
         return new ArrayList<>();
     }
 
-    public ResumenCreditosDTO traerResumenCreditos(int numSocio) {
-        ResumenCreditosProjection projection = repoSocio.traerResumenCreditos(numSocio);
-        return new ResumenCreditosDTO(
-                projection.getNum_creditos() != null ? projection.getNum_creditos() : 0,
-                projection.getSaldo_total() != null ? projection.getSaldo_total() : 0.0
-        );
-    }
 
-    public DetalleUsuarioDTO traerDetalleUsuario(String usuario) {
-        DetalleUsuarioProjection p = repoUsuario.traerDetalleUsuario(usuario);
-        if (p == null) return null;
-        return new DetalleUsuarioDTO(
-                p.getId(),
-                p.getUsuario(),
-                p.getEmpleado_id(),
-                p.getEmpleado_nombre(),
-                p.getRol_id(),
-                p.getRol(),
-                p.getPuesto(),
-                p.getActivo()
-        );
-    }
 
     public String traerTipoSocio(int numSocio) {
         return repoSocio.buscarTipoSocio(numSocio);
@@ -456,8 +435,6 @@ public class Servicio {
 
     }
 
-
-
     public Optional<ModelConfiguracion> traerConfiguraciones() {
         return repoConfiguracion.findById(1);
     }
@@ -486,6 +463,54 @@ public class Servicio {
 
     public List<ModelTransaccion> traerTransaccionesPorTipoOperacion(int socioId, boolean status, List<Integer> operacionIds) {
         return repoTransaccion.findBySocioIdAndStatusAndOperacionIdIn(socioId, status, operacionIds);
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // NUEVOS MÉTODOS USANDO DTO YA FUNCIONALES
+    public ResumenCreditosDTO traerResumenCreditos(int numSocio) {
+        ResumenCreditosProjection projection = repoSocio.traerResumenCreditos(numSocio);
+        return new ResumenCreditosDTO(
+                projection.getNum_creditos() != null ? projection.getNum_creditos() : 0,
+                projection.getSaldo_total() != null ? projection.getSaldo_total() : 0.0
+        );
+    }
+
+    public DetalleUsuarioDTO traerDetalleUsuario(String usuario) {
+        DetalleUsuarioProjection p = repoUsuario.traerDetalleUsuario(usuario);
+        if (p == null) return null;
+        return new DetalleUsuarioDTO(
+                p.getId(),
+                p.getUsuario(),
+                p.getEmpleado_id(),
+                p.getEmpleado_nombre(),
+                p.getRol_id(),
+                p.getRol(),
+                p.getPuesto(),
+                p.getActivo()
+        );
+    }
+
+    public List<BeneficiarioDTO> traerBeneficiarios(int numSocio, int estado) {
+        return repoSocio.traerBeneficiarios(numSocio, estado)
+                .stream()
+                .map(p -> new BeneficiarioDTO(
+                        p.getId(),
+                        p.getBeneficiario(),
+                        p.getSocio(),
+                        p.getParentesco(),
+                        p.getTitular(),
+                        p.getPorcentaje()
+                ))
+                .toList();
     }
 
 

@@ -1,5 +1,6 @@
 package com.mutualidad.modulo_gerencia.Repository;
 
+import com.mutualidad.modulo_gerencia.DTO.Interfaz.BeneficiarioProjection;
 import com.mutualidad.modulo_gerencia.DTO.Interfaz.ResumenCreditosProjection;
 import com.mutualidad.modulo_gerencia.Models.ModelSocio;
 import com.mutualidad.modulo_gerencia.Models.ModelUsuario;
@@ -143,11 +144,6 @@ public interface SocioRepository extends JpaRepository<ModelSocio, Integer> {
             "WHERE S.NUM_SOCIO = :numSocio", nativeQuery = true)
     String buscarTipoSocio(@Param("numSocio") int numSocio);
 
-    @Query(value = "SELECT COUNT (*) FROM CAT_CREDITOS WHERE STATUS = 2 AND SOCIO = :numSocio", nativeQuery = true)
-    int contarCreditos(@Param("numSocio") int numSocio);
-
-    @Query(value = "SELECT * FROM CAT_PARENTESCO", nativeQuery = true)
-    List<Object[]> traerParentescos();
 
     @Query(value = """
     SELECT 
@@ -177,8 +173,7 @@ public interface SocioRepository extends JpaRepository<ModelSocio, Integer> {
     @Query(value = "SELECT B.ID, B.BENEFICIARIO, B.SOCIO, P.PARENTESCO, B.TITULAR, B.PORCENTAJE FROM BENEFICIARIOS B " +
             "INNER JOIN CAT_PARENTESCO P ON P.ID = B.PARENTESCO " +
             "WHERE SOCIO = :numSocio AND ESTADO = :estado", nativeQuery = true)
-    List<Object[]> traerBeneficiarios(@Param("numSocio") int numSocio, @Param("estado") int estado);
-
+    List<BeneficiarioProjection> traerBeneficiarios(@Param("numSocio") int numSocio, @Param("estado") int estado);
 
 
 

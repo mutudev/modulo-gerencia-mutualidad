@@ -1,6 +1,8 @@
 package com.mutualidad.modulo_gerencia.Controllers;
 
+import com.mutualidad.modulo_gerencia.DTO.BeneficiarioDTO;
 import com.mutualidad.modulo_gerencia.Main;
+import com.mutualidad.modulo_gerencia.Models.ModelParentesco;
 import com.mutualidad.modulo_gerencia.Models.ModelSocio;
 import com.mutualidad.modulo_gerencia.Services.Servicio;
 import javafx.beans.property.SimpleStringProperty;
@@ -85,10 +87,7 @@ public class BeneficiarioController implements Initializable {
                     return change;
                 }));
 
-
-
         tblBeneficiarios.setEditable(true);
-
 
         colNombre.setCellValueFactory(
                 data -> new SimpleStringProperty(data.getValue().get("nombre"))
@@ -186,51 +185,35 @@ public class BeneficiarioController implements Initializable {
         );
 
 
-        List<Object[]> parentescos = servicio.traerParentescos();
+        List<ModelParentesco> parentescos = servicio.traerParentescos();
         cmbParentesco.getItems().clear();
-
-        for (Object[] fila : parentescos) {
-            String parentesco = fila[1].toString();
-            cmbParentesco.getItems().add(parentesco);
+        for (ModelParentesco p : parentescos) {
+            cmbParentesco.getItems().add(p.getParentesco());
         }
+        cmbParentesco.getSelectionModel().selectFirst();
 
         cmbPorcentaje.getItems().clear();
-
         cmbPorcentaje.getItems().add("100%");
         cmbPorcentaje.getItems().add("50%");
         cmbPorcentaje.getItems().add("35%");
         cmbPorcentaje.getItems().add("30%");
-
         cmbPorcentaje.getSelectionModel().selectFirst();
     }
 
     public void cargarDatosSocio(int numSocio) {
 
-        List<Object[]> beneficiarios = servicio.traerBeneficiarios(numSocio, 1);
-
-
+        List<BeneficiarioDTO> beneficiarios = servicio.traerBeneficiarios(numSocio, 1);
         tblBeneficiarios.getItems().clear();
 
         if (beneficiarios != null && !beneficiarios.isEmpty()) {
 
-            for (Object[] b : beneficiarios) {
-
+            for (BeneficiarioDTO b : beneficiarios) {
                 Map<String, String> fila = new HashMap<>();
-
-                fila.put("nombre", b[1].toString());
-
-
-                fila.put("parentesco", b[3].toString());
-
-
-                boolean titular = Boolean.parseBoolean(b[4].toString());
-                fila.put("titular", titular ? "SÍ" : "NO");
-
-                int porcentaje = Integer.parseInt(b[5].toString());
-                fila.put("porcentaje", porcentaje + "%");
-
-                fila.put("id_benef", b[0].toString());
-
+                fila.put("id_benef", String.valueOf(b.getId()));
+                fila.put("nombre", b.getBeneficiario());
+                fila.put("parentesco", b.getParentesco());
+                fila.put("titular", Boolean.TRUE.equals(b.getTitular()) ? "SÍ" : "NO");
+                fila.put("porcentaje", b.getPorcentaje() + "%");
                 tblBeneficiarios.getItems().add(fila);
             }
 
@@ -294,7 +277,6 @@ public class BeneficiarioController implements Initializable {
         lblBeneficiario.setVisible(false);
         lblParentesco.setVisible(false);
         txtNumero.setEditable(true);
-
         txtNumero.clear();
         cmbPorcentaje.setVisible(false);
         tblBeneficiarios.getItems().clear();
@@ -314,14 +296,11 @@ public class BeneficiarioController implements Initializable {
             return;
         }
 
-
         double sumaActual = 0;
         for (Map<String, String> item : tblBeneficiarios.getItems()) {
             String valor = item.get("porcentaje").replace("%", "").trim();
             sumaActual += Double.parseDouble(valor);
         }
-
-
 
         int nuevoPorcentaje = Integer.parseInt(cmbPorcentaje.getSelectionModel().getSelectedItem().toString().replace("%", "").trim());
 
