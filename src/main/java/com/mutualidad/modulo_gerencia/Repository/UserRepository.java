@@ -113,12 +113,26 @@ public interface UserRepository extends JpaRepository<ModelUsuario, Integer> {
           @Param("rangoFecha2") String rangoFecha2
   );
 
+
+
+  @Query(value = "SELECT * FROM VW_VERIFICAR_APERTURAS " +
+          "WHERE USUARIO IN (:listaIds) " +
+          "AND FR BETWEEN :rangoFecha1 AND :rangoFecha2 " +
+          "AND (:turno IS NULL OR TURNO_FORMATEADO = :turno)",
+          nativeQuery = true)
+  List<Object[]> traerCajas(
+          @Param("listaIds") List<String> listaIds,
+          @Param("rangoFecha1") String rangoFecha1,
+          @Param("rangoFecha2") String rangoFecha2,
+          @Param("turno") String turno
+  );
+
   @Query(value = "SELECT U.ID AS idUsuario, " +
           "U.USUARIO AS usuario_nom, " +
           "(E.NOMBRES + ' ' + E.APELLIDO_P + ' ' + E.APELLIDO_M) AS nombre_completo " +
           "FROM USUARIO U " +
           "INNER JOIN EMPLEADO E ON E.ID = U.EMP_ID " +
-          "WHERE U.USUARIO LIKE %:nombreUsuario%",
+          "WHERE U.USUARIO LIKE %:nombreUsuario% AND U.STATUS = 1",
           nativeQuery = true)
   List<Object[]> traerDetalleUsuarios(@Param("nombreUsuario") String nombreUsuario);
 
@@ -144,9 +158,14 @@ public interface UserRepository extends JpaRepository<ModelUsuario, Integer> {
     SELECT U.ID, U.USUARIO,
            E.ID AS EMPLEADO_ID,
            (E.NOMBRES + ' ' + E.APELLIDO_P + ' ' + E.APELLIDO_M) AS EMPLEADO_NOMBRE,
+           E.NOMBRES AS empleadoSoloNombre,
+           E.APELLIDO_P AS APELLIDOPATERNO,
+           E.APELLIDO_M AS APELLIDOMATERNO,
+           E.TELEFONO AS TELEFONO,
            R.ID AS ROL_ID, R.ROL,
            P.DESCRIPCION AS PUESTO,
-           U.STATUS AS ACTIVO
+           U.STATUS AS ACTIVO,
+           E.F_NACIMIENTO AS FECHANACIMIENTO
     FROM USUARIO U
     INNER JOIN EMPLEADO E ON E.ID = U.EMP_ID
     INNER JOIN ROL R ON R.ID = U.ROL_ID
@@ -154,6 +173,26 @@ public interface UserRepository extends JpaRepository<ModelUsuario, Integer> {
     WHERE U.USUARIO = :usuario
     """, nativeQuery = true)
   DetalleUsuarioProjection traerDetalleUsuario(@Param("usuario") String usuario);
+
+  @Query(value = """
+    SELECT U.ID, U.USUARIO,
+           E.ID AS EMPLEADO_ID,
+           (E.NOMBRES + ' ' + E.APELLIDO_P + ' ' + E.APELLIDO_M) AS EMPLEADO_NOMBRE,
+           E.NOMBRES AS empleadoSoloNombre,
+           E.APELLIDO_P AS APELLIDOPATERNO,
+           E.APELLIDO_M AS APELLIDOMATERNO,
+           E.TELEFONO AS TELEFONO,
+           R.ID AS ROL_ID, R.ROL,
+           P.DESCRIPCION AS PUESTO,
+           U.STATUS AS ACTIVO,
+           E.F_NACIMIENTO AS FECHANACIMIENTO
+    FROM USUARIO U
+    INNER JOIN EMPLEADO E ON E.ID = U.EMP_ID
+    INNER JOIN ROL R ON R.ID = U.ROL_ID
+    INNER JOIN PUESTO P ON P.ID = E.PUESTO_ID
+    WHERE U.ID = :usuarioId
+    """, nativeQuery = true)
+  DetalleUsuarioProjection traerDetalleUsuarioConId(@Param("usuarioId") int usuarioId);
 
 
 }

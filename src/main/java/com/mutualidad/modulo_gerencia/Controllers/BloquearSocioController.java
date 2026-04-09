@@ -1,5 +1,6 @@
 package com.mutualidad.modulo_gerencia.Controllers;
 
+import com.mutualidad.modulo_gerencia.DTO.ResumenCreditosDTO;
 import com.mutualidad.modulo_gerencia.Main;
 import com.mutualidad.modulo_gerencia.Models.ModelAhorro;
 import com.mutualidad.modulo_gerencia.Models.ModelCapitalSocial;
@@ -63,7 +64,6 @@ public class BloquearSocioController {
 
         ModelSocio socio = servicio.traerSocioPorNumeroYEstado(Integer.parseInt(txtNumero.getText()), true);
 
-
         if (socio == null) {
             socio = servicio.traerSocioPorNumeroYEstado(Integer.parseInt(txtNumero.getText()), false);
             ModelAhorro cuentaAhorroComprobar = servicio.traerCuentaAhorroPorNumSocio(socio.getNumSocio());
@@ -81,39 +81,13 @@ public class BloquearSocioController {
         }
 
         ModelAhorro cuentaAhorro = servicio.traerCuentaAhorroPorNumSocio(socio.getNumSocio());
-        List<ModelCredito> creditos = servicio.encontrarTodosLosCreditosPorSocio(socio.getNumSocio());
-
         txtNombre.setText(socio.getNombres() + " " + socio.getApellidoP() + " " + socio.getApellidoM());
         txtTipo.setText(servicio.traerTipoSocio(socio.getNumSocio()));
-
-        List<ModelCapitalSocial> cs = servicio.traerCuentasCs(socio.getNumSocio());
-        double montoCs = 0;
-
-        if (cs != null) {
-            for (ModelCapitalSocial cuenta : cs) {
-                montoCs += cuenta.getMonto_cubierto();
-            }
-        }
-
+        double montoCs = servicio.sumarCapitalSocial(socio.getNumSocio());
         txtCuentaAhorro.setText(formatoMXN.format(cuentaAhorro.getSaldo() + montoCs));
-
-
-        txtCreditosVig.setText(String.valueOf(creditos.size()));
-
-        double acumulador = 0;
-
-        for (ModelCredito credito : creditos) {
-
-            String saldo = servicio.traerCuotaParaSaldo(credito.getId());
-
-            if (saldo != null && !saldo.isEmpty()) {
-                acumulador += Double.parseDouble(saldo);
-            } else {
-                acumulador += credito.getMonto();
-            }
-        }
-
-        txtSaldoCre.setText(formatoMXN.format(acumulador));
+        ResumenCreditosDTO resumen = servicio.traerResumenCreditos(socio.getNumSocio());
+        txtCreditosVig.setText(String.valueOf(resumen.getNumCreditos()));
+        txtSaldoCre.setText(formatoMXN.format(resumen.getSaldoTotal()));
 
         btnBloquear.setVisible(true);
         txtSaldoCre.setVisible(true);
@@ -132,7 +106,7 @@ public class BloquearSocioController {
         lblSaldoCre.setVisible(true);
         btnBuscar.setDisable(true);
 
-        if (creditos.size() != 0) {
+        if (resumen != null) {
             lblNota.setVisible(true);
         }
 

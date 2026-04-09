@@ -1,6 +1,8 @@
 package com.mutualidad.modulo_gerencia.Controllers;
 
-import com.mutualidad.modulo_gerencia.Models.*;
+import com.mutualidad.modulo_gerencia.Models.ModelEmpleado;
+import com.mutualidad.modulo_gerencia.Models.ModelEmpresa;
+import com.mutualidad.modulo_gerencia.Models.ModelUsuario;
 import com.mutualidad.modulo_gerencia.Services.Servicio;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.application.Platform;
@@ -41,45 +43,31 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Component
-public class OperacionesCajeroController implements Initializable {
-
-    @FXML
-    private TextField txtBuscarTabla;
-
-    @FXML
-    private DatePicker dateInicio, dateFin;
-
-    @FXML
-    private ComboBox cmbEmpresa;
-
-    @FXML
-    private Label lblDesSelecTodos, lblSelecTodos;
-
-    @FXML
-    private TableView<ModelUsuario> tblCajeros;
-
-    @FXML
-    private TableColumn<ModelUsuario, String> colUsuario;
-
-    @FXML
-    private TableColumn<ModelUsuario, String> colNombre;
-
-    @FXML
-    private TableColumn<ModelUsuario, Boolean> colSeleccionar;
-
-    @Autowired
-    public Servicio servicio;
-
-    private boolean todosSeleccionados = false;
-
+public class SaldosCajeroController implements Initializable {
 
     private final Map<ModelUsuario, Boolean> estados = new HashMap<>();
-
-    private ObservableList<ModelUsuario> listaOriginal = FXCollections.observableArrayList();
-
+    @Autowired
+    public Servicio servicio;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
     Dotenv dotenv = Dotenv.load();
+    @FXML
+    private TextField txtBuscarTabla;
+    @FXML
+    private DatePicker dateInicio, dateFin;
+    @FXML
+    private ComboBox cmbEmpresa, cmbTurno;
+    @FXML
+    private Label lblDesSelecTodos, lblSelecTodos;
+    @FXML
+    private TableView<ModelUsuario> tblCajeros;
+    @FXML
+    private TableColumn<ModelUsuario, String> colUsuario;
+    @FXML
+    private TableColumn<ModelUsuario, String> colNombre;
+    @FXML
+    private TableColumn<ModelUsuario, Boolean> colSeleccionar;
+    private boolean todosSeleccionados = false;
+    private ObservableList<ModelUsuario> listaOriginal = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -91,8 +79,11 @@ public class OperacionesCajeroController implements Initializable {
         for (ModelEmpresa empresa : empresas) {
             cmbEmpresa.getItems().add(empresa.getNombre());
         }
-        cmbEmpresa.getItems().add("AMBAS");
         cmbEmpresa.getSelectionModel().selectFirst();
+
+
+        cmbTurno.getItems().addAll("MATUTINO", "VESPERTINO", "AMBOS");
+        cmbTurno.getSelectionModel().selectFirst();
 
         txtBuscarTabla.setTextFormatter(
                 new TextFormatter<>(
@@ -136,9 +127,7 @@ public class OperacionesCajeroController implements Initializable {
         colSeleccionar.setEditable(true);
 
         lblSelecTodos.setVisible(true);
-
         cargarDatosTabla();
-
     }
 
     @FXML
@@ -191,6 +180,7 @@ public class OperacionesCajeroController implements Initializable {
         tblCajeros.setItems(filtrados);
     }
 
+
     @FXML
     public void generarReporte() {
         Stage loadingStage = new Stage();
@@ -218,26 +208,22 @@ public class OperacionesCajeroController implements Initializable {
 
         List<String> usuariosSeleccionados = new ArrayList<>();
 
-        List<Integer> listaIds = new ArrayList<>();
+        List<String> listaIds = new ArrayList<>();
 
         for (ModelUsuario usuario : tblCajeros.getItems()) {
             if (estados.getOrDefault(usuario, false)) {
                 usuariosSeleccionados.add(usuario.getUsuario());
-                listaIds.add(usuario.getId());
+                listaIds.add(usuario.getUsuario());
             }
         }
-
-        List<Object[]> datosTransacciones = servicio.traerTransaccionesComprobar(listaIds, dateInicio.getValue().toString(), dateFin.getValue().toString());
-
-
-        if (usuariosSeleccionados.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setHeaderText("ERROR AL GENERAR EL REPORTE");
-            alert.setContentText("POR FAVOR SELECCIONE AL MENOS UN USUARIO");
-            alert.showAndWait();
-            return;
+        String turno = cmbTurno.getSelectionModel().getSelectedItem().toString();
+        if (turno.equalsIgnoreCase("AMBOS")) {
+            turno = null;
         }
+
+
+        List<Object[]> datosCajas = servicio.traerCajasComprobar(listaIds, formatter.format(dateInicio.getValue()).toString(),
+                formatter.format(dateFin.getValue()).toString(), turno);
 
         if (dateInicio.getValue().isAfter(dateFin.getValue()) || dateFin.getValue().isBefore(dateInicio.getValue())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -248,8 +234,16 @@ public class OperacionesCajeroController implements Initializable {
             return;
         }
 
+        if (usuariosSeleccionados.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("ERROR AL GENERAR EL REPORTE");
+            alert.setContentText("POR FAVOR SELECCIONE AL MENOS UN USUARIO");
+            alert.showAndWait();
+            return;
+        }
 
-        if (datosTransacciones.size() < 1) {
+        if (datosCajas.size() < 1) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText("ERROR AL GENERAR EL REPORTE");
@@ -267,59 +261,52 @@ public class OperacionesCajeroController implements Initializable {
                         InputStream logoNgu = null;
 
                         String empresa = "";
-                        String codEmpresa="";
-                        if (cmbEmpresa.getSelectionModel().getSelectedItem().toString().equalsIgnoreCase("AMBAS")) {
-                            empresa = cmbEmpresa.getItems().get(0).toString() + " Y " + cmbEmpresa.getItems().get(1).toString();
-                            codEmpresa = null;
-                            logoNgu = getClass().getResourceAsStream("/assets/images/logo-ngu.jpg");
+                        String codEmpresa = "";
+
+                        empresa = cmbEmpresa.getSelectionModel().getSelectedItem().toString();
+                        codEmpresa = servicio.traerEmpresaPorNombre(cmbEmpresa.getSelectionModel().getSelectedItem().toString()).getCodigo();
+                        if (codEmpresa.equalsIgnoreCase("0001")) {
                             logoMut = getClass().getResourceAsStream("/assets/images/logo-mut.png");
                         } else {
-                            empresa = cmbEmpresa.getSelectionModel().getSelectedItem().toString();
-                            codEmpresa = servicio.traerEmpresaPorNombre(cmbEmpresa.getSelectionModel().getSelectedItem().toString()).getCodigo();
-                            if (codEmpresa.equalsIgnoreCase("0001")) {
-                                logoMut = getClass().getResourceAsStream("/assets/images/logo-mut.png");
-                            } else {
-                                logoNgu = getClass().getResourceAsStream("/assets/images/logo-ngu.jpg");
-                            }
+                            logoNgu = getClass().getResourceAsStream("/assets/images/logo-ngu.jpg");
                         }
 
-                        String fechaImp = LocalDate.now().format(formatter);
 
+                        String turno = cmbTurno.getSelectionModel().getSelectedItem().toString();
 
+                        if (turno.equalsIgnoreCase("AMBOS")) {
+                            turno = null;
+                        }
 
-                        String cajero = String.join(", ", usuariosSeleccionados) + ".";
-
-
+                        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                        LocalDateTime ahora = LocalDateTime.now();
+                        String fechaFormateada = ahora.format(formatter1);
                         String fecha1 = dateInicio.getValue().format(formatter).toString();
                         String fecha2 = dateFin.getValue().format(formatter).toString();
-
-
-
                         Map params = new HashMap<>();
-
                         params.put("empresa", empresa);
-
-                        params.put("usuario", usuariosSeleccionados);
+                        params.put("cajero", usuariosSeleccionados);
+                        params.put("fechaGenerado", fechaFormateada);
+                        params.put("usuarioGenera", "GENERA: " + LoginController.usuarioLoggeado);
                         params.put("empresaCod", codEmpresa);
+                        params.put("turnoLabel", (turno == null ? "AMBOS TURNOS" : turno));
+                        params.put("turno", turno);
                         params.put("fechaImp", "Rango de Fechas: " + fecha1 + " - " + fecha2);
-                        params.put("cajero", "CAJERO(S): " + cajero);
                         params.put("rangoFecha1", fecha1);
                         params.put("rangoFecha2", fecha2);
-                        if (cmbEmpresa.getSelectionModel().getSelectedItem().toString().equalsIgnoreCase("AMBAS")) {
-                            params.put("imgMut", logoMut);
-                            params.put("imgNgu", logoNgu);
+
+                        if (codEmpresa.equalsIgnoreCase("0001")) {
+                            params.put("imgEmpresa", logoMut);
                         } else {
-                            if (codEmpresa.equalsIgnoreCase("0001")) {
-                                params.put("imgMut", logoMut);
-                            } else {
-                                params.put("imgMut", logoNgu);
-                            }
+                            params.put("imgEmpresa", logoNgu);
                         }
+
+
                         params.put("SUBREPORT_DIR",
-                                getClass().getResource("/Reports/sub_operaciones.jasper").toString());
+                                getClass().getResource("/Reports/sub_saldos_cajero.jasper").toString());
 
 
-                        InputStream isRepo = getClass().getResourceAsStream("/Reports/operaciones_cajero.jasper");
+                        InputStream isRepo = getClass().getResourceAsStream("/Reports/saldos_cajero.jasper");
                         JasperReport jrRepo = (JasperReport) JRLoader.loadObject(isRepo);
                         Connection conn = DriverManager.getConnection(dotenv.get("DATABASE_URL"), dotenv.get("DATABASE_USERNAME"), dotenv.get("DATABASE_PASSWORD"));
                         JasperPrint jpRepo = JasperFillManager.fillReport(jrRepo, params, conn);
@@ -330,7 +317,7 @@ public class OperacionesCajeroController implements Initializable {
                             viewer.setAlwaysOnTop(true);
                             viewer.setSize(800, 600);
                             viewer.setLocationRelativeTo(null);
-                            viewer.setTitle("OPERACIONES POR CAJERO");
+                            viewer.setTitle("SALDOS POR CAJERO");
                             viewer.setVisible(true);
                         });
 
@@ -358,6 +345,5 @@ public class OperacionesCajeroController implements Initializable {
             e.printStackTrace();
         }
     }
-
 
 }

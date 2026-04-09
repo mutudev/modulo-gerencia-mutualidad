@@ -53,31 +53,31 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtNombre" layoutX="127.0" layoutY="146.0" prefHeight="39.0" prefWidth="781.0" visible="false" />
+      <TextField fx:id="txtNombre" editable="false" layoutX="127.0" layoutY="146.0" prefHeight="39.0" prefWidth="781.0" visible="false" />
       <Label fx:id="lblEmpresa" layoutX="40.0" layoutY="201.0" text="Empresa:" visible="false">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtEmpresa" layoutX="127.0" layoutY="195.0" prefHeight="39.0" prefWidth="781.0" visible="false" />
+      <TextField fx:id="txtEmpresa" editable="false" layoutX="127.0" layoutY="195.0" prefHeight="39.0" prefWidth="781.0" visible="false" />
       <Label fx:id="lblAhorros" layoutX="43.0" layoutY="257.0" text="Ahorros:" visible="false">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtAhorros" layoutX="127.0" layoutY="251.0" prefHeight="39.0" prefWidth="210.0" visible="false" />
+      <TextField fx:id="txtAhorros" editable="false" layoutX="127.0" layoutY="251.0" prefHeight="39.0" prefWidth="210.0" visible="false" />
       <Label fx:id="lblPSNgu" layoutX="349.0" layoutY="257.0" text="Parte Social (NGU):" visible="false">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtPSNgu" layoutX="517.0" layoutY="251.0" prefHeight="39.0" prefWidth="109.0" visible="false" />
+      <TextField fx:id="txtPSNgu" editable="false" layoutX="517.0" layoutY="251.0" prefHeight="39.0" prefWidth="109.0" visible="false" />
       <Label fx:id="lblPSMut" layoutX="632.0" layoutY="257.0" text="Parte Social (MUT):" visible="false">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtPSMut" layoutX="800.0" layoutY="251.0" prefHeight="39.0" prefWidth="109.0" visible="false" />
+      <TextField fx:id="txtPSMut" editable="false" layoutX="800.0" layoutY="251.0" prefHeight="39.0" prefWidth="109.0" visible="false" />
       <Label fx:id="lblMonto" layoutX="44.0" layoutY="378.0" text="Monto a Retirar:" visible="false">
          <font>
             <Font name="System Bold" size="18.0" />

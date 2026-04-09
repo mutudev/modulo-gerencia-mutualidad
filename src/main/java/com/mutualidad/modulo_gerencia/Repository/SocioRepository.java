@@ -168,8 +168,6 @@ public interface SocioRepository extends JpaRepository<ModelSocio, Integer> {
     @Query(value = "SELECT * FROM TIPO_SOCIO", nativeQuery = true)
     List<Object[]> traerTiposSocios();
 
-
-
     @Query(value = "SELECT B.ID, B.BENEFICIARIO, B.SOCIO, P.PARENTESCO, B.TITULAR, B.PORCENTAJE FROM BENEFICIARIOS B " +
             "INNER JOIN CAT_PARENTESCO P ON P.ID = B.PARENTESCO " +
             "WHERE SOCIO = :numSocio AND ESTADO = :estado", nativeQuery = true)

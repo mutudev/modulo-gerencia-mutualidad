@@ -1,5 +1,9 @@
 package com.mutualidad.modulo_gerencia.Controllers;
 
+import com.mutualidad.modulo_gerencia.Models.ModelEstado;
+import com.mutualidad.modulo_gerencia.Models.ModelEstadoCivil;
+import com.mutualidad.modulo_gerencia.Models.ModelMunicipio;
+import com.mutualidad.modulo_gerencia.Models.ModelTrabajo;
 import com.mutualidad.modulo_gerencia.Services.Servicio;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,6 +37,10 @@ public class InscripcionController implements Initializable {
 
     @Autowired
     private Servicio servicio;
+
+    int yucatan = 0;
+    String yuc = "";
+    String uman = "";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -117,55 +125,53 @@ public class InscripcionController implements Initializable {
                             change.setText(change.getText().replaceAll("[^0-9]", ""));
                             return change;
                         }));
+        List<ModelEstado> estados = servicio.traerEstados();
+        yucatan = 0;
 
-        List<Object[]> estados = servicio.traerEstados();
-
-
-        dteNacimiento.setValue(LocalDate.now());
-
-        cmbEstado.getItems().clear();
-        for (Object[] fila : estados) {
-            String nombreEstado = fila[1].toString();
-            cmbEstado.getItems().add(nombreEstado);
+        for (ModelEstado fila : estados) {
+            cmbEstado.getItems().add(fila.getEstado());
+            if (fila.getEstado().equalsIgnoreCase("Yucatán")) {
+                yucatan = fila.getId();
+                yuc =fila.getEstado();
+            }
         }
         if (!estados.isEmpty()) {
-            cmbEstado.getSelectionModel().select(30);
+            cmbEstado.getSelectionModel().select(yuc);
         }
+        dteNacimiento.setValue(LocalDate.now());
 
-        List<Object[]> municipios = servicio.traeMunicipios(cmbEstado.getSelectionModel().getSelectedIndex() + 1);
 
+
+        List<ModelMunicipio> municipios = servicio.traeMunicipios(yucatan);
         cmbMunicipio.getItems().clear();
-        for (Object[] fila : municipios) {
-            String nombreMunicipio = fila[1].toString();
-            cmbMunicipio.getItems().add(nombreMunicipio);
+        for (ModelMunicipio fila : municipios) {
+            cmbMunicipio.getItems().add(fila.getMunicipio());
+            if (fila.getMunicipio().equalsIgnoreCase("Umán")) {
+                uman = fila.getMunicipio();
+            }
         }
         if (!municipios.isEmpty()) {
-            cmbMunicipio.getSelectionModel().select(100);
+            cmbMunicipio.getSelectionModel().select(uman);
         }
 
 
-        List<Object[]> empleos = servicio.traerEmpleos();
-
+        List<ModelTrabajo> empleos = servicio.traerEmpleos();
         cmbEmpleo.getItems().clear();
-        for (Object[] fila : empleos) {
-            String nombreEmpleos = fila[1].toString();
-            cmbEmpleo.getItems().add(nombreEmpleos);
+        for (ModelTrabajo fila : empleos) {
+            cmbEmpleo.getItems().add(fila.getTrabajo());
         }
         if (!empleos.isEmpty()) {
             cmbEmpleo.getSelectionModel().selectFirst();
         }
 
-        List<Object[]> estadosC = servicio.traerEstadosC();
-
+        List<ModelEstadoCivil> estadosC = servicio.traerEstadosC();
         cmbEstadoCivil.getItems().clear();
-        for (Object[] fila : estadosC) {
-            String nombreEstadosC = fila[1].toString();
-            cmbEstadoCivil.getItems().add(nombreEstadosC);
+        for (ModelEstadoCivil fila : estadosC) {
+            cmbEstadoCivil.getItems().add(fila.getEstadoCivil());
         }
         if (!estadosC.isEmpty()) {
             cmbEstadoCivil.getSelectionModel().selectFirst();
         }
-
         cmbGenero.getItems().clear();
         cmbGenero.getItems().add("MASCULINO");
         cmbGenero.getItems().add("FEMENINO");
@@ -177,19 +183,18 @@ public class InscripcionController implements Initializable {
 
     @FXML
     public void cambiarMunicipios() {
-        int idEstado = cmbEstado.getSelectionModel().getSelectedIndex() + 1;
 
-
-        List<Object[]> municipios = servicio.traeMunicipios(idEstado);
-
+        String nomEstado = cmbEstado.getSelectionModel().getSelectedItem().toString();
+        int idEstado =servicio.traerIdEstadoConEstado(nomEstado);
+        List<ModelMunicipio> municipios = servicio.traeMunicipios(idEstado);
         cmbMunicipio.getItems().clear();
-        for (Object[] fila : municipios) {
-            String nombreMunicipio = fila[1].toString();
-            cmbMunicipio.getItems().add(nombreMunicipio);
+        for (ModelMunicipio fila : municipios) {
+            cmbMunicipio.getItems().add(fila.getMunicipio());
         }
         if (!municipios.isEmpty()) {
             cmbMunicipio.getSelectionModel().selectFirst();
         }
+
 
     }
 
@@ -208,46 +213,10 @@ public class InscripcionController implements Initializable {
         dteNacimiento.setValue(null);
 
         /* VOLVER A CARGAR COMBOS IGUAL QUE EN INITIALIZE */
+        cmbEstado.getSelectionModel().select(yuc);
+        cmbMunicipio.getSelectionModel().select(uman);
+        cmbEstadoCivil.getSelectionModel().selectFirst();
 
-        List<Object[]> estados = servicio.traerEstados();
-
-        cmbEstado.getItems().clear();
-        for (Object[] fila : estados) {
-            cmbEstado.getItems().add(fila[1].toString());
-        }
-        if (!estados.isEmpty()) {
-            cmbEstado.getSelectionModel().select(30);
-        }
-
-        List<Object[]> municipios = servicio.traeMunicipios(cmbEstado.getSelectionModel().getSelectedIndex() + 1);
-
-        cmbMunicipio.getItems().clear();
-        for (Object[] fila : municipios) {
-            cmbMunicipio.getItems().add(fila[1].toString());
-        }
-        if (!municipios.isEmpty()) {
-            cmbMunicipio.getSelectionModel().select(100);
-        }
-
-        List<Object[]> empleos = servicio.traerEmpleos();
-
-        cmbEmpleo.getItems().clear();
-        for (Object[] fila : empleos) {
-            cmbEmpleo.getItems().add(fila[1].toString());
-        }
-        if (!empleos.isEmpty()) {
-            cmbEmpleo.getSelectionModel().selectFirst();
-        }
-
-        List<Object[]> estadosC = servicio.traerEstadosC();
-
-        cmbEstadoCivil.getItems().clear();
-        for (Object[] fila : estadosC) {
-            cmbEstadoCivil.getItems().add(fila[1].toString());
-        }
-        if (!estadosC.isEmpty()) {
-            cmbEstadoCivil.getSelectionModel().selectFirst();
-        }
     }
 
     @FXML
@@ -259,10 +228,11 @@ public class InscripcionController implements Initializable {
         LocalDate fNacimiento = dteNacimiento.getValue();
         String curp = txtCURP.getText().trim();
         String rfc = txtRFC.getText().trim();
-        int idEstado = cmbEstado.getSelectionModel().getSelectedIndex() + 1;
-        int idMunicipio = cmbMunicipio.getSelectionModel().getSelectedIndex() + 1;
-        int idEmpleo = cmbEmpleo.getSelectionModel().getSelectedIndex() + 1;
-        int idEstadoCivil = cmbEstadoCivil.getSelectionModel().getSelectedIndex() + 1;
+        int idEstado = servicio.traerIdEstadoConEstado(cmbEstado.getSelectionModel().getSelectedItem().toString());
+        int idMunicipio = servicio.traerIdMunicipioConMunicipio(cmbMunicipio.getSelectionModel().getSelectedItem().toString());
+        int idEmpleo = servicio.traerIdConEmpleos(cmbEmpleo.getSelectionModel().getSelectedItem().toString());
+        int idEstadoCivil = servicio.traerIdConEstadosCivil(cmbEstadoCivil.getSelectionModel().getSelectedItem().toString());
+
         String direccion = txtDireccion.getText().trim();
         String telefono = txtTelefono.getText().trim();
 
@@ -347,7 +317,7 @@ public class InscripcionController implements Initializable {
             alert.showAndWait();
         }
 
-
+        limpiar();
 
     }
 

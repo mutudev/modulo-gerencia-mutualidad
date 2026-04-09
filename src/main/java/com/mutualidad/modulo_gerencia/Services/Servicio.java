@@ -8,8 +8,6 @@ import com.mutualidad.modulo_gerencia.DTO.Interfaz.ResumenCreditosProjection;
 import com.mutualidad.modulo_gerencia.DTO.ResumenCreditosDTO;
 import com.mutualidad.modulo_gerencia.Models.*;
 import com.mutualidad.modulo_gerencia.Repository.*;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +40,6 @@ public class Servicio {
     @Autowired
     private EmpresaRepository repoEmpresa;
 
-
     @Autowired
     private EmpleadoRepository repoEmpleado;
 
@@ -70,13 +67,29 @@ public class Servicio {
     @Autowired
     private ParentescoRepository repoParentesco;
 
-
     @Autowired
     private TransaccionRepository repoTransaccion;
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Autowired
+    private EstadoRepository repoEstado;
 
+    @Autowired
+    private MunicipioRepository repoMunicipio;
+
+    @Autowired
+    private TrabajoRepository repoTrabajo;
+
+    @Autowired
+    private EstadoCivilRepository repoEstadoCivil;
+
+    @Autowired
+    private RolRepository repoRol;
+
+    @Autowired
+    private PuestoRepository repoPuesto;
+
+    @Autowired
+    private TipoSocioRepository repoTipoSocio;
 
     @Transactional
     public HashMap validarLogin(String usuario, String password, String resultado, int rol, int cajero) {
@@ -210,20 +223,10 @@ public class Servicio {
         return repoUsuario.traerDetalleUsuarios(nombreUsuario);
     }
 
-    public List<Object[]> traerEstados() {
-        return repoUsuario.traerEstados();
-    }
-
-
-
     public void actualizarAjusteCaja(int cajaId, int ajuste) {
         Optional<ModelCaja> cajaNueva = repoCaja.findById(cajaId);
         cajaNueva.get().setAjuste(ajuste);
         repoCaja.save(cajaNueva.get());
-    }
-
-    public List<Object[]> traerPuestos() {
-        return repoUsuario.traerPuestos();
     }
 
     public List<ModelEmpresa> traerEmpresas() {
@@ -243,46 +246,6 @@ public class Servicio {
         return repoEmpleado.findById(id);
     }
 
-    public List<Object[]> traerTiposSocios() {
-        return repoSocio.traerTiposSocios();
-    }
-
-    public List<ModelSocio> traerListadoSocios(Boolean status) {
-        return repoSocio.findByStatus(status);
-    }
-
-    public List<ModelSocio> traerListadoPorEmpresaYestado(Boolean status, String empresa) {
-        return repoSocio.findByStatusAndEmpresaCod(status, empresa);
-    }
-
-    public List<ModelSocio> traerListadoPorTipo(Boolean status, int tipo) {
-        return repoSocio.findByStatusAndCatTipoId(status, tipo);
-    }
-
-    public List<ModelSocio> traerListadoPorTipoYEmpresa(Boolean status, int tipo, String empresa) {
-        return repoSocio.findByStatusAndCatTipoIdAndEmpresaCod(status, tipo, empresa);
-    }
-
-    public List<Object[]> traeMunicipios(int idEstado) {
-        return repoUsuario.traerMunicipios(idEstado);
-    }
-
-    public List<Object[]> traerEmpleos() {
-        return repoUsuario.traerEmpleos();
-    }
-
-    public List<Object[]> traerEstadosC() {
-        return repoUsuario.traerEstadosC();
-    }
-
-    public List<ModelParentesco> traerParentescos() {
-        return repoParentesco.findAll();
-    }
-
-    public List<Object[]> traerRoles() {
-        return repoUsuario.traerRoles();
-    }
-
     public List<Object[]> traerUsuarios() {
         return repoUsuario.traerUsuarios();
     }
@@ -300,7 +263,6 @@ public class Servicio {
         return repoSocio.findByNumSocioAndStatus(numSocio, status);
     }
 
-
     public List<Object[]> buscarSocioPorNombre(String nombreCompleto) {
         String[] palabras = nombreCompleto.trim().split("\\s+");
 
@@ -314,8 +276,6 @@ public class Servicio {
 
         return new ArrayList<>();
     }
-
-
 
     public String traerTipoSocio(int numSocio) {
         return repoSocio.buscarTipoSocio(numSocio);
@@ -333,28 +293,17 @@ public class Servicio {
         return repoUsuario.findByUsuario(usuario);
     }
 
-    public List<ModelCredito> encontrarTodosLosCreditosPorSocio(int numSocio) {
-        return repoCredito.findAllBySocio(numSocio);
-    }
-
-    public String traerCuotaParaSaldo(int creditoId) {
-        return repoCredito.traerCuotasParaSaldo(creditoId);
-    }
-
     public List<ModelConfModulo> traerModuloXUsuario(int usuarioId) {
         return repoConfModulo.findByUsuarioId(usuarioId);
     }
-
 
     public String traerNombrePuesto(int puestoCod) {
         return repoEmpleado.traerPuesto(puestoCod);
     }
 
-
     public String traerNombreRol(int rolCod) {
         return repoUsuario.traerRol(rolCod);
     }
-
 
     @Transactional
     public String editarUsuario(
@@ -452,6 +401,10 @@ public class Servicio {
     }
 
 
+    public List<Object[]> traerCajasComprobar(List<String> listaIds, String rangoFecha1, String rangoFecha2, String turno) {
+        return repoUsuario.traerCajas(listaIds, rangoFecha1, rangoFecha2, turno);
+    }
+
     public List<ModelFormaOperacion> traerFormas() {
         return repoForma.findAll();
     }
@@ -460,20 +413,9 @@ public class Servicio {
         return repoForma.findByForma(forma);
     }
 
-
     public List<ModelTransaccion> traerTransaccionesPorTipoOperacion(int socioId, boolean status, List<Integer> operacionIds) {
         return repoTransaccion.findBySocioIdAndStatusAndOperacionIdIn(socioId, status, operacionIds);
     }
-
-
-
-
-
-
-
-
-
-
 
     // NUEVOS MÉTODOS USANDO DTO YA FUNCIONALES
     public ResumenCreditosDTO traerResumenCreditos(int numSocio) {
@@ -492,10 +434,35 @@ public class Servicio {
                 p.getUsuario(),
                 p.getEmpleado_id(),
                 p.getEmpleado_nombre(),
+                p.getEmpleadoSoloNombre(),
+                p.getApellidoPaterno(),
+                p.getApellidoMaterno(),
+                p.getTelefono(),
                 p.getRol_id(),
                 p.getRol(),
                 p.getPuesto(),
-                p.getActivo()
+                p.getActivo(),
+                p.getFechaNacimiento()
+        );
+    }
+
+    public DetalleUsuarioDTO traerDetalleUsuarioPorId(int idUsuario) {
+        DetalleUsuarioProjection p = repoUsuario.traerDetalleUsuarioConId(idUsuario);
+        if (p == null) return null;
+        return new DetalleUsuarioDTO(
+                p.getId(),
+                p.getUsuario(),
+                p.getEmpleado_id(),
+                p.getEmpleado_nombre(),
+                p.getEmpleadoSoloNombre(),
+                p.getApellidoPaterno(),
+                p.getApellidoMaterno(),
+                p.getTelefono(),
+                p.getRol_id(),
+                p.getRol(),
+                p.getPuesto(),
+                p.getActivo(),
+                p.getFechaNacimiento()
         );
     }
 
@@ -511,6 +478,86 @@ public class Servicio {
                         p.getPorcentaje()
                 ))
                 .toList();
+    }
+
+    public List<ModelSocio> traerListadoSocios(Boolean status) {
+        return repoSocio.findByStatus(status);
+    }
+
+    public List<ModelSocio> traerListadoPorEmpresaYestado(Boolean status, String empresa) {
+        return repoSocio.findByStatusAndEmpresaCod(status, empresa);
+    }
+
+    public List<ModelSocio> traerListadoPorTipo(Boolean status, int tipo) {
+        return repoSocio.findByStatusAndCatTipoId(status, tipo);
+    }
+
+    public List<ModelSocio> traerListadoPorTipoYEmpresa(Boolean status, int tipo, String empresa) {
+        return repoSocio.findByStatusAndCatTipoIdAndEmpresaCod(status, tipo, empresa);
+    }
+
+    public List<ModelEstado> traerEstados() {
+        return repoEstado.findAll();
+    }
+
+    public int traerIdEstadoConEstado(String estado) {
+        return repoEstado.findByEstado(estado).getId();
+    }
+
+    public String traerEstadoConId(int idEstado) {
+        return repoEstado.findById(idEstado).get().getEstado();
+    }
+
+    public List<ModelMunicipio> traeMunicipios(int idEstado) {
+        return repoMunicipio.findByIdEstado(idEstado);
+    }
+
+    public int traerIdMunicipioConMunicipio(String municipio) {
+        return repoMunicipio.findByMunicipio(municipio).getId();
+    }
+
+    public String traerMunicipioConId(int municipioId) {
+        return repoMunicipio.findById(municipioId).get().getMunicipio();
+    }
+
+    public List<ModelTrabajo> traerEmpleos() {
+        return repoTrabajo.findAll();
+    }
+
+    public int traerIdConEmpleos(String trabajo) {
+        return repoTrabajo.findByTrabajo(trabajo).getId();
+    }
+
+    public List<ModelEstadoCivil> traerEstadosC() {
+        return repoEstadoCivil.findAll();
+    }
+
+    public int traerIdConEstadosCivil(String estadoCivil) {
+        return repoEstadoCivil.findByEstadoCivil(estadoCivil).getId();
+    }
+
+    public String traerEstadosCivilConId(int estadoCivilId) {
+        return repoEstadoCivil.findById(estadoCivilId).get().getEstadoCivil();
+    }
+
+    public String traerEmpleoConId(int empleoId) {
+        return repoTrabajo.findById(empleoId).get().getTrabajo();
+    }
+
+    public List<ModelParentesco> traerParentescos() {
+        return repoParentesco.findAll();
+    }
+
+    public List<ModelRol> traerTodosLosRoles() {
+        return repoRol.findAll();
+    }
+
+    public List<ModelPuesto> traerTodosLosPuestos() {
+        return repoPuesto.findAll();
+    }
+
+    public List<ModelTipoSocio> traerTiposDeSocio() {
+        return repoTipoSocio.findAll();
     }
 
 

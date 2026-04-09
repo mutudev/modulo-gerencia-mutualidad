@@ -8,6 +8,9 @@ import java.time.LocalDate;
 @Entity
 @Data
 @Table(name = "USUARIO")
+
+//SP YA CON LOCKS Y TRANSACCIONES
+
 @NamedStoredProcedureQuery(
         name = "Usuario.pa_ValidarLogin",
         procedureName = "pa_ValidarLogin",

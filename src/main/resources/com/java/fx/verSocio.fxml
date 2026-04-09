@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.DatosController">
+<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.DatosController">
    <children>
       <Label layoutX="20.0" layoutY="18.0" text="Datos del Socio" textFill="#39577c">
          <font>
@@ -30,7 +25,7 @@
 
       <TextField fx:id="txtCURP" layoutX="85.0" layoutY="242.0" prefHeight="39.0" prefWidth="281.0" promptText="XXXXXXXXXXXXXXXXXX" visible="false" />
       <TextField fx:id="txtRFC" layoutX="419.0" layoutY="242.0" prefHeight="39.0" prefWidth="216.0" promptText="XXXXXXXXXXXXX" visible="false" />
-      <ComboBox fx:id="cmbEstado" layoutX="726.0" layoutY="242.0" prefHeight="39.0" prefWidth="206.0" promptText="Seleccione..." visible="false" visibleRowCount="5" />
+      <ComboBox fx:id="cmbEstado" layoutX="726.0" layoutY="242.0" onAction="#cambiarMunicipios" prefHeight="39.0" prefWidth="206.0" promptText="Seleccione..." visible="false" visibleRowCount="5" />
       <ComboBox fx:id="cmbMunicipio" layoutX="123.0" layoutY="314.0" prefHeight="39.0" prefWidth="281.0" visible="false" visibleRowCount="5" />
       <TextField fx:id="txtDireccion" layoutX="520.0" layoutY="314.0" prefHeight="39.0" prefWidth="414.0" visible="false" />
       <ComboBox fx:id="cmbEmpleo" layoutX="106.0" layoutY="385.0" prefHeight="39.0" prefWidth="299.0" promptText="Seleccione un empleo..." visible="false" visibleRowCount="5" />

@@ -57,6 +57,7 @@ public class BajaSocioController implements Initializable {
         txtTipo.setVisible(false);
         txtTipo.clear();
         txtNumero.clear();
+        txtNumero.setEditable(true);
         txtCuentaAhorro.setVisible(false);
         txtCuentaAhorro.clear();
         txtCreditosVig.setVisible(false);
@@ -113,6 +114,7 @@ public class BajaSocioController implements Initializable {
                 txtSaldoCre.setVisible(true);
                 lblSaldoAhorro1.setVisible(true);
                 lblNombre.setVisible(true);
+                txtNumero.setEditable(false);
                 lblTipo.setVisible(true);
                 lblSaldoAhorro.setVisible(true);
                 lblCredVig.setVisible(true);

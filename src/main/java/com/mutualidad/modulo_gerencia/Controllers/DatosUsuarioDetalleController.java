@@ -1,6 +1,9 @@
 package com.mutualidad.modulo_gerencia.Controllers;
 
+import com.mutualidad.modulo_gerencia.DTO.DetalleUsuarioDTO;
 import com.mutualidad.modulo_gerencia.Models.ModelEmpleado;
+import com.mutualidad.modulo_gerencia.Models.ModelPuesto;
+import com.mutualidad.modulo_gerencia.Models.ModelRol;
 import com.mutualidad.modulo_gerencia.Models.ModelUsuario;
 import com.mutualidad.modulo_gerencia.Services.Servicio;
 import javafx.application.Platform;
@@ -44,45 +47,39 @@ public class DatosUsuarioDetalleController implements Initializable {
     private int idUsuarioActual;
 
     public void settearDatos(int idUsuario){
-
         this.idUsuarioActual = idUsuario;
-        List<Object[]> roles = servicio.traerRoles();
+
+        List<ModelRol> roles = servicio.traerTodosLosRoles();
         cmbRol.getItems().clear();
-        for (Object[] fila : roles) {
-            String nombreRol = fila[1].toString();
-            cmbRol.getItems().add(nombreRol);
+        for (ModelRol fila : roles) {
+            cmbRol.getItems().add(fila.getRol());
         }
+
         if (!roles.isEmpty()) {
             cmbRol.getSelectionModel().selectFirst();
         }
 
-        List<Object[]> puestos = servicio.traerPuestos();
+        List<ModelPuesto> puestos = servicio.traerTodosLosPuestos();
         cmbPuesto.getItems().clear();
-        for (Object[] fila : puestos) {
-            String nombrePuesto = fila[1].toString();
-            cmbPuesto.getItems().add(nombrePuesto);
+        for (ModelPuesto fila : puestos) {
+            cmbPuesto.getItems().add(fila.getDescripcion());
         }
         if (!puestos.isEmpty()) {
             cmbPuesto.getSelectionModel().selectFirst();
         }
 
-        ModelUsuario usuario = servicio.traerUsuarioXId(idUsuario);
-
-
-        ModelEmpleado empleado = servicio.traerEmpleadoXId(usuario.getIdEmpleado());
+        DetalleUsuarioDTO usuario = servicio.traerDetalleUsuarioPorId(idUsuario);
 
         txtUsuario.setText(usuario.getUsuario());
 
-        cmbRol.getSelectionModel().select(usuario.getRol() - 1);
-
-        txtNombre.setText(empleado.getNombres());
-        dteNacimiento.setValue(empleado.getFecNacimiento());
-        txtTelefono.setText(empleado.getTelefono());
-        txtApellidoP.setText(empleado.getApellidoP());
-        txtApellidoM.setText(empleado.getApellidoM());
-
-
-        cmbPuesto.getSelectionModel().select(empleado.getPuesto() - 1); // índice
+        cmbRol.getSelectionModel().select(usuario.getRol());
+        System.out.println(usuario.getEmpleadoSoloNombre());
+        txtNombre.setText(usuario.getEmpleadoSoloNombre());
+        dteNacimiento.setValue(usuario.getFechaNacimiento());
+        txtTelefono.setText(usuario.getTelefono());
+        txtApellidoP.setText(usuario.getApellidoPaterno());
+        txtApellidoM.setText(usuario.getApellidoMaterno());
+        cmbPuesto.getSelectionModel().select(usuario.getPuesto());
 
     }
 
@@ -97,6 +94,10 @@ public class DatosUsuarioDetalleController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
+            txtNombre.clear();
+            txtTelefono.clear();
+            txtApellidoP.clear();
+            txtApellidoM.clear();
             Stage ventanaActual = (Stage) txtUsuario.getScene().getWindow();
             ventanaActual.close();
         }
@@ -113,7 +114,7 @@ public class DatosUsuarioDetalleController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("VALIDACIÓN");
                 alert.setHeaderText("CAMPOS OBLIGATORIOS");
-                alert.setContentText("Por favor complete los campos requeridos.");
+                alert.setContentText("Por favor complete los campos requeridos.".toUpperCase());
                 alert.showAndWait();
                 return;
             }
@@ -151,7 +152,7 @@ public class DatosUsuarioDetalleController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("CORRECTO");
                 alert.setHeaderText("DATOS ACTUALIZADOS");
-                alert.setContentText("El usuario se actualizó correctamente.");
+                alert.setContentText("El usuario se actualizó correctamente.".toUpperCase());
                 alert.showAndWait();
 
                 // cerrar ventana

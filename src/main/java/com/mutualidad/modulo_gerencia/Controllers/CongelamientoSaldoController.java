@@ -223,7 +223,7 @@ public class CongelamientoSaldoController implements Initializable {
 
 
     @FXML
-    public void formatearMonto (){
+    public void formatearMonto () {
         if(txtCongelar.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
@@ -245,7 +245,6 @@ public class CongelamientoSaldoController implements Initializable {
         }
 
         double monto = Double.parseDouble(txtCongelar.getText());
-
 
         ModelAhorro ahorro = servicio.traerCuentaAhorroPorNumSocioYEstado(Integer.parseInt(txtNumero.getText()), 1);
 
@@ -300,14 +299,6 @@ public class CongelamientoSaldoController implements Initializable {
         txtCongelar.setText(formatoMXN.format(monto));
         txtSaldoRestante.setText(formatoMXN.format(montoRestante));
         txtCongelar.setEditable(false);
-
-
-
-
-
-
-
-
     }
 
     @FXML

@@ -44,7 +44,6 @@ import java.util.*;
 @Component
 public class BloquearAhorroController implements Initializable {
 
-
     @FXML
     private Label lblNombre, lblEmpresa, lblAhorro, lblPsocMut, lblPsocNgu, lblAhorroCongelado;
 
@@ -161,8 +160,6 @@ public class BloquearAhorroController implements Initializable {
 
     @FXML
     public void actualizarEstadoCuenta(){
-
-
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("ACTUALIZACIÓN DE ESTADO");
         alert.setHeaderText("¿ESTÁ SEGURO QUE DESEA REALIZAR LA OPERACIÓN?");
@@ -243,7 +240,6 @@ public class BloquearAhorroController implements Initializable {
     }
 
     public void limpiar(){
-
         txtNombre.setVisible(false);
         txtPsocMut.setVisible(false);
         txtPsocNgu.setVisible(false);
@@ -252,7 +248,6 @@ public class BloquearAhorroController implements Initializable {
         txtAhorro.setVisible(false);
         txtAhorroCongelado.setVisible(false);
         imgBusqueda.setVisible(true);
-
         lblNombre.setVisible(false);
         lblPsocMut.setVisible(false);
         lblPsocNgu.setVisible(false);
@@ -262,6 +257,5 @@ public class BloquearAhorroController implements Initializable {
         btnActualizar.setVisible(false);
         txtNumero.setEditable(true);
         txtNumero.clear();
-
     }
 }

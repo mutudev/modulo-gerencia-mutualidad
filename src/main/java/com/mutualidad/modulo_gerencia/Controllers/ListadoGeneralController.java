@@ -1,6 +1,7 @@
 package com.mutualidad.modulo_gerencia.Controllers;
 
 import com.mutualidad.modulo_gerencia.Models.ModelEmpresa;
+import com.mutualidad.modulo_gerencia.Models.ModelTipoSocio;
 import com.mutualidad.modulo_gerencia.Services.Servicio;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.application.Platform;
@@ -63,11 +64,10 @@ public class ListadoGeneralController implements Initializable {
         cmbEmpresas.getItems().add("AMBAS");
         cmbEmpresas.getSelectionModel().selectFirst();
 
-        List<Object[]> tipos = servicio.traerTiposSocios();
+        List<ModelTipoSocio> tipos = servicio.traerTiposDeSocio();
         cmbTipo.getItems().clear();
-        for (Object[] tipo : tipos) {
-            String tipoNom = tipo[1].toString();
-            cmbTipo.getItems().add(tipoNom);
+        for (ModelTipoSocio tipo : tipos) {
+            cmbTipo.getItems().add(tipo.getDescripcion());
         }
         cmbTipo.getItems().add("AMBOS");
         cmbTipo.getSelectionModel().selectFirst();

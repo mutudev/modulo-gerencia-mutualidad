@@ -1,5 +1,6 @@
 package com.mutualidad.modulo_gerencia.Controllers;
 
+import com.mutualidad.modulo_gerencia.DTO.DetalleUsuarioDTO;
 import com.mutualidad.modulo_gerencia.Models.ModelEmpleado;
 import com.mutualidad.modulo_gerencia.Models.ModelUsuario;
 import com.mutualidad.modulo_gerencia.Services.Servicio;
@@ -46,12 +47,24 @@ public class CambiarContraController implements Initializable {
             return;
         }
 
-        ModelUsuario usuario = servicio.traerUsuarioXUsuario(txtUsuario.getText());
-        if(usuario != null){
-            txtUsuario.setEditable(false);
+        DetalleUsuarioDTO usuario = servicio.traerDetalleUsuario(txtUsuario.getText().trim());
 
-            ModelEmpleado empleado = servicio.traerEmpleadoXId(usuario.getIdEmpleado());
-            txtNombre.setText(empleado.getNombres() + ' '+ empleado.getApellidoP() + ' '+ empleado.getApellidoM());
+
+
+        if(usuario != null){
+
+            if (!usuario.getActivo()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("ERROR AL INTENTAR BUSCAR AL USUARIO");
+                alert.setContentText(
+                        "EL USUARIO QUE INTENTA CARGAR NO ESTÁ ACTIVO");
+                alert.showAndWait();
+                return;
+            }
+
+            txtUsuario.setEditable(false);
+            txtNombre.setText(usuario.getEmpleadoNombre());
             btnCambiarContra.setVisible(true);
             txtNombre.setVisible(true);
             txtUsuario.setVisible(true);
@@ -76,7 +89,6 @@ public class CambiarContraController implements Initializable {
     public void limpiar(){
         btnCambiarContra.setVisible(false);
         txtNombre.setVisible(false);
-        txtUsuario.setVisible(false);
         lblNombre.setVisible(false);
         txtContra.setVisible(false);
         txtConfContra.setVisible(false);

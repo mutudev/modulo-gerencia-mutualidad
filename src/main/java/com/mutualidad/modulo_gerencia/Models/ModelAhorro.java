@@ -11,6 +11,8 @@ import java.util.Date;
 @Table(name = "CUENTA_AHORRO")
 
 
+//SP YA CON LOCKS Y TRANSACCIONES
+
 @NamedStoredProcedureQuery(
         name = "Ahorro.pa_InsertarCuentadeAhorro",
         procedureName = "pa_InsertarCuentadeAhorro",

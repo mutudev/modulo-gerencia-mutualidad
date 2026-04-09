@@ -277,6 +277,17 @@ public class PermisosController implements Initializable {
 
         ModelUsuario usuario = servicio.traerUsuarioXUsuario(txtUsuario.getText());
         if (usuario != null) {
+
+            if (!usuario.isStatus()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("ERROR AL INTENTAR BUSCAR AL USUARIO");
+                alert.setContentText(
+                        "EL USUARIO QUE INTENTA CARGAR NO ESTÁ ACTIVO");
+                alert.showAndWait();
+                return;
+            }
+
             txtUsuario.setEditable(false);
 
 

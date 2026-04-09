@@ -1,0 +1,11 @@
+package com.mutualidad.modulo_gerencia.Repository;
+
+import com.mutualidad.modulo_gerencia.Models.ModelTrabajo;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface TrabajoRepository extends JpaRepository<ModelTrabajo, Integer> {
+
+    ModelTrabajo findByTrabajo(String trabajo);
+}

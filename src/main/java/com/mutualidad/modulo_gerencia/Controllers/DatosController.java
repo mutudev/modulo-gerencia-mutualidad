@@ -1,7 +1,7 @@
 package com.mutualidad.modulo_gerencia.Controllers;
 
 import com.mutualidad.modulo_gerencia.Main;
-import com.mutualidad.modulo_gerencia.Models.ModelSocio;
+import com.mutualidad.modulo_gerencia.Models.*;
 import com.mutualidad.modulo_gerencia.Services.Servicio;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -55,6 +55,11 @@ public class DatosController implements Initializable {
 
     @Autowired
     private Servicio servicio;
+
+
+    int yucatan = 0;
+    String yuc = "";
+    String uman = "";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -140,6 +145,20 @@ public class DatosController implements Initializable {
                             return change;
                         }));
 
+        txtNumero.setTextFormatter(
+                new TextFormatter<>(
+                        change -> {
+                            // Permite solo dígitos y el punto decimal
+                            change.setText(change.getText().replaceAll("[^0-9.]", ""));
+
+                            // Verifica si ya hay más de un punto decimal
+                            if (change.getText().matches(".*\\..*\\..*")) {
+                                change.setText(change.getText().substring(0, change.getText().lastIndexOf('.')));
+                            }
+
+                            return change;
+                        }));
+
 
 
     }
@@ -160,12 +179,11 @@ public class DatosController implements Initializable {
         /* DATEPICKER */
         dteNacimiento.setValue(null);
 
-        /* COMBOBOX */
-        cmbEstado.getSelectionModel().clearSelection();
+        cmbEstado.getItems().clear();
         cmbMunicipio.getItems().clear();
-        cmbEmpleo.getSelectionModel().clearSelection();
-        cmbEstadoCivil.getSelectionModel().clearSelection();
-        cmbGenero.getSelectionModel().clearSelection();
+        cmbEmpleo.getItems().clear();
+        cmbEstadoCivil.getItems().clear();
+        cmbGenero.getItems().clear();
 
         /* OCULTAR CAMPOS */
         cmbEstadoCivil.setVisible(false);
@@ -204,57 +222,31 @@ public class DatosController implements Initializable {
     @FXML
     public void buscarSocio() {
 
-        List<Object[]> estados = servicio.traerEstados();
+        List<ModelEstado> estados = servicio.traerEstados();
+        for (ModelEstado fila : estados) {
+            cmbEstado.getItems().add(fila.getEstado());
 
-        cmbEstado.getItems().clear();
-        for (Object[] fila : estados) {
-            String nombreEstado = fila[1].toString();
-            cmbEstado.getItems().add(nombreEstado);
-        }
-        if (!estados.isEmpty()) {
-            cmbEstado.getSelectionModel().select(30);
         }
 
-        List<Object[]> municipios = servicio.traeMunicipios(cmbEstado.getSelectionModel().getSelectedIndex() + 1);
-
-        cmbMunicipio.getItems().clear();
-        for (Object[] fila : municipios) {
-            String nombreMunicipio = fila[1].toString();
-            cmbMunicipio.getItems().add(nombreMunicipio);
-        }
-        if (!municipios.isEmpty()) {
-            cmbMunicipio.getSelectionModel().select(100);
+        List<ModelMunicipio> municipios = servicio.traeMunicipios(yucatan);
+        for (ModelMunicipio fila : municipios) {
+            cmbMunicipio.getItems().add(fila.getMunicipio());
         }
 
 
-        List<Object[]> empleos = servicio.traerEmpleos();
-
-        cmbEmpleo.getItems().clear();
-        for (Object[] fila : empleos) {
-            String nombreEmpleos = fila[1].toString();
-            cmbEmpleo.getItems().add(nombreEmpleos);
-        }
-        if (!empleos.isEmpty()) {
-            cmbEmpleo.getSelectionModel().selectFirst();
+        List<ModelTrabajo> empleos = servicio.traerEmpleos();
+        for (ModelTrabajo fila : empleos) {
+            cmbEmpleo.getItems().add(fila.getTrabajo());
         }
 
-        List<Object[]> estadosC = servicio.traerEstadosC();
-
-        cmbEstadoCivil.getItems().clear();
-        for (Object[] fila : estadosC) {
-            String nombreEstadosC = fila[1].toString();
-            cmbEstadoCivil.getItems().add(nombreEstadosC);
-        }
-        if (!estadosC.isEmpty()) {
-            cmbEstadoCivil.getSelectionModel().selectFirst();
+        List<ModelEstadoCivil> estadosC = servicio.traerEstadosC();
+        for (ModelEstadoCivil fila : estadosC) {
+            cmbEstadoCivil.getItems().add(fila.getEstadoCivil());
         }
 
-        cmbGenero.getItems().clear();
         cmbGenero.getItems().add("MASCULINO");
         cmbGenero.getItems().add("FEMENINO");
         cmbGenero.getItems().add("OTRO");
-
-        cmbGenero.getSelectionModel().selectFirst();
 
         ModelSocio socio = servicio.traerSocioPorNumeroYEstado(Integer.parseInt(txtNumero.getText()), true);
         if (socio == null) {
@@ -292,12 +284,20 @@ public class DatosController implements Initializable {
         dteNacimiento.setValue(socio.getFechaNacimiento());
         txtCURP.setText(socio.getCurp());
         txtRFC.setText(socio.getRfc() == null ? "" : socio.getRfc());
-        cmbEstado.getSelectionModel().select(socio.getCatEstadoId() - 1);
-        cmbMunicipio.getSelectionModel().select(socio.getCatMunicipioId() - 1);
-        cmbEstadoCivil.getSelectionModel().select(socio.getEstadoCivilId() - 1);
+
+        String estadoNom = servicio.traerEstadoConId(socio.getCatEstadoId());
+        cmbEstado.getSelectionModel().select(estadoNom);
+
+        String municipioNom =  servicio.traerMunicipioConId(socio.getCatMunicipioId());
+        cmbMunicipio.getSelectionModel().select(municipioNom);
+
+        String estadoCivil = servicio.traerEstadosCivilConId(socio.getEstadoCivilId());
+        cmbEstadoCivil.getSelectionModel().select(estadoCivil);
 
         txtDireccion.setText(socio.getDireccion());
-        cmbEmpleo.getSelectionModel().select(socio.getCatEmpId() - 1);
+
+        String empleo = servicio.traerEmpleoConId(socio.getCatEmpId());
+        cmbEmpleo.getSelectionModel().select(empleo);
         txtTelefono.setText(socio.getTelefono());
 
         cmbEstadoCivil.setVisible(true);
@@ -321,7 +321,6 @@ public class DatosController implements Initializable {
         lblDireccion.setVisible(true);
         lblTelefono.setVisible(true);
         lblFecha.setVisible(true);
-
         lblEstado.setVisible(true);
         lblMunicipio.setVisible(true);
         lblEmpleo.setVisible(true);
@@ -330,11 +329,31 @@ public class DatosController implements Initializable {
         btnBuscar.setVisible(true);
         btnLimpiar.setVisible(true);
         btnRegistrar.setVisible(true);
-
         txtNumero.setEditable(false);
         imgBusqueda.setVisible(false);
 
     }
+
+    @FXML
+    public void cambiarMunicipios() {
+
+        if (cmbEstado.getSelectionModel().getSelectedItem() == null) return;
+
+        String nomEstado = cmbEstado.getSelectionModel().getSelectedItem().toString();
+        int idEstado =servicio.traerIdEstadoConEstado(nomEstado);
+        List<ModelMunicipio> municipios = servicio.traeMunicipios(idEstado);
+        cmbMunicipio.getItems().clear();
+        for (ModelMunicipio fila : municipios) {
+            cmbMunicipio.getItems().add(fila.getMunicipio());
+        }
+        if (!municipios.isEmpty()) {
+            cmbMunicipio.getSelectionModel().selectFirst();
+        }
+
+
+    }
+
+
 
     @FXML
     public void editarSocio() {
@@ -344,10 +363,12 @@ public class DatosController implements Initializable {
         LocalDate fNacimiento = dteNacimiento.getValue();
         String curp = txtCURP.getText().trim();
         String rfc = txtRFC.getText().trim();
-        int idEstado = cmbEstado.getSelectionModel().getSelectedIndex() + 1;
-        int idMunicipio = cmbMunicipio.getSelectionModel().getSelectedIndex() + 1;
-        int idEmpleo = cmbEmpleo.getSelectionModel().getSelectedIndex() + 1;
-        int idEstadoCivil = cmbEstadoCivil.getSelectionModel().getSelectedIndex() + 1;
+
+        int idEstado = servicio.traerIdEstadoConEstado(cmbEstado.getSelectionModel().getSelectedItem().toString());
+        int idMunicipio = servicio.traerIdMunicipioConMunicipio(cmbMunicipio.getSelectionModel().getSelectedItem().toString());
+        int idEmpleo = servicio.traerIdConEmpleos(cmbEmpleo.getSelectionModel().getSelectedItem().toString());
+        int idEstadoCivil = servicio.traerIdConEstadosCivil(cmbEstadoCivil.getSelectionModel().getSelectedItem().toString());
+
         String direccion = txtDireccion.getText().trim();
         String telefono = txtTelefono.getText().trim();
 

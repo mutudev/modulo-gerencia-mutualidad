@@ -1,5 +1,7 @@
 package com.mutualidad.modulo_gerencia.Controllers;
 
+import com.mutualidad.modulo_gerencia.Models.ModelPuesto;
+import com.mutualidad.modulo_gerencia.Models.ModelRol;
 import com.mutualidad.modulo_gerencia.Services.Servicio;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
@@ -46,26 +48,25 @@ public class InsertarUsuarioController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
-        List<Object[]> roles = servicio.traerRoles();
+        List<ModelRol> roles = servicio.traerTodosLosRoles();
         cmbRol.getItems().clear();
-        for (Object[] fila : roles) {
-            String nombreRol = fila[1].toString();
-            cmbRol.getItems().add(nombreRol);
+        for (ModelRol fila : roles) {
+            cmbRol.getItems().add(fila.getRol());
         }
+
         if (!roles.isEmpty()) {
             cmbRol.getSelectionModel().selectFirst();
         }
 
-        List<Object[]> puestos = servicio.traerPuestos();
+
+        List<ModelPuesto> puestos = servicio.traerTodosLosPuestos();
         cmbPuesto.getItems().clear();
-        for (Object[] fila : puestos) {
-            String nombrePuesto = fila[1].toString();
-            cmbPuesto.getItems().add(nombrePuesto);
+        for (ModelPuesto fila : puestos) {
+            cmbPuesto.getItems().add(fila.getDescripcion());
         }
         if (!puestos.isEmpty()) {
             cmbPuesto.getSelectionModel().selectFirst();
         }
-
 
         txtNombre.setTextFormatter(
                 new TextFormatter<>(
@@ -273,6 +274,8 @@ public class InsertarUsuarioController implements Initializable {
                 alert.showAndWait();
                 return;
             }
+
+            limpiarFormulario();
 
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);

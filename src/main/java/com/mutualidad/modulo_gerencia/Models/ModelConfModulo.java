@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "CONF_MODULO")
+//SP YA CON LOCKS Y TRANSACCIONES
 @NamedStoredProcedureQuery(
         name = "ConfModulo.pa_ModificarPermisos",
         procedureName = "pa_ModificarPermisos",
