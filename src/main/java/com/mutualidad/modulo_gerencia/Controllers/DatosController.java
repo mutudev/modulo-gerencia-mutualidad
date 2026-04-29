@@ -454,7 +454,7 @@ public class DatosController implements Initializable {
         );
 
         if (res.equalsIgnoreCase("CORRECTO")) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("ACTUALIZACIÓN EXITOSA");
             alert.setHeaderText("ACTUALIZACIÓN EXITOSA");
             alert.setContentText("EL SOCIO SE HA INSERTADO CORRECTAMENTE.");

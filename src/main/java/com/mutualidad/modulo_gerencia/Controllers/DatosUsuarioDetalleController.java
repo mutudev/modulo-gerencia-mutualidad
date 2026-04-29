@@ -182,7 +182,7 @@ public class DatosUsuarioDetalleController implements Initializable {
 
     public void cierreDeVentana(Event event) {
         event.consume();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("CIERRE");
         alert.setHeaderText("¿ESTÁ SEGURO QUE DESEA CERRAR LA VENTANA?");
         alert.setContentText(

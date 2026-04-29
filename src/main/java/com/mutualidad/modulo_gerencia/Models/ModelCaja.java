@@ -9,6 +9,19 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "CAJA")
+
+
+@NamedStoredProcedureQuery(
+        name = "Caja.pa_ProcesarCierre",
+        procedureName = "pa_ProcesarCierre",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.OUT, name = "Resultado", type = String.class)
+        }
+)
+
+
+
+
 public class ModelCaja {
 
     @Id

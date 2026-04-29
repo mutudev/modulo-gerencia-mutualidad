@@ -99,7 +99,7 @@ public class CrearCuentaController {
             String res = servicio.insertarCuentaAhorro(numsocio, numCuenta, "");
 
             if (res.equalsIgnoreCase("CORRECTO")) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("INSERCIÓN EXITOSA");
                 alert.setHeaderText("INSERCIÓN EXITOSA");
                 alert.setContentText("LA CUENTA DE AHORRO SE HA INSERTADO CORRECTAMENTE.");

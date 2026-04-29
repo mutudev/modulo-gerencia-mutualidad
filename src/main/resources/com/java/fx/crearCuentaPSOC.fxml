@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.CrearCuentaPSController">
+   <children>
+      <Label layoutX="20.0" layoutY="18.0" text="Crear Cuenta de Previsión Social" textFill="#39577c">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="42.0" layoutY="68.0" text="Número:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtNumero" layoutX="127.0" layoutY="62.0" onAction="#buscarSocio" prefHeight="39.0" prefWidth="184.0" promptText="Ingrese el número..." />
+      <Button fx:id="btnBuscar" layoutX="319.0" layoutY="62.0" mnemonicParsing="false" onAction="#buscarSocio" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #185754;" text="Buscar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="btnLimpiar" layoutX="422.0" layoutY="62.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="96.0" style="-fx-background-color: #39577c;" text="Limpiar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <TextField fx:id="txtNombre" layoutX="127.0" layoutY="121.0" prefHeight="39.0" prefWidth="744.0" visible="false" />
+      <Label fx:id="lblNombre" layoutX="42.0" layoutY="127.0" text="Nombre:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnCrear" layoutX="360.0" layoutY="306.0" mnemonicParsing="false" onAction="#crearCuenta" prefHeight="39.0" prefWidth="220.0" style="-fx-background-color: #185754;" text="Crear Cuenta" textFill="WHITE" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Label fx:id="lblEmpresa" layoutX="42.0" layoutY="189.0" text="Empresa:" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cmbEmpresa" layoutX="127.0" layoutY="184.0" prefHeight="39.0" prefWidth="455.0" visible="false" />
+      <ImageView fx:id="imgBusqueda" fitHeight="35.0" fitWidth="52.0" layoutX="533.0" layoutY="62.0" onMouseClicked="#buscarSocioPorNombre" pickOnBounds="true" preserveRatio="true">
+         <image>
+             <Image url="@/assets/images/icono-busqueda.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ImageView>
+   </children>
+</Pane>

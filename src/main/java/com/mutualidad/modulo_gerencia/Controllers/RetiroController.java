@@ -151,7 +151,7 @@ public class RetiroController implements Initializable {
 
         if (cs != null) {
             for (ModelCapitalSocial cuenta : cs) {
-                if(cuenta.getEmpresa_cod().equalsIgnoreCase("0001")){
+                if(cuenta.getEmpresaCod().equalsIgnoreCase("0001")){
                     txtPSMut.setText(formatoMXN.format(cuenta.getMonto_cubierto()));
                 }else{
                     txtPSNgu.setText(formatoMXN.format(cuenta.getMonto_cubierto()));
@@ -295,6 +295,8 @@ public class RetiroController implements Initializable {
 
         List<ModelRetiro> retirosPendientes = servicio.obtenerRetirosPendientes(socio.getNumSocio(), true);
 
+
+        //CHECAR QUE SOLO HAYA UN R
         if (retirosPendientes.size() > 0) {
             alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("ERROR");
@@ -509,7 +511,7 @@ public class RetiroController implements Initializable {
     @FXML
     public void calcularMontos() {
 
-        if(txtMonto.getText().isEmpty()) {
+        if (txtMonto.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText("ERROR ");
@@ -519,7 +521,7 @@ public class RetiroController implements Initializable {
             return;
         }
 
-        if(Double.parseDouble(txtMonto.getText()) <= 0){
+        if (parseMoneda(txtMonto.getText()) <= 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText("ERROR ");
@@ -529,13 +531,13 @@ public class RetiroController implements Initializable {
             return;
         }
 
-        double monto = Double.parseDouble(txtMonto.getText());
+        double monto = parseMoneda(txtMonto.getText());
 
         ModelAhorro ahorro = servicio.traerCuentaAhorroPorNumSocioYEstado(Integer.parseInt(txtNumero.getText()), 1);
 
         double montoRestante = 0;
 
-        if(ahorro.getSaldo() <= 0) {
+        if (ahorro.getSaldo() <= 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText("ERROR");
@@ -545,7 +547,7 @@ public class RetiroController implements Initializable {
             return;
         }
 
-        if(ahorro.getSaldo() < monto) {
+        if (ahorro.getSaldo() < monto) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText("ERROR");
@@ -557,6 +559,16 @@ public class RetiroController implements Initializable {
 
         montoRestante = ahorro.getSaldo() - monto;
 
+        if(montoRestante < 6000){
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("ERROR");
+            alert.setContentText(
+                    "EL MONTO RESTANTE NO PUEDE SER MENOR A $6,000.00");
+            alert.showAndWait();
+            return;
+        }
         txtMonto.setTextFormatter(null);
         txtMonto.clear();
         txtMonto.setText(formatoMXN.format(monto));

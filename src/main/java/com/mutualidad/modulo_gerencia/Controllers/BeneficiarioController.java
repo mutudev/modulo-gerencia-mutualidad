@@ -424,7 +424,7 @@ public class BeneficiarioController implements Initializable {
         String res = servicio.insertarBeneficiario(benefArray.toString(),"", update);
 
         if (res.equalsIgnoreCase("CORRECTO")) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("EXITOSO");
             alert.setHeaderText("GUARDADO EXITOSO");
             alert.setContentText("BENEFICIARIOS AGREGADOS CORRECTAMENTE.");

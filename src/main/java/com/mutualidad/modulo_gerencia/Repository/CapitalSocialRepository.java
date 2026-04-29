@@ -11,7 +11,12 @@ import java.util.List;
 @Repository
 public interface CapitalSocialRepository extends JpaRepository<ModelCapitalSocial, Integer> {
 
-    List<ModelCapitalSocial> findByNumSocio(int numSocio);
+    List<ModelCapitalSocial> findByNumSocio(int numSocio)
+            ;
+    ModelCapitalSocial findByNumSocioAndEmpresaCod(
+            int numSocio,
+            String empresa_cod
+    );
 
     @Query(value = "SELECT COALESCE(SUM(MONTO_CUBIERTO), 0) FROM CAPITAL_SOCIAL WHERE NUM_SOCIO = :numSocio", nativeQuery = true)
     Double sumarCapitalSocial(@Param("numSocio") int numSocio);

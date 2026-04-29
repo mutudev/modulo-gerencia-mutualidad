@@ -57,6 +57,10 @@ public class BusquedaController implements Initializable {
 
   public RetiroController retiroController = null;
 
+  public CrearCuentaCSController crearCSController = null;
+
+  public CrearCuentaPSController crearCuentaPSController = null;
+
   public int ventana;
 
   @Override
@@ -136,6 +140,15 @@ public class BusquedaController implements Initializable {
     this.retiroController = controller;
   }
 
+  public void setcrearCSController(CrearCuentaCSController controller) {
+    this.crearCSController = controller;
+  }
+
+  public void setCrearCuentaPSController(CrearCuentaPSController controller) {
+    this.crearCuentaPSController = controller;
+  }
+
+
   @FXML
   public void cerrarModal(KeyEvent event) {
     if (event.getCode().equals(KeyCode.ESCAPE)) {
@@ -199,6 +212,15 @@ public class BusquedaController implements Initializable {
 
         if (retiroController != null) {
           retiroController.cargarSocioPorNombre(numSocio);
+        }
+
+
+        if (crearCSController  != null) {
+          crearCSController.cargarSocioPorNombre(numSocio);
+        }
+
+        if (crearCuentaPSController != null) {
+          crearCuentaPSController.cargarSocioPorNombre(numSocio);
         }
 
 

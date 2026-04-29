@@ -144,7 +144,7 @@ public class CambiarContraController implements Initializable {
         usuario.setPass(hash);
         servicio.cambiarDatosUsuario(usuario);
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("OPERACIÓN ÉXITOSA");
         alert.setHeaderText("CAMBIO ÉXITOSO");
         alert.setContentText("LA CONTRASEÑA DEL USUARIO: " + txtUsuario.getText() + " SE HA CAMBIADO CON ÉXITO.");

@@ -304,7 +304,7 @@ public class InscripcionController implements Initializable {
         );
 
         if (res.equalsIgnoreCase("CORRECTO")) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("INSERCIÓN EXITOSA");
             alert.setHeaderText("INSERCIÓN EXITOSA");
             alert.setContentText("EL SOCIO SE HA INSERTADO CORRECTAMENTE.");

@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.GerenteController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.GerenteController">
    <top>
       <Pane prefHeight="58.0" prefWidth="1200.0" style="-fx-background-color: #39577C;" BorderPane.alignment="CENTER">
          <children>
@@ -123,7 +128,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #FFF;">
                            <children>
-                              <Label fx:id="verAhorros" layoutX="43.0" layoutY="25.0" onMouseClicked="#verAhorros" text="Saldo por socio" textAlignment="CENTER" textFill="#39577c" underline="true">
+                              <Label fx:id="verAhorros" layoutX="43.0" layoutY="16.0" onMouseClicked="#verAhorros" text="Saldo por socio" textAlignment="CENTER" textFill="#39577c" underline="true">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -131,7 +136,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Label>
-                              <Label layoutX="42.0" layoutY="70.0" onMouseClicked="#congelarSaldo" prefHeight="66.0" prefWidth="146.0" text="Congelamiento de saldo" textAlignment="CENTER" textFill="#39577c" underline="true" wrapText="true">
+                              <Label layoutX="42.0" layoutY="61.0" onMouseClicked="#congelarSaldo" prefHeight="66.0" prefWidth="146.0" text="Congelamiento de saldo" textAlignment="CENTER" textFill="#39577c" underline="true" wrapText="true">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -139,7 +144,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Label>
-                              <Label layoutX="28.0" layoutY="145.0" onMouseClicked="#bloquearCuenta" prefHeight="64.0" prefWidth="175.0" text="Bloquear cuentas de ahorro" textAlignment="CENTER" textFill="#39577c" underline="true" wrapText="true">
+                              <Label layoutX="28.0" layoutY="136.0" onMouseClicked="#bloquearCuenta" prefHeight="64.0" prefWidth="175.0" text="Bloquear cuentas de ahorro" textAlignment="CENTER" textFill="#39577c" underline="true" wrapText="true">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -147,7 +152,23 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Label>
-                              <Label layoutX="82.0" layoutY="225.0" onMouseClicked="#retiro" text="Retiros" textAlignment="CENTER" textFill="#39577c" underline="true">
+                              <Label layoutX="82.0" layoutY="216.0" onMouseClicked="#retiro" text="Retiros" textAlignment="CENTER" textFill="#39577c" underline="true">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Label>
+                              <Label layoutX="17.0" layoutY="261.0" onMouseClicked="#capSocial" text="Cuenta Capital Social" textAlignment="CENTER" textFill="#39577c" underline="true">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Label>
+                              <Label layoutX="7.0" layoutY="306.0" onMouseClicked="#previsionSocial" text="Cuenta Previsión Social" textAlignment="CENTER" textFill="#39577c" underline="true">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -283,7 +304,7 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="358.0" prefWidth="238.0" style="-fx-background-color: #FFF;">
                            <children>
-                              <Label layoutX="58.0" layoutY="30.0" text="Cierre diario" textAlignment="CENTER" textFill="#39577c" underline="true">
+                              <Label layoutX="58.0" layoutY="30.0" onMouseClicked="#cierreDiario" text="Cierre diario" textAlignment="CENTER" textFill="#39577c" underline="true">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>

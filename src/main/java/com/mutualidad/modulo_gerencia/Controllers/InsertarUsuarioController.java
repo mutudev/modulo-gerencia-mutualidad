@@ -260,7 +260,7 @@ public class InsertarUsuarioController implements Initializable {
                     cmbRol.getSelectionModel().getSelectedIndex() + 1,cmbPuesto.getSelectionModel().getSelectedIndex() + 1,
                     hash, FNacimiento, LoginController.usuarioLoggeado);
             if (res.equalsIgnoreCase("CORRECTO")) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("INSERCIÓN EXITOSA");
                 alert.setHeaderText("INSERCIÓN EXITOSA");
                 alert.setContentText("EL USUARIO SE HA CREADO CORRECTAMENTE.");

@@ -99,7 +99,7 @@ public class BloquearAhorroController implements Initializable {
             if (cs != null) {
                 for (ModelCapitalSocial cuenta : cs) {
 
-                    if (cuenta.getEmpresa_cod().equalsIgnoreCase("0001")) {
+                    if (cuenta.getEmpresaCod().equalsIgnoreCase("0001")) {
                         txtPsocMut.setText(formatoMXN.format(cuenta.getMonto_cubierto()));
 
                     } else {

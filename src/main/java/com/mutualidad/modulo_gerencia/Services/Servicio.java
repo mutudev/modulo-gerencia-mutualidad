@@ -91,10 +91,19 @@ public class Servicio {
     @Autowired
     private TipoSocioRepository repoTipoSocio;
 
+    @Autowired
+    private PrevisionSocialRepository repoPrevision;
+
     @Transactional
     public HashMap validarLogin(String usuario, String password, String resultado, int rol, int cajero) {
         return repoUsuario.pa_validarLogin(usuario, password, resultado, rol, cajero);
     }
+
+    @Transactional
+    public String procesarCierre(String resultado ){
+        return repoCaja.paProcesarCierre(resultado);
+    }
+
 
     @Transactional
     public String insertarSocio(
@@ -255,6 +264,10 @@ public class Servicio {
         return repoCapSoc.findByNumSocio(numSocio);
     }
 
+    public ModelCapitalSocial traerCuentaCsXNumeroYEmpresa(int numSocio, String empresaCod) {return
+            repoCapSoc.findByNumSocioAndEmpresaCod(numSocio, empresaCod);
+    }
+
     public Double sumarCapitalSocial(int numSocio) {
         return repoCapSoc.sumarCapitalSocial(numSocio);
     }
@@ -295,6 +308,10 @@ public class Servicio {
 
     public List<ModelConfModulo> traerModuloXUsuario(int usuarioId) {
         return repoConfModulo.findByUsuarioId(usuarioId);
+    }
+
+    public List<ModelCaja> traerCajasActivas(boolean estado){
+        return repoCaja.findByEstado(estado);
     }
 
     public String traerNombrePuesto(int puestoCod) {
@@ -383,6 +400,12 @@ public class Servicio {
         }
 
     }
+
+    public ModelCapitalSocial crearCuentaCs(ModelCapitalSocial cs){
+        ModelCapitalSocial cuentaCreada = repoCapSoc.save(cs);
+        return cuentaCreada;
+    }
+
 
     public Optional<ModelConfiguracion> traerConfiguraciones() {
         return repoConfiguracion.findById(1);
@@ -560,7 +583,18 @@ public class Servicio {
         return repoTipoSocio.findAll();
     }
 
+    public LocalDate traerFechaHoy() {
+        return repoConfiguracion.findById(1).get().getFechaSistema();
+    }
 
+    public ModelPrevisionSocial traerCuentaPSPorEmpresaYSocio(int numSocio, String empresaCod) {
+        return repoPrevision.findByNumSocioAndEmpresaCod(numSocio, empresaCod);
+    }
+
+    public ModelPrevisionSocial crearCuentaPrevisionSocial(ModelPrevisionSocial cuentaNueva) {
+        ModelPrevisionSocial cuentaCreada = repoPrevision.save(cuentaNueva);
+        return cuentaCreada;
+    }
 
 
 }

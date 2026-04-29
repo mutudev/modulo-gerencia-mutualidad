@@ -3,6 +3,7 @@ package com.mutualidad.modulo_gerencia.Models;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -20,14 +21,17 @@ public class ModelCapitalSocial {
   private int numSocio;
 
   @Column(name = "EMPRESA_COD")
-  private String empresa_cod;
+  private String empresaCod;
 
   @Column(name = "MONTO_CUBIERTO")
   private double monto_cubierto;
 
   @Column(name = "FC")
-  private Date fc;
+  private LocalDate fc;
 
   @Column(name = "FP")
-  private Date fp;
+  private LocalDate fp;
+
+  @Column(name = "UC")
+  private Integer uc;
 }
