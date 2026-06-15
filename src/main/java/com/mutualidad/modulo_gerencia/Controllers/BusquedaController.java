@@ -61,6 +61,11 @@ public class BusquedaController implements Initializable {
 
   public CrearCuentaPSController crearCuentaPSController = null;
 
+  public VerCuotasCreditoController verCuotasCreditoController = null;
+
+  public CondonacionesController condonacionesController = null;
+
+
   public int ventana;
 
   @Override
@@ -148,6 +153,14 @@ public class BusquedaController implements Initializable {
     this.crearCuentaPSController = controller;
   }
 
+  public void setVerCuotasCreditoController(VerCuotasCreditoController controller) {
+    this.verCuotasCreditoController = controller;
+  }
+
+  public void setCondonacionesController(CondonacionesController controller) {
+    this.condonacionesController = controller;
+  }
+
 
   @FXML
   public void cerrarModal(KeyEvent event) {
@@ -221,6 +234,14 @@ public class BusquedaController implements Initializable {
 
         if (crearCuentaPSController != null) {
           crearCuentaPSController.cargarSocioPorNombre(numSocio);
+        }
+
+        if (verCuotasCreditoController != null) {
+          verCuotasCreditoController.cargarSocioPorNombre(numSocio);
+        }
+
+        if (condonacionesController != null) {
+          condonacionesController.cargarSocioPorNombre(numSocio);
         }
 
 

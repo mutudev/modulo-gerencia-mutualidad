@@ -43,4 +43,7 @@ public class ModelRetiro {
     @Column(name = "FORMA", nullable = false)
     private Integer forma;
 
+    @Column(name = "ACTIVO", nullable = false)
+    private Boolean activo = true;
+
 }

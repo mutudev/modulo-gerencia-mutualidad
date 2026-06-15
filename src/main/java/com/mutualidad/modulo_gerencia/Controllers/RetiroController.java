@@ -13,6 +13,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -46,7 +47,7 @@ import java.util.*;
 public class RetiroController implements Initializable {
 
     @FXML
-    private Label lblNombre, lblEmpresa, lblAhorros, lblPSNgu, lblPSMut, lblDatos, lblMonto, lblRestante, lblForma;
+    private Label lblNombre, lblEmpresa, lblAhorros, lblPSNgu, lblPSMut, lblDatos, lblMonto, lblRestante, lblForma, lblCancelar;
 
     @FXML
     private TextField txtNombre, txtEmpresa, txtAhorros, txtPSNgu, txtPSMut, txtMonto, txtRestante, txtNumero;
@@ -185,6 +186,7 @@ public class RetiroController implements Initializable {
         btnProcesar.setVisible(true);
         txtRestante.setVisible(true);
         imgBusqueda.setVisible(false);
+        lblCancelar.setVisible(true);
         cmbForma.setVisible(true);
         lblForma.setVisible(true);
         lblNombre.setVisible(true);
@@ -242,6 +244,7 @@ public class RetiroController implements Initializable {
         btnLimpiarMonto.setVisible(false);
         separador.setVisible(false);
         lblDatos.setVisible(false);
+        lblCancelar.setVisible(false);
     }
 
     @FXML
@@ -318,6 +321,7 @@ public class RetiroController implements Initializable {
             retiro.setSaldoNue(BigDecimal.valueOf(parseMoneda(txtRestante.getText().trim())));
             retiro.setMontoRetiro(BigDecimal.valueOf(parseMoneda(txtMonto.getText().trim())));
             retiro.setForma(servicio.buscarFormaPorNombre(cmbForma.getSelectionModel().getSelectedItem().toString()).getId());
+            retiro.setActivo(true);
             retiro.setEstado(true);
             ModelUsuario usuario = servicio.traerUsuarioXUsuario(LoginController.usuarioLoggeado);
             retiro.setUsuarioId(usuario.getId());
@@ -402,12 +406,11 @@ public class RetiroController implements Initializable {
                             retiro.setMontoRetiro(BigDecimal.valueOf(parseMoneda(txtMontoVal)));
                             retiro.setForma(servicio.buscarFormaPorNombre(cmbForma.getSelectionModel().getSelectedItem().toString()).getId());
                             retiro.setEstado(false);
+                            retiro.setActivo(true);
                             ModelUsuario usuario = servicio.traerUsuarioXUsuario(LoginController.usuarioLoggeado);
                             retiro.setUsuarioId(usuario.getId());
                             retiro.setEmpresa(socio.getEmpresaCod());
                             retiro.setFr(LocalDate.now());
-
-
 
 
                             int idTran = servicio.realizarRetiroAhorros(retiro, 2);
@@ -521,7 +524,7 @@ public class RetiroController implements Initializable {
             return;
         }
 
-        if (parseMoneda(txtMonto.getText()) <= 0) {
+        if (Double.parseDouble(txtMonto.getText().trim()) <= 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText("ERROR ");
@@ -531,7 +534,7 @@ public class RetiroController implements Initializable {
             return;
         }
 
-        double monto = parseMoneda(txtMonto.getText());
+        double monto = Double.parseDouble(txtMonto.getText());
 
         ModelAhorro ahorro = servicio.traerCuentaAhorroPorNumSocioYEstado(Integer.parseInt(txtNumero.getText()), 1);
 
@@ -575,6 +578,37 @@ public class RetiroController implements Initializable {
         txtRestante.setText(formatoMXN.format(montoRestante));
         txtMonto.setEditable(false);
     }
+
+
+    @FXML
+    public void verRetirosCancelar(){
+        try {
+
+            Stage nuevaVentana = new Stage();
+            FXMLLoader fxml = new FXMLLoader(getClass().getResource("/com/java/fx/verRetirosCancelacion.fxml"));
+            fxml.setControllerFactory(Main.context::getBean);
+            Scene nuevaEscena = new Scene(fxml.load());
+            CancelarRetiroController controlador = fxml.getController();
+            controlador.setDatos(Integer.parseInt(txtNumero.getText()), txtNombre.getText());
+            nuevaEscena
+                    .getStylesheets()
+                    .add(getClass().getResource("/assets/css/estilos.css").toExternalForm());
+            nuevaVentana.setTitle("CANCELAR RETIRO");
+            Image icon = new Image(getClass().getResourceAsStream("/assets/images/logo.png"));
+            nuevaVentana.getIcons().add(icon);
+            nuevaVentana.setAlwaysOnTop(false);
+            nuevaVentana.setScene(nuevaEscena);
+            nuevaVentana.setResizable(false);
+            nuevaVentana.initModality(Modality.APPLICATION_MODAL);
+            nuevaVentana.centerOnScreen();
+            nuevaVentana.show();
+        }catch (Exception e){
+
+            e.printStackTrace();
+        }
+
+    }
+
 
     @FXML
     public void limpiarMontos(){

@@ -1,11 +1,15 @@
 package com.mutualidad.modulo_gerencia.Controllers;
 
+import com.mutualidad.modulo_gerencia.Models.ModelUsuario;
 import com.mutualidad.modulo_gerencia.Services.Servicio;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -20,15 +24,22 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @Component
 public class GerenteController implements Initializable {
-
     @FXML
-    private Label lblHora, lblFecha, lblUsuario;
+    private Label lblHora, lblFecha, lblUsuario,
+            lblInscripciones, lblInfoSocio, lblBloqSocio, lblBajaSocio,
+            lblBeneficiarios, lblAbrirCuenta, lblListado, lblInicio,
+            lblAhorros, lblCongelamiento, lblBloquearAhorro, lblRetiro,
+            lblCuentaCap, lblCuentaPrev,
+            lblVerCuotas, lblModCreditos, lblCondonaciones,
+            lblMesesMinimo, lblDiasSinInteres,
+            lblAddUsuario, lblVerUsuario, lblActivarUsuario,
+            lblContra, lblPermisos,
+            lblOperaciones, lblSaldosCajero, lblTraslados,
+            lblCierre, lblConfig, lblUtilidades, lblReportes;
 
     @FXML
     private StackPane contentArea;
@@ -38,6 +49,8 @@ public class GerenteController implements Initializable {
 
     @Autowired
     private Servicio servicio;
+
+    private Map<String, Label> labelMap = new HashMap<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -91,6 +104,7 @@ public class GerenteController implements Initializable {
 
     public void setUsario() {
         lblUsuario.setText(LoginController.usuarioLoggeado);
+        generarModulos();
     }
 
     @FXML
@@ -374,6 +388,179 @@ public class GerenteController implements Initializable {
         Parent fxml = loader.load();
         contentArea.getChildren().setAll(fxml);
     }
+
+    @FXML
+    public void verCuotasCredito() throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/com/java/fx/verCuotasCredito.fxml")
+        );
+
+        loader.setControllerFactory(context::getBean);
+
+        Parent fxml = loader.load();
+        contentArea.getChildren().setAll(fxml);
+    }
+
+    @FXML
+    public void modificarCredito() throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/com/java/fx/modificarCreditos.fxml")
+        );
+
+        loader.setControllerFactory(context::getBean);
+
+        Parent fxml = loader.load();
+        contentArea.getChildren().setAll(fxml);
+    }
+
+    @FXML
+    public void condonaciones() throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/com/java/fx/condonaciones.fxml")
+        );
+
+        loader.setControllerFactory(context::getBean);
+
+        Parent fxml = loader.load();
+        contentArea.getChildren().setAll(fxml);
+    }
+
+    @FXML
+    public void diasSinInteres() throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/com/java/fx/diasSinIntereses.fxml")
+        );
+
+        loader.setControllerFactory(context::getBean);
+
+        Parent fxml = loader.load();
+        contentArea.getChildren().setAll(fxml);
+    }
+
+
+
+    @FXML
+    public void utilidades() throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/com/java/fx/utilidades.fxml")
+        );
+
+        loader.setControllerFactory(context::getBean);
+
+        Parent fxml = loader.load();
+        contentArea.getChildren().setAll(fxml);
+    }
+
+    @FXML
+    public void reportes() throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/com/java/fx/reportes.fxml")
+        );
+
+        loader.setControllerFactory(context::getBean);
+
+        Parent fxml = loader.load();
+        contentArea.getChildren().setAll(fxml);
+    }
+
+    public void generarModulos() {
+
+        ModelUsuario usuario =
+                servicio.traerUsuario(LoginController.usuarioLoggeado);
+
+        List<Object[]> result =
+                servicio.traerModulos(usuario.getId());
+
+        lblInicio.setVisible(false);
+        lblInscripciones.setVisible(false);
+        lblInfoSocio.setVisible(false);
+        lblBloqSocio.setVisible(false);
+        lblBajaSocio.setVisible(false);
+        lblBeneficiarios.setVisible(false);
+        lblAbrirCuenta.setVisible(false);
+        lblListado.setVisible(false);
+
+        lblAhorros.setVisible(false);
+        lblCongelamiento.setVisible(false);
+        lblBloquearAhorro.setVisible(false);
+        lblRetiro.setVisible(false);
+        lblCuentaCap.setVisible(false);
+        lblCuentaPrev.setVisible(false);
+
+        lblVerCuotas.setVisible(false);
+        lblModCreditos.setVisible(false);
+        lblCondonaciones.setVisible(false);
+        lblMesesMinimo.setVisible(false);
+        lblDiasSinInteres.setVisible(false);
+
+        lblAddUsuario.setVisible(false);
+        lblVerUsuario.setVisible(false);
+        lblActivarUsuario.setVisible(false);
+        lblContra.setVisible(false);
+        lblPermisos.setVisible(false);
+
+        lblOperaciones.setVisible(false);
+        lblSaldosCajero.setVisible(false);
+        lblTraslados.setVisible(false);
+
+        lblCierre.setVisible(false);
+        lblConfig.setVisible(false);
+        lblUtilidades.setVisible(false);
+        lblReportes.setVisible(false);
+
+        labelMap.clear();
+
+        labelMap.put("INICIO", lblInicio);
+        labelMap.put("INSCRIPCIONES", lblInscripciones);
+        labelMap.put("VER INFORMACION", lblInfoSocio);
+        labelMap.put("BLOQUEAR SOCIO", lblBloqSocio);
+        labelMap.put("DAR DE BAJA SOCIO", lblBajaSocio);
+        labelMap.put("AGREGAR BENEFICIARIOS", lblBeneficiarios);
+        labelMap.put("ABRIR CUENTA", lblAbrirCuenta);
+        labelMap.put("LISTADO GENERAL", lblListado);
+
+        labelMap.put("SALDO POR SOCIO", lblAhorros);
+        labelMap.put("CONGELAMIENTO DE SALDO", lblCongelamiento);
+        labelMap.put("BLOQUEAR CUENTAS DE AHORRO", lblBloquearAhorro);
+        labelMap.put("RETIROS", lblRetiro);
+        labelMap.put("CUENTA CAPITAL SOCIAL", lblCuentaCap);
+        labelMap.put("CUENTA PREVISION SOCIAL", lblCuentaPrev);
+
+        labelMap.put("VER CUOTAS DE CREDITO", lblVerCuotas);
+        labelMap.put("MODIFICACION DE CREDITOS", lblModCreditos);
+        labelMap.put("CONDONACIONES", lblCondonaciones);
+        labelMap.put("MESES MINIMO DE CREDITO", lblMesesMinimo);
+        labelMap.put("DIAS SIN INTERESES", lblDiasSinInteres);
+
+        labelMap.put("CREAR USUARIOS", lblAddUsuario);
+        labelMap.put("VER USUARIOS", lblVerUsuario);
+        labelMap.put("ACTIVAR BAJA USUARIOS", lblActivarUsuario);
+        labelMap.put("CAMBIAR CONTRA", lblContra);
+        labelMap.put("PERMISOS", lblPermisos);
+
+        labelMap.put("OPERACIONES POR CAJERO", lblOperaciones);
+        labelMap.put("SALDOS POR CAJERO", lblSaldosCajero);
+
+        labelMap.put("CIERRE", lblCierre);
+        labelMap.put("CONFIGURACIONES", lblConfig);
+        labelMap.put("UTILIDADES", lblUtilidades);
+        labelMap.put("REPORTES", lblReportes);
+        labelMap.put("TRASLADOS", lblTraslados);
+
+        for (Object[] row : result) {
+
+            String modulo = row[2].toString();
+
+            Label label = labelMap.get(modulo);
+
+            if (label != null) {
+                label.setVisible(true);
+                label.setDisable(false);
+                label.setCursor(Cursor.HAND);
+            }
+        }
+    }
+
 
 
 

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="498.0" prefWidth="814.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.CancelarRetiroController">
+   <children>
+      <Label layoutX="43.0" layoutY="93.0" text="Número de socio:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="43.0" layoutY="153.0" text="Nombre del socio:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtNumSocio" editable="false" layoutX="221.0" layoutY="87.0" prefHeight="39.0" prefWidth="168.0" />
+      <TextField fx:id="txtNomSocio" editable="false" layoutX="221.0" layoutY="147.0" prefHeight="39.0" prefWidth="541.0" />
+      <TableView fx:id="tblRetiros" layoutX="43.0" layoutY="217.0" prefHeight="200.0" prefWidth="720.0">
+        <columns>
+          <TableColumn fx:id="colFolio" prefWidth="69.0" text="Folio" />
+          <TableColumn fx:id="colMonto" prefWidth="119.0" text="Monto" />
+            <TableColumn fx:id="colSalAntes" minWidth="0.0" prefWidth="290.0" text="Saldo antes del retiro" />
+            <TableColumn fx:id="colSalDespues" prefWidth="241.0" text="Saldo después del retiro" />
+        </columns>
+      </TableView>
+      <Label layoutX="43.0" layoutY="35.0" text="Cancelación de Retiros" textFill="#39577c">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnCancelar" layoutX="313.0" layoutY="435.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #bc1414;" text="Cancelar Retiro" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+   </children>
+</AnchorPane>

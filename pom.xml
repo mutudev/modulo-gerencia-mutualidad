@@ -68,6 +68,11 @@
 			<artifactId>jasperreports</artifactId>
 			<version>7.0.3</version>
 		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-functions</artifactId>
+			<version>7.0.3</version>
+		</dependency>
 		<!-- Source: https://mvnrepository.com/artifact/de.mkammerer/argon2-jvm -->
 		<!-- Source: https://mvnrepository.com/artifact/de.mkammerer/argon2-jvm -->
 		<dependency>

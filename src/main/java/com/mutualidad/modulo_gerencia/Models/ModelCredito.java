@@ -41,17 +41,21 @@ public class ModelCredito {
     private LocalDate fv;
 
     @Column(name = "TASA")
-    private BigDecimal tasa;
+    private Double tasa;
 
     @Column(name = "MORA")
-    private float mora;
+    private Double mora;
 
     @Column(name = "IVA")
-    private float iva;
+    private Double iva;
 
     @Column(name = "STATUS")
     private int status;
 
     @Column(name = "SOLICITUD_ID")
     private int solicitud_id;
+
+    @Column(name = "SALDO")
+    private double saldo;
+
 }

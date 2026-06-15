@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="561.0" prefWidth="1232.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.VerCuotasCondonacionController">
+
+    <children>
+        <Label alignment="CENTER" layoutX="2.0" layoutY="14.0" prefHeight="35.0" prefWidth="1230.0" style="-fx-text-fill: #39577C;" text="Cuotas del Crédito Para Condonación" textAlignment="CENTER">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <Label layoutX="31.0" layoutY="60.0" prefHeight="27.0" prefWidth="75.0" style="-fx-text-fill: #39577C;" text="Socio:">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblNumSocio" layoutX="92.0" layoutY="61.0" prefHeight="27.0" prefWidth="75.0" text="8995">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <Label layoutX="171.0" layoutY="60.0" style="-fx-text-fill: #39577C;" text="Nombre:">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblNombre" layoutX="252.0" layoutY="61.0" prefHeight="27.0" prefWidth="618.0" text="JOSE YAEL MEX MONTERO">
+            <font>
+                <Font name="System Bold" size="16.0" />
+            </font>
+        </Label>
+        <Label layoutX="600.0" layoutY="464.0" style="-fx-text-fill: #39577C;" text="Número de Crédito:">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblCredito" layoutX="737.0" layoutY="461.0" prefHeight="27.0" prefWidth="168.0" text="123456" textAlignment="CENTER">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <TableView fx:id="tablaCuotas" focusTraversable="false" layoutX="32.0" layoutY="95.0" onMouseClicked="#cargarCuota" prefHeight="365.0" prefWidth="904.0" scaleShape="false" style="-fx-hbar-policy: never;">
+            <columns>
+                <TableColumn fx:id="cuota" editable="false" prefWidth="99.0" sortable="false" text="Cuota" />
+                <TableColumn fx:id="fecha" editable="false" prefWidth="157.0" sortable="false" text="Fecha" />
+                <TableColumn fx:id="colcap" editable="false" prefWidth="162.0" sortable="false" text="Capital" />
+                <TableColumn fx:id="ord" editable="false" prefWidth="151.0" sortable="false" text="Ordinarios" />
+                <TableColumn fx:id="colmora" editable="false" prefWidth="154.0" sortable="false" text="Moratorios" />
+                <TableColumn fx:id="coliva" editable="false" prefWidth="127.0" sortable="false" text="IVA" />
+                <TableColumn fx:id="bonif" editable="false" prefWidth="126.0" sortable="false" text="Bonif" />
+                <TableColumn fx:id="tot" editable="false" prefWidth="201.0" sortable="false" text="Total" />
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+        </TableView>
+        <Label fx:id="lblPlazo" layoutX="32.0" layoutY="464.0" style="-fx-text-fill: #39577C;" text="Plazo: ## meses">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblTasa" layoutX="151.0" layoutY="464.0" style="-fx-text-fill: #39577C;" text="Tasa Ordinaria: #.##%">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblMora" layoutX="308.0" layoutY="464.0" style="-fx-text-fill: #39577C;" text="Tasa Moratoria: #.##%">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblTipo" layoutX="465.0" layoutY="464.0" style="-fx-text-fill: #39577C;" text="Tipo: Tradicional">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <Label layoutX="31.0" layoutY="505.0" style="-fx-text-fill: #39577C;" text="Saldo del Crédito:">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <TextField fx:id="txtSaldoCredito" alignment="CENTER_RIGHT" editable="false" focusTraversable="false" layoutX="188.0" layoutY="498.0" prefHeight="39.0" prefWidth="164.0" style="-fx-border-color: black;" text="\$1,500.00" />
+      <Label fx:id="lblTituloCondona" alignment="CENTER" layoutX="945.0" layoutY="69.0" prefHeight="27.0" prefWidth="269.0" style="-fx-text-fill: #39577C;" text="Seleccione la Cuota a Condonar">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtCapCon" alignment="CENTER" disable="true" focusTraversable="false" layoutX="948.0" layoutY="393.0" onAction="#settearMonto" prefHeight="41.0" prefWidth="269.0" style="-fx-border-color: black;" />
+      <Label fx:id="lblCapCon" disable="true" layoutX="948.0" layoutY="366.0" prefHeight="27.0" prefWidth="269.0" text="Monto de Capital a Condonar:" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCuotaSelecc" layoutX="945.0" layoutY="119.0" prefHeight="27.0" prefWidth="175.0" text="Cuota Seleccionada:" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtCuotaSelec" alignment="CENTER" editable="false" focusTraversable="false" layoutX="1129.0" layoutY="112.0" prefHeight="41.0" prefWidth="82.0" style="-fx-border-color: black;" />
+      <Label fx:id="lblTotCuota" layoutX="944.0" layoutY="172.0" prefHeight="27.0" prefWidth="136.0" text="Total de Cuota:" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtTotalCuota" alignment="CENTER" editable="false" focusTraversable="false" layoutX="1083.0" layoutY="165.0" prefHeight="41.0" prefWidth="129.0" style="-fx-border-color: black;" />
+      <Button layoutX="978.0" layoutY="453.0" mnemonicParsing="false" onAction="#aplicarCondonacion" prefHeight="39.0" prefWidth="211.0" style="-fx-background-color: #d41717;" text="Aplicar Condonación" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Separator layoutX="945.0" layoutY="96.0" prefHeight="2.0" prefWidth="269.0" />
+      <Separator layoutX="949.0" layoutY="442.0" prefHeight="2.0" prefWidth="269.0" />
+      <CheckBox fx:id="checkCastigo" layoutX="965.0" layoutY="22.0" mnemonicParsing="false" onAction="#permitirCastigo" text="Condonación Por Castigo" textFill="#d41717">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </CheckBox>
+      <Button layoutX="978.0" layoutY="507.0" mnemonicParsing="false" onAction="#limpiar" prefHeight="39.0" prefWidth="211.0" style="-fx-background-color: #39577C;" text="Limpiar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <TextField fx:id="txtInteresCon" alignment="CENTER" editable="false" focusTraversable="false" layoutX="947.0" layoutY="243.0" prefHeight="41.0" prefWidth="269.0" style="-fx-border-color: black;" />
+      <Label fx:id="lblInteresCon" layoutX="947.0" layoutY="216.0" prefHeight="27.0" prefWidth="269.0" text="Monto de Interés a Condonar:" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtMoraCon" alignment="CENTER" editable="false" focusTraversable="false" layoutX="948.0" layoutY="315.0" prefHeight="41.0" prefWidth="269.0" style="-fx-border-color: black;" />
+      <Label fx:id="lblMoraCon" layoutX="948.0" layoutY="288.0" prefHeight="27.0" prefWidth="269.0" text="Monto de Mora a Condonar:" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+    </children>
+
+</AnchorPane>

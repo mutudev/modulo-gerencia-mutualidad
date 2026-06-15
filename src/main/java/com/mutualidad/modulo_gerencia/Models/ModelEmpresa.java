@@ -35,4 +35,9 @@ public class ModelEmpresa {
 
     @Column(name = "ABREVIACION")
     private String abreviacion;
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
 }

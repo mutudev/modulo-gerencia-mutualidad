@@ -5,14 +5,18 @@ import com.mutualidad.modulo_gerencia.DTO.BeneficiarioDTO;
 import com.mutualidad.modulo_gerencia.DTO.DetalleUsuarioDTO;
 import com.mutualidad.modulo_gerencia.DTO.Interfaz.DetalleUsuarioProjection;
 import com.mutualidad.modulo_gerencia.DTO.Interfaz.ResumenCreditosProjection;
+import com.mutualidad.modulo_gerencia.DTO.PagoCuotaDTO;
 import com.mutualidad.modulo_gerencia.DTO.ResumenCreditosDTO;
 import com.mutualidad.modulo_gerencia.Models.*;
 import com.mutualidad.modulo_gerencia.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -93,6 +97,21 @@ public class Servicio {
 
     @Autowired
     private PrevisionSocialRepository repoPrevision;
+
+    @Autowired
+    private TipoCreditoRepository repoTipoCredito;
+
+    @Autowired
+    private CuotasRepository repoCuotas;
+
+    @Autowired
+    private FechasExcluyentesRepository repoFechasExcluyentes;
+
+    @Autowired
+    private HistorialCreditoCondonacionRepository repoHistorialCondonacion;
+
+    @Autowired
+    private  HistorialAcumCondonacionRepository repoHistorialAcumCondonacion;
 
     @Transactional
     public HashMap validarLogin(String usuario, String password, String resultado, int rol, int cajero) {
@@ -275,6 +294,9 @@ public class Servicio {
     public ModelSocio traerSocioPorNumeroYEstado(int numSocio, boolean status) {
         return repoSocio.findByNumSocioAndStatus(numSocio, status);
     }
+    public List<Object[]> traerModulos(int usuarioID) {
+        return repoUsuario.traerModulos(usuarioID);
+    }
 
     public List<Object[]> buscarSocioPorNombre(String nombreCompleto) {
         String[] palabras = nombreCompleto.trim().split("\\s+");
@@ -320,6 +342,10 @@ public class Servicio {
 
     public String traerNombreRol(int rolCod) {
         return repoUsuario.traerRol(rolCod);
+    }
+
+    public ModelUsuario traerUsuario(String usuario) {
+        return repoUsuario.findByUsuario(usuario);
     }
 
     @Transactional
@@ -368,6 +394,7 @@ public class Servicio {
         return repoRetiro.findBySocioAndEstado(socio, estado);
     }
 
+    @Transactional
     public int realizarRetiroAhorros(ModelRetiro retiro, int opcion) {
         ModelRetiro retiroGuardado = repoRetiro.save(retiro);
         //Creamos el nuevo retiro cajero, aprende como se hace ramitos
@@ -547,6 +574,19 @@ public class Servicio {
         return repoTrabajo.findAll();
     }
 
+    public List<ModelTipoCredito> traerTipoCredito(){
+        return  repoTipoCredito.findAll();
+    }
+
+    public ModelTipoCredito traerTipoCreditoXNombre(String nombre){
+        return repoTipoCredito.findByNombre(nombre);
+    }
+
+    public List<ModelFechasExcluyentes> traerFechasExcluyentes(boolean estado) {
+        return repoFechasExcluyentes.findByEstado(estado);
+    }
+
+
     public int traerIdConEmpleos(String trabajo) {
         return repoTrabajo.findByTrabajo(trabajo).getId();
     }
@@ -591,10 +631,319 @@ public class Servicio {
         return repoPrevision.findByNumSocioAndEmpresaCod(numSocio, empresaCod);
     }
 
+
+    public List<ModelRetiro> traerRetirosXSocioYFechaYActivo(int numSocio, LocalDate fecha, boolean activo){
+        return  repoRetiro.findBySocioAndFrAndActivo(numSocio, fecha, activo);
+    }
+
     public ModelPrevisionSocial crearCuentaPrevisionSocial(ModelPrevisionSocial cuentaNueva) {
         ModelPrevisionSocial cuentaCreada = repoPrevision.save(cuentaNueva);
         return cuentaCreada;
     }
 
+    public  ModelRetiroCajero traerRetiroCajeroXIdRetiro(ModelRetiro retiro){
+        return repoRetiroCajero.findByRetiro(retiro);
+    }
 
+    public  ModelTransaccion traerTransaccionActiva(int numSocio, boolean status, int operacionId){
+        return repoTransaccion.findBySocioIdAndStatusAndOperacionId(numSocio,status,operacionId);
+    }
+
+    public ModelTransaccion traerTransaccionActivaPorFecha(int numSocio, boolean status, int operacionId, LocalDate hoy) {
+        return repoTransaccion.findBySocioIdAndStatusAndOperacionIdAndFechaRegistro(numSocio, status, operacionId, hoy);
+    }
+
+    @Transactional
+    public ModelRetiro cancelarRetiro(ModelRetiro retiro, ModelRetiroCajero retiroCajero){
+
+        if(retiroCajero != null){
+            repoRetiroCajero.save(retiroCajero);
+        } else {
+            ModelTransaccion transaccion = traerTransaccionActivaPorFecha(retiro.getSocio(), true, 13, traerFechaHoy());
+            ModelAhorro ahorro = traerCuentaAhorroPorNumSocio(retiro.getSocio());
+
+            ahorro.setSaldo(ahorro.getSaldo() +  retiro.getMontoRetiro().doubleValue());
+            transaccion.setStatus(false);
+
+            if (retiro.getUsuarioId() == null) {
+                retiro.setUsuarioId(transaccion.getUsuarioId());
+            }
+
+            repoAhorro.save(ahorro);
+            repoTransaccion.save(transaccion);
+        }
+        retiro.setActivo(false);
+
+        return repoRetiro.save(retiro);
+
+    }
+
+
+
+    public List<ModelCredito> traerCreditosPorSocioEmpresaEstado(String socio, String empresa, int status) {
+        return repoCredito.findAllBySocioAndEmpresaAndStatus(socio, empresa, status);
+    }
+
+    public Optional<ModelTipoCredito> traerTipoCreditoConId(Long id) {
+        return repoTipoCredito.findById(id);
+    }
+
+    @Transactional
+    public List<PagoCuotaDTO> calcularPagoDeCuotas(
+            Integer creditoId,
+            Double tasaInteres,
+            Double tasaMora,
+            Double tasaIva,
+            LocalDate fechaDesembolso) {
+
+        List<Object[]> resultados = repoCuotas.pa_CalcularPagoDeCuotas(
+                creditoId,
+                tasaInteres,
+                tasaMora,
+                tasaIva,
+                fechaDesembolso
+        );
+
+        List<PagoCuotaDTO> lista = new ArrayList<>();
+
+        for (Object[] row : resultados) {
+            PagoCuotaDTO dto = new PagoCuotaDTO(
+                    row[0] != null ? ((Number) row[0]).intValue()                        : null,
+                    row[1] != null ? ((Number) row[1]).intValue()                        : null,
+                    row[2] != null ? toLocalDate(row[2]) : null,
+                    row[3] != null ? new BigDecimal(row[3].toString())                   : BigDecimal.ZERO,
+                    row[4] != null ? new BigDecimal(row[4].toString())                   : BigDecimal.ZERO,
+                    row[5] != null ? new BigDecimal(row[5].toString())                   : BigDecimal.ZERO,
+                    row[6] != null ? new BigDecimal(row[6].toString())                   : BigDecimal.ZERO,
+                    row[7] != null ? new BigDecimal(row[7].toString())                   : BigDecimal.ZERO,
+                    row[8] != null ? new BigDecimal(row[8].toString())                   : BigDecimal.ZERO,
+                    row[9] != null ? ((Number) row[9]).intValue()                        : null,
+                    row[10] != null ? toLocalDate(row[10])                  : null,  // fecha
+                    row[11] != null ? toLocalDate(row[11])                  : null,  // fecha
+                    row[12] != null ? toLocalDate(row[12])                  : null,  // fecha
+                    row[13] != null ? new BigDecimal(row[13].toString())                   : BigDecimal.ZERO,
+                    row[14] != null ? new BigDecimal(row[14].toString())                   : BigDecimal.ZERO,
+                    row[15] != null ? (Boolean) row[15] : null
+            );
+            lista.add(dto);
+        }
+
+        return lista;
+    }
+
+    private LocalDate toLocalDate(Object value) {
+        if (value instanceof java.sql.Date) {
+            return ((java.sql.Date) value).toLocalDate();
+        } else if (value instanceof LocalDate) {
+            return (LocalDate) value;
+        } else if (value instanceof java.util.Date) {
+            return ((java.util.Date) value).toInstant()
+                    .atZone(java.time.ZoneId.systemDefault())
+                    .toLocalDate();
+        }
+        return null;
+    }
+
+    public ModelConfiguracion obtenerConfiguraciones() {
+        return repoConfiguracion.findById(1).get();
+    }
+
+
+    public Optional<ModelCredito>  traerDatosCredito(int id) {
+        return repoCredito.findById(id);
+    }
+
+    public ModelFechasExcluyentes encontrarSolapamiento(LocalDate inicio, LocalDate fin, boolean estado, Long idExcluir) {
+        return repoFechasExcluyentes.encontrarSolapamiento(inicio, fin, estado, idExcluir);
+    }
+
+    @Transactional
+    public ModelFechasExcluyentes guardarFechaExcluyente(ModelFechasExcluyentes fechasExcluyentes) {
+        return repoFechasExcluyentes.save(fechasExcluyentes);
+    }
+
+    @Transactional
+    public  ModelTipoCredito guardarModificaciones(ModelTipoCredito credito){
+
+        repoTipoCredito.save(credito);
+        return credito;
+    }
+
+
+    @Transactional
+    public  ModelTipoCredito crearCredito(ModelTipoCredito credito){
+
+        repoTipoCredito.save(credito);
+        return credito;
+    }
+
+    public ModelCuotas obtenerCuotaPorNumeroYCredito(int numCuota, int creditoId) {
+        return repoCuotas.findByNumCuotaAndCreditoId(numCuota, creditoId);
+    }
+
+    @Transactional
+    public ModelCuotas guardarCuota(ModelCuotas cuota, ModelCredito credito, BigDecimal totalCondonado,
+                                    LocalDate hoy, BigDecimal interesCondonado, BigDecimal moraCondonado,
+                                    BigDecimal interesAcumulado, BigDecimal moraAcumulado,  List<ModelCuotas> noTocadas) {
+
+        //Primero crear e insertar la transaccion
+        ModelUsuario usuario = traerUsuarioXUsuario(LoginController.usuarioLoggeado);
+        ModelTransaccion transaccion = new ModelTransaccion();
+        transaccion.setUsuarioId(usuario.getId());
+        transaccion.setOperacionId(14);
+        transaccion.setSocioId(credito.getSocio());
+        transaccion.setSaldo(totalCondonado);
+        transaccion.setStatus(true);
+        transaccion.setFechaRegistro(hoy);
+        transaccion.setHora(LocalTime.now());
+        transaccion.setEmpresa(credito.getEmpresa());
+        transaccion.setCajaId(0);
+        transaccion.setCapitalCreditoPagado(null);
+        transaccion.setInteresesCreditoPagado(null);
+        transaccion.setIvaCreditoPagado(null);
+        transaccion.setMoraCreditoPagado(null);
+        transaccion.setBonifCreditoPagado(null);
+        transaccion.setTipoCredito(traerTipoCreditoConId(Long.valueOf(credito.getTipo_credito())).get().getCodigoSistema());
+        transaccion.setCuotaAfectada(cuota.getNumCuota());
+        transaccion.setCreditoAfectado(credito.getId());
+        transaccion.setAhorroAlMomento(null);
+        transaccion.setTotalCuotaPagada(null);
+
+        //guardar la transacción
+        transaccion = repoTransaccion.save(transaccion);
+
+        //Construir el historial del crédito
+        ModelHistorialCreditoCondonacion condonacion = new ModelHistorialCreditoCondonacion();
+        condonacion.setCreditoId(credito.getId());
+        condonacion.setFechaC(hoy);
+        condonacion.setUsuarioId(usuario.getId());
+        condonacion.setNumCuota(cuota.getNumCuota());
+        condonacion.setFechaV(cuota.getFechaP());
+        condonacion.setCapitalCondonado(BigDecimal.ZERO);
+        condonacion.setInteresCondonado(interesCondonado);
+        condonacion.setMoraCondonado(moraCondonado);
+        condonacion.setTotalCondonado(totalCondonado);
+        condonacion.setSaldoCredito(BigDecimal.valueOf(credito.getSaldo()));
+        condonacion.setOperacionId(transaccion.getId());
+        condonacion.setEstado(true);
+        condonacion.setFechaPAnterior(cuota.getFechaAnterior());
+        condonacion.setFechaPFinalizado(cuota.getFechaTerminoPago());
+        condonacion.setFechaRegistro(LocalDateTime.now());
+
+        repoHistorialCondonacion.save(condonacion);
+
+        //Construir el historial de acumulados
+        ModelHistorialAcumCondonacion acumulados = new ModelHistorialAcumCondonacion();
+        acumulados.setCreditoId(credito.getId());
+        acumulados.setNumCuota(cuota.getNumCuota());
+        acumulados.setOperacionId(transaccion.getId());
+        acumulados.setInteresAcumCon(interesAcumulado);
+        acumulados.setMoraAcumCon(moraAcumulado);
+        acumulados.setEstado(true);
+        acumulados.setFr(LocalDateTime.now());
+
+        //Guardar el acumulado
+        repoHistorialAcumCondonacion.save(acumulados);
+
+        repoCuotas.saveAll(noTocadas);
+
+        return repoCuotas.save(cuota);
+    }
+
+    @Transactional
+    public void guardarVariasCuotas(List<ModelCuotas> cuotasList, ModelCredito credito, BigDecimal totalCondonado,
+                                    LocalDate hoy, List<PagoCuotaDTO> copiaCuotas, double capitalDado, List<ModelCuotas> noTocadas) {
+
+        ModelUsuario usuario = traerUsuarioXUsuario(LoginController.usuarioLoggeado);
+        ModelTransaccion transaccion = new ModelTransaccion();
+        transaccion.setUsuarioId(usuario.getId());
+        transaccion.setOperacionId(15);
+        transaccion.setSocioId(credito.getSocio());
+        transaccion.setSaldo(totalCondonado);
+        transaccion.setStatus(true);
+        transaccion.setFechaRegistro(hoy);
+        transaccion.setHora(LocalTime.now());
+        transaccion.setEmpresa(credito.getEmpresa());
+        transaccion.setCajaId(0);
+        transaccion.setCapitalCreditoPagado(null);
+        transaccion.setInteresesCreditoPagado(null);
+        transaccion.setIvaCreditoPagado(null);
+        transaccion.setMoraCreditoPagado(null);
+        transaccion.setBonifCreditoPagado(null);
+        transaccion.setTipoCredito(traerTipoCreditoConId(Long.valueOf(credito.getTipo_credito())).get().getCodigoSistema());
+        transaccion.setCuotaAfectada(null);
+        transaccion.setCreditoAfectado(credito.getId());
+        transaccion.setAhorroAlMomento(null);
+        transaccion.setTotalCuotaPagada(null);
+
+        //guardar la transacción
+        transaccion = repoTransaccion.save(transaccion);
+
+        double capitalDeCredito = credito.getSaldo();
+        List<ModelHistorialCreditoCondonacion> listaCondonaciones = new ArrayList<>();
+
+        for (PagoCuotaDTO copia : copiaCuotas) {
+            ModelHistorialCreditoCondonacion condonacion = new ModelHistorialCreditoCondonacion();
+            condonacion.setCreditoId(credito.getId());
+            condonacion.setFechaC(hoy);
+            condonacion.setUsuarioId(usuario.getId());
+            condonacion.setFechaV(copia.getFechaP());
+            condonacion.setCapitalCondonado(copia.getCapital());
+            condonacion.setInteresCondonado(copia.getIntereses());
+            condonacion.setMoraCondonado(BigDecimal.ZERO);
+
+            if (hoy.isAfter(copia.getFechaP().plusDays(29))) {
+                condonacion.setMoraCondonado(copia.getMora());
+            }
+
+            condonacion.setTotalCondonado(copia.getCapital().add(copia.getIntereses().add(copia.getMora())));
+            condonacion.setSaldoCredito(BigDecimal.valueOf(capitalDeCredito - copia.getCapital().doubleValue()));
+            condonacion.setOperacionId(transaccion.getId());
+            condonacion.setEstado(true);
+            condonacion.setFechaPAnterior(copia.getFechaAnterior());
+            condonacion.setFechaPFinalizado(copia.getFechaTerminoPago());
+            condonacion.setFechaRegistro(LocalDateTime.now());
+
+            condonacion.setNumCuota(copia.getNumCuota());
+            capitalDeCredito -= copia.getCapital().doubleValue();
+            listaCondonaciones.add(condonacion);
+        }
+
+        //Al final del ciclo de todas las afectadas, guardamos
+        repoHistorialCondonacion.saveAll(listaCondonaciones);
+
+        //Ahora toca guardar los acumulados
+        List<ModelHistorialAcumCondonacion> listaAcumulados = new ArrayList<>();
+        for (PagoCuotaDTO copia : copiaCuotas) {
+            ModelHistorialAcumCondonacion acumulados = new ModelHistorialAcumCondonacion();
+            acumulados.setCreditoId(credito.getId());
+            acumulados.setNumCuota(copia.getNumCuota());
+            acumulados.setOperacionId(transaccion.getId());
+            acumulados.setInteresAcumCon(copia.getInteresesAcumulados());
+            acumulados.setMoraAcumCon(copia.getMoraAcumulados());
+            acumulados.setEstado(true);
+            acumulados.setFr(LocalDateTime.now());
+            listaAcumulados.add(acumulados);
+        }
+
+        repoHistorialAcumCondonacion.saveAll(listaAcumulados);
+
+        //Actualizar el saldo del crédito
+        credito.setSaldo(credito.getSaldo() - capitalDado);
+        repoCredito.save(credito);
+
+        //Por último, guardar todas las cuotas ya condonadas
+        repoCuotas.saveAll(cuotasList);
+
+        repoCuotas.saveAll(noTocadas);
+    }
+
+
+    public ModelCuotas traerProximaACondonar(int numCredito){
+        return repoCuotas.findFirstByCreditoIdAndIsCondonadoIsFalseOrderByNumCuotaAsc(numCredito);
+    }
+
+    public List<ModelHistorialCreditoCondonacion> traerCondonacionesXCredito(int creditoId, boolean estado){
+        return repoHistorialCondonacion.findByCreditoIdAndEstado(creditoId, estado);
+    }
 }

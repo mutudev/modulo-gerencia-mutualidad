@@ -15,6 +15,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Component
@@ -150,4 +151,32 @@ public class BajaSocioController implements Initializable {
             alert.showAndWait();
         }
     }
+
+
+    @FXML
+    public void darDeBajaSocio(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("BAJA A SOCIO");
+        alert.setHeaderText("¿ESTÁ SEGURO QUE DESEA DARLE DE BAJA A ESTE SOCIO?");
+        alert.setContentText(
+                "EN CASO DE QUE SÍ, PRESIONE ACEPTAR, EN CASO CONTRARIO PRESIONE CANCELAR");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() != ButtonType.OK)  {
+            return;
+        }
+        double montoAhorro = parseMoneda(txtCuentaAhorro.getText());
+        double montoCredito = parseMoneda(txtCreditosVig.getText());
+
+        if(montoCredito > montoAhorro){
+            alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("BAJA NO REALIZADA");
+            alert.setContentText("LOS MONTOS DE AHORRO DEL SOCIO NO SALDAN EL CAPITAL DE LA DEUDA");
+            alert.showAndWait();
+        }
+
+    }
+
+
 }

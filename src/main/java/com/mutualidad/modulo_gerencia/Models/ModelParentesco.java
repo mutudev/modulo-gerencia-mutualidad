@@ -21,4 +21,10 @@ public class ModelParentesco {
     @Column(name = "FR", nullable = false)
     private LocalDateTime fr;
 
+
+    @Override
+    public String toString() {
+        return parentesco;
+    }
+
 }

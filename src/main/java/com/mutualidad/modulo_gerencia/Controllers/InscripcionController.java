@@ -309,6 +309,7 @@ public class InscripcionController implements Initializable {
             alert.setHeaderText("INSERCIÓN EXITOSA");
             alert.setContentText("EL SOCIO SE HA INSERTADO CORRECTAMENTE.");
             alert.showAndWait();
+            limpiar();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
@@ -317,7 +318,7 @@ public class InscripcionController implements Initializable {
             alert.showAndWait();
         }
 
-        limpiar();
+
 
     }
 

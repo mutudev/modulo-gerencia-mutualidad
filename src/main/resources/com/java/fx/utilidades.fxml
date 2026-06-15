@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="592.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mutualidad.modulo_gerencia.Controllers.UtilidadesController">
+   <children>
+      <Label alignment="CENTER" layoutX="-6.0" layoutY="97.0" prefHeight="35.0" prefWidth="975.0" text="Cálculo de Utilidades" textAlignment="CENTER" textFill="#39577c">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="243.0" layoutY="170.0" text="Año del ejercicio:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnGenerar" layoutX="421.0" layoutY="365.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="128.0" style="-fx-background-color: #185754;" text="Generar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Label layoutX="207.0" layoutY="237.0" text="Tasa de Rendimiento:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtTasa" layoutX="398.0" layoutY="231.0" onAction="#settearTasa" prefHeight="39.0" prefWidth="359.0" />
+      <TextField fx:id="txtMonto" layoutX="398.0" layoutY="292.0" onAction="#settearMonto" prefHeight="39.0" prefWidth="359.0" />
+      <Label layoutX="226.0" layoutY="298.0" text="Monto para Ajuste:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cmbYear" layoutX="398.0" layoutY="164.0" prefHeight="39.0" prefWidth="359.0" />
+   </children>
+</Pane>

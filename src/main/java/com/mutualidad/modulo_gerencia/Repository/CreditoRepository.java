@@ -20,6 +20,8 @@ public interface CreditoRepository extends JpaRepository<ModelCredito, Integer> 
             "ORDER BY NUM_CUOTA DESC", nativeQuery = true)
     String traerCuotasParaSaldo(@Param("creditoId") int creditoId);
 
+    List<ModelCredito> findAllBySocioAndEmpresaAndStatus(String socio, String empresa, int status);
+
 
 
 
